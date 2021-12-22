@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+<html lang="{{ LANGUAGE_CODE|default:'en_us' }}">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg" href="{% static '/img/favicon.svg' %}">
+    <title>{% block title %}CED{% endblock %}</title>
+
+    <!-- Bootstrap CSS -->
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
+    <!-- Bootstrap JavaScript not in body -->
+    {% if 'javascript_in_head'|bootstrap_setting %}
+        {% bootstrap_javascript %}
+    {% endif %}
+
+    <!-- Jquery -->
+    <script defer src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+
+    <!-- SweetAlert2 -->
+    <script defer src="{% static '/js/sweetalert2.all.min.js' %}"></script>
+
+    <!-- Cookie library -->
+    <script defer src="{% static '/js/js.cookie.min.js' %}"></script>
+
+    <!-- Axios library -->
+    <script defer src="{% static '/js/axios.min.js' %}"></script>
+
+    <!-- Custom JavaScript -->
+    <script defer src="{% static '/js/scripts.js' %}"></script>
+
+    <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
+    <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <header class="navbar navbar-expand-md navbar-light bg-white shadow-sm sticky-top">
+        <nav class="container">
+            <a class="navbar-brand" href="{% url 'welcome' %}">
+                CED
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Left Side Of Navbar -->
+                <ul class="navbar-nav me-auto">
+
+                </ul>
+
+                <!-- Right Side Of Navbar -->
+                <ul class="navbar-nav ms-auto">
+                    <!-- Authentication Links -->
+                    {% if user.is_authenticated %}
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {{ user }}
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="{% url 'logout' %}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                    {% trans 'Logout' %}
+                                </a>
+
+                                <form id="logout-form" action="{% url 'logout' %}" method="POST" class="d-none">
+                                    {% csrf_token  %}
+                                </form>
+                            </div>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <main class="container-fluid d-flex px-0">
+    {% block main %}
+    {% endblock %}
+    </main>
+    <footer>
+        <div class="container d-flex flex-column flex-md-row justify-content-between py-2 px-4">
+            <span>Faculté de Science Dhar El Mahraz - Fès</span>
+            <strong>
+                <a href="http://fsdmfes.ac.ma">FSDM</a>
+                <span>© {% now "Y" %}</span>
+            </strong>
+            <span>كـلية العلوم ظهر المهراز - فـــاس</span>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JavaScript if it is in body -->
+    {% if not 'javascript_in_head'|bootstrap_setting %}
+        {% bootstrap_javascript %}
+    {% endif %}
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

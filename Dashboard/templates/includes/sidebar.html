@@ -1,0 +1,19 @@
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+<div class="d-flex flex-column py-3 bg-dark sidebar sticky">
+  <ul class="nav nav-pills flex-column mb-auto">
+    {% url 'dashboard' as dashboard %}
+    {% if dashboard %}
+    <li class="nav-item">
+      <a href="{% url 'dashboard' %}" class="nav-link text-light {% if 'dashboard' in request.resolver_match.url_name %}active{% endif %}">
+        <i class="fas fa-columns mr-2"></i>
+        <span class="ms-2">{% trans 'Dashboard' %}</span>
+      </a>
+    </li>
+    {% endif %}
+  </ul>
+</div>

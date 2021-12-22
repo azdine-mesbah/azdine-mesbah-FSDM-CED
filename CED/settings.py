@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'bootstrap5',
     'fontawesome',
     'softdelete',
-    'phonenumber_field'    
+    'phonenumber_field',
+    'Dashboard',
 ]
 
 MIDDLEWARE = [
@@ -61,7 +62,7 @@ ROOT_URLCONF = 'CED.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / "CED/templates",],
+        'DIRS': [BASE_DIR / "CED/templates", BASE_DIR / "Dashboard/templates",],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

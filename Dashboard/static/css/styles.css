@@ -1,0 +1,68 @@
+body{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: stretch;
+    position: relative;
+    font-family: "Nunito", sans-serif;
+}
+main{
+    min-height: 92vh;
+    padding-bottom: 3rem;
+}
+.welcome-cover{
+    height: 94vh;
+    width: 100%;
+    background-color: gray;
+    background-image: url("/static/img/welcome.jpg");
+    background-size: cover;
+    background-position: top center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+footer{
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    color: #FFF;
+    font-size: large;
+    font-weight: bold;
+    text-shadow: #000 1px 0 10px;
+    background-color: rgba(0,0,0,.3);
+}
+@media (min-width: 769px) {
+    footer .container{
+        margin-left: 12rem;
+    }
+    .main-content{
+        margin-left: 12rem;
+    }
+}
+.sidebar{
+    min-width: 12rem;
+    min-height: 94vh;
+    position: fixed;
+}
+
+.flex-form > div{
+    margin:0.5rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid #dee2e6!important;
+    flex:auto;
+}
+fieldset:disabled button{
+    display: none;
+}
+a.card{
+    text-decoration: none;
+    color: var(--bs-gray-900);
+}
+.card{
+    box-shadow: 0.5em 0.5rem 1rem rgba(117,117,94,.2);
+}
+.card:hover{
+    box-shadow: 0.5em 0.5rem 2rem rgba(0,0,0,.9);
+}
