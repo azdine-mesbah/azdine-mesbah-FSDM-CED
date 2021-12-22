@@ -14,4 +14,3 @@ class AnneeAdmin(admin.ModelAdmin):
 @admin.register(Pays)
 class PaysAdmin(admin.ModelAdmin):
     search_fields = ('nom',)
-    ordering = ('id',)

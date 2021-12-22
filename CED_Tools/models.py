@@ -5,6 +5,7 @@ class Annee(TimeStampedModel):
     class Meta:
         db_table = 'ced_annees'
         verbose_name_plural = 'Années Scolaires'
+        ordering = ['-annee']
     
     annee = models.IntegerField()
 
