@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'fontawesome',
     'softdelete',
     'phonenumber_field',
+    'CED_Tools',
     'Dashboard',
 ]
 
