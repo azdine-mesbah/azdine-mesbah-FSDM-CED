@@ -1,0 +1,17 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}List Doctorants{% endblock %}
+{% block content %}
+    <form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form text-center" enctype="multipart/form-data" action="{% url 'doctorant-create' %}" method="post">
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        <div class="w-100">
+        {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
+        </div>
+    </form>
+{% endblock %}

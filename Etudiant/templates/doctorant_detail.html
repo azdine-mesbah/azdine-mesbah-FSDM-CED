@@ -1,0 +1,145 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}{{doctorant}}{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-12 col-md-5 col-lg-3">
+            <div class="border p-3 me-3">
+                <button class="enable-edit-form btn btn-danger" data-target="#doctorant-edit-form">{% trans 'Edit' %}</button>
+            </div>
+            <form id="doctorant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" enctype="multipart/form-data" action="{% url 'doctorant-edit' doctorant.pk %}" method="post">
+            {{ doctorant.photo_preview }}
+                <fieldset disabled>
+                {% csrf_token %}
+                {% bootstrap_form form %}
+                {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
+                <fieldset>
+            </form>
+        </div>
+        <div class="col-12 col-md-7 col-lg-9">
+            <div class="mb-3">
+                <div class="border p-2 d-flex justify-content-between">
+                    <h3 class="text-decoration-underline">Cursus :</h3>
+                    <a class="btn btn-primary btn-ajax-form" href="{% url 'cursus-create' doctorant.pk %}">{% trans 'Add' %}</a>
+                </div>
+                <div class="border">
+                    <table class="table">
+                        <thead>
+                            <tr scope="row">
+                                <th scope="col">{% trans 'Type' %}</th>
+                                <th scope="col">{% trans 'Speciality' %}</th>
+                                <th scope="col">{% trans 'Establishment' %}</th>
+                                <th scope="col">{% trans 'City' %}</th>
+                                <th scope="col">{% trans 'Year' %}</th>
+                                <th scope="col">{% trans 'Duration' %}</th>
+                                <th scope="col">{% trans 'Mention' %}</th>
+                                <th scope="col">{% trans 'Average' %}</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for cursus in doctorant.cursus.all %}
+                            <tr id="cursus-{{cursus.id}}">
+                                <td>{{cursus.type}}</td>
+                                <td>{{cursus.specialite}}</td>
+                                <td>{{cursus.etablissement}}</td>
+                                <td>{{cursus.ville}}</td>
+                                <td>{{cursus.annee}}</td>
+                                <td>{{cursus.get_duree}}</td>
+                                <td>{{cursus.mention}}</td>
+                                <td>{{cursus.moyenne}}</td>
+                                <td>
+                                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'cursus-detail' doctorant.pk cursus.pk %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ cursus }} ?" data-target="#cursus-{{cursus.id}}" href="{% url 'cursus-delete' doctorant.pk cursus.pk %}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mb-3">
+                <div class="border p-2 d-flex justify-content-between">
+                    <h3 class="text-decoration-underline">Inscriptions :</h3>
+                    <a class="btn btn-primary btn-ajax-form" href="{% url 'inscription-create' doctorant.pk %}">{% trans 'Add' %}</a>
+                </div>
+                <div class="border">
+                    <table class="table">
+                        <thead>
+                            <tr scope="row">
+                                <th scope="col">Annee</th>
+                                <th scope="col">Sujet</th>
+                                <th scope="col">Détail de Sujet</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for inscription in doctorant.inscriptions.all %}
+                            <tr id="inscription-{{inscription.id}}">
+                                <td>{{inscription.annee}}</td>
+                                <td>{{inscription.sujet}}</td>
+                                <td>{% firstof  inscription.sujet_detail or "--" %}</td>
+                                <td class="d-flex">
+                                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'inscription-detail' doctorant.pk inscription.pk %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ inscription }} ?" data-target="#inscription-{{inscription.id}}" href="{% url 'inscription-delete' doctorant.pk inscription.pk %}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="mt-3">
+                <div class="border p-2 d-flex justify-content-between">
+                    <h3 class="text-decoration-underline">Retraits :</h3>
+                    <a class="btn btn-primary btn-ajax-form" href="{% url 'retrait-create' doctorant.pk %}">{% trans 'Add' %}</a>
+                </div>
+                <div class="border">
+                    <table class="table">
+                        <thead>
+                            <tr scope="row">
+                                <th scope="col">{% trans 'Type' %}</th>
+                                <th scope="col">{% trans 'Withdraw Date' %}</th>
+                                <th scope="col">{% trans 'Return Date' %}</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for retrait in doctorant.retraits.all %}
+                            <tr id="retrait-{{retrait.id}}" class="{% if retrait.definitif %}table-secondary{% elif retrait.is_late %}table-danger{% endif %}">
+                                <td scope="col">{{ retrait.type }}</td>
+                                <td scope="col">{{ retrait.created_at }}</td>
+                                <td scope="col">{{ retrait.return_date }}</td>
+                                <td>
+                                
+                                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'retrait-detail' doctorant.pk retrait.pk %}">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                {% if not retrait.definitif %}
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ retrait }} ?" data-target="#retrait-{{retrait.id}}" href="{% url 'retrait-delete' doctorant.pk retrait.pk %}">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
