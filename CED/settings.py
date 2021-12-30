@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 from sys import modules
+from os import path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -44,8 +45,12 @@ INSTALLED_APPS = [
     'fontawesome',
     'softdelete',
     'phonenumber_field',
+    'pandas',
+    'humanize',
     'CED_Tools',
     'Dashboard',
+    'Administration',
+    'Etudiant'
 ]
 
 MIDDLEWARE = [
@@ -56,6 +61,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 ]
 
 ROOT_URLCONF = 'CED.urls'
@@ -69,6 +75,7 @@ TEMPLATES = [
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
+                'django.template.context_processors.i18n',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
             ],
@@ -121,7 +128,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = 'fr-FR'
+LANGUAGE_CODE = 'fr'
 
 TIME_ZONE = 'UTC'
 
@@ -162,7 +169,7 @@ LOGOUT_REDIRECT_URL = '/'
 
 # to reach request object within template
 TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.core.context_processors.request"
+    "django.core.context_processors.request",
 ]
 
 # phonenumber package settings
@@ -172,4 +179,4 @@ PHONENUMBER_DEFAULT_REGION = 'MA'
 
 # CED_Tools app settings
 MIN_YEAR = 1960
-MEDIA_ROOT = '/media'
+MEDIA_ROOT = path.join(BASE_DIR, 'media')

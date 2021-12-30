@@ -22,8 +22,11 @@ def year_choices():
 def id_generator(size=6, chars=ascii_uppercase + digits):
     return ''.join(choice(chars) for _ in range(size))
 
-def upload_to(instance, filename):
+def photo_upload_to(instance, filename):
     return f"photos/{instance.cin or id_generator()}.{filename.split('.')[-1]}"
+
+def file_upload_to(instance, filename):
+    return f"files/{id_generator()}_-_{filename}"
 
 def safe_image_tag(src=getattr(settings, "MEDIA_ROOT", "/media")+"/photos/no_image.jpg"):
     return mark_safe(f'<img src="{src}" style="width:100%;max-width:300px"/>')
@@ -49,21 +52,18 @@ def birhdayValidator(value):
 
     if day_month_year:
         print(day_month_year)
-        print('*'*50)
         try:
             datetime.strptime(day_month_year, "%d/%m/%Y")
         except:
             isValid = False
     elif month_year:
         print(month_year)
-        print('*'*50)
         try:
             datetime.strptime(month_year, "%m/%Y")
         except:
             isValid = False
     elif year:
         print(year)
-        print('*'*50)
         try:
             datetime.strptime(year, "%Y")
         except:

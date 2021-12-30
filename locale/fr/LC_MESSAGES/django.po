@@ -1,0 +1,183 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-12-30 09:19+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: .\Administration\templates\ajax_departement_create.html:11
+#: .\Administration\templates\ajax_enseignant_create.html:11
+#: .\Administration\templates\ajax_laboratoire_create.html:11
+#: .\Administration\templates\ajax_laboratoire_detail.html:11
+#: .\Administration\templates\ajax_sujet_create.html:11
+#: .\Administration\templates\ajax_sujet_detail.html:11
+#: .\Administration\templates\departement_detail.html:19
+#: .\Administration\templates\enseignant_detail.html:19
+#: .\Etudiant\templates\ajax_cursus_create.html:11
+#: .\Etudiant\templates\ajax_cursus_detail.html:11
+#: .\Etudiant\templates\ajax_inscription_create.html:11
+#: .\Etudiant\templates\ajax_inscription_detail.html:11
+#: .\Etudiant\templates\ajax_retrait_create.html:11
+#: .\Etudiant\templates\ajax_retrait_detail.html:11
+#: .\Etudiant\templates\doctorant_create.html:14
+#: .\Etudiant\templates\doctorant_detail.html:20
+msgid "Save"
+msgstr "Enregistrer"
+
+#: .\Administration\templates\ajax_departement_create.html:11
+#: .\Administration\templates\ajax_enseignant_create.html:11
+#: .\Administration\templates\ajax_laboratoire_create.html:11
+#: .\Administration\templates\ajax_laboratoire_detail.html:11
+#: .\Administration\templates\ajax_sujet_create.html:11
+#: .\Administration\templates\ajax_sujet_detail.html:11
+#: .\Administration\templates\departement_detail.html:19
+#: .\Administration\templates\enseignant_detail.html:19
+#: .\Etudiant\templates\ajax_cursus_create.html:11
+#: .\Etudiant\templates\ajax_cursus_detail.html:11
+#: .\Etudiant\templates\ajax_inscription_create.html:11
+#: .\Etudiant\templates\ajax_inscription_detail.html:11
+#: .\Etudiant\templates\ajax_retrait_create.html:11
+#: .\Etudiant\templates\ajax_retrait_detail.html:11
+#: .\Etudiant\templates\doctorant_create.html:14
+#: .\Etudiant\templates\doctorant_detail.html:20
+msgid "Clear"
+msgstr "Effacer"
+
+#: .\Administration\templates\departement_detail.html:13
+#: .\Administration\templates\enseignant_detail.html:13
+#: .\Etudiant\templates\doctorant_detail.html:13
+msgid "Edit"
+msgstr "Modifier"
+
+#: .\Administration\templates\departement_detail.html:27
+#: .\Administration\templates\departement_index.html:19
+#: .\Administration\templates\enseignant_detail.html:28
+#: .\Administration\templates\enseignant_index.html:19
+#: .\Etudiant\templates\doctorant_detail.html:28
+#: .\Etudiant\templates\doctorant_detail.html:73
+#: .\Etudiant\templates\doctorant_detail.html:108
+#: .\Etudiant\templates\doctorant_index.html:19
+msgid "Add"
+msgstr "Ajouter"
+
+#: .\Administration\templates\departement_detail.html:49
+#: .\Administration\templates\departement_index.html:43
+#: .\Administration\templates\enseignant_detail.html:56
+#: .\Administration\templates\enseignant_detail.html:86
+#: .\Administration\templates\enseignant_index.html:47
+#: .\Etudiant\templates\doctorant_detail.html:60
+#: .\Etudiant\templates\doctorant_detail.html:95
+#: .\Etudiant\templates\doctorant_detail.html:131
+#: .\Etudiant\templates\doctorant_index.html:45
+msgid "Are you sure you want to delete"
+msgstr "Etes-vous sûr que vous voulez supprimer"
+
+#: .\Administration\templates\departement_index.html:14
+#: .\Administration\templates\departement_index.html:15
+#: .\Administration\templates\enseignant_index.html:14
+#: .\Administration\templates\enseignant_index.html:15
+#: .\Etudiant\templates\doctorant_index.html:14
+#: .\Etudiant\templates\doctorant_index.html:15
+msgid "Search"
+msgstr "Rechercher"
+
+#: .\Administration\templates\departement_index.html:41
+#: .\Administration\templates\enseignant_index.html:45
+#: .\Etudiant\templates\doctorant_index.html:43
+msgid "Details"
+msgstr "Détails"
+
+#: .\Administration\templates\departement_index.html:45
+#: .\Administration\templates\enseignant_index.html:49
+#: .\Etudiant\templates\doctorant_index.html:47
+msgid "Delete"
+msgstr "Supprimer"
+
+#: .\CED_Tools\tools\Functions.py:75
+#, python-format
+msgid "%(value)s is not a valid birthday"
+msgstr "%(value)s n'est pas une date de naissance valide"
+
+#: .\Dashboard\templates\base.html:71
+msgid "Logout"
+msgstr "Se déconnecter"
+
+#: .\Dashboard\templates\base.html:81
+#: .\Dashboard\templates\registration\login.html:11
+#: .\Dashboard\templates\registration\login.html:17
+msgid "Login"
+msgstr "Se connecter"
+
+#: .\Dashboard\templates\includes\sidebar.html:14
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: .\Dashboard\templates\includes\sidebar.html:24
+msgid "Départements"
+msgstr ""
+
+#: .\Dashboard\templates\includes\sidebar.html:34
+msgid "Enseignants"
+msgstr ""
+
+#: .\Dashboard\templates\includes\sidebar.html:44
+msgid "Doctorants"
+msgstr ""
+
+#: .\Etudiant\models.py:133
+msgid "Definitive Withdrawal"
+msgstr "Retrait définitif"
+
+#: .\Etudiant\templates\doctorant_detail.html:34
+#: .\Etudiant\templates\doctorant_detail.html:114
+msgid "Type"
+msgstr ""
+
+#: .\Etudiant\templates\doctorant_detail.html:35
+msgid "Speciality"
+msgstr "Spécialité"
+
+#: .\Etudiant\templates\doctorant_detail.html:36
+msgid "Establishment"
+msgstr "Établissement"
+
+#: .\Etudiant\templates\doctorant_detail.html:37
+msgid "City"
+msgstr "Ville"
+
+#: .\Etudiant\templates\doctorant_detail.html:38
+msgid "Year"
+msgstr "An"
+
+#: .\Etudiant\templates\doctorant_detail.html:39
+msgid "Duration"
+msgstr "Durée"
+
+#: .\Etudiant\templates\doctorant_detail.html:40
+msgid "Mention"
+msgstr ""
+
+#: .\Etudiant\templates\doctorant_detail.html:41
+msgid "Average"
+msgstr "Moyenne"
+
+#: .\Etudiant\templates\doctorant_detail.html:115
+msgid "Withdraw Date"
+msgstr "Date de retrait"
+
+#: .\Etudiant\templates\doctorant_detail.html:116
+msgid "Return Date"
+msgstr "Date de retour"
