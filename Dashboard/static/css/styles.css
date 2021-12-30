@@ -7,6 +7,7 @@ body{
     align-items: stretch;
     position: relative;
     font-family: "Nunito", sans-serif;
+    background-color: rgba(33,37,41,0.01);
 }
 main{
     min-height: 92vh;
@@ -63,6 +64,18 @@ a.card{
 .card{
     box-shadow: 0.5em 0.5rem 1rem rgba(117,117,94,.2);
 }
-.card:hover{
-    box-shadow: 0.5em 0.5rem 2rem rgba(0,0,0,.9);
+.min-w-max-centent{
+    min-width: max-content;
+}
+.min-w-7{
+    min-width: 7rem;
+}
+.max-w-fit-content{
+    max-width: fit-content;
+}
+.empty{
+    background-color: rgba(255,0,0,.1);
+}
+.non-empty{
+    background-color: rgba(0,255,0,.1);
 }
