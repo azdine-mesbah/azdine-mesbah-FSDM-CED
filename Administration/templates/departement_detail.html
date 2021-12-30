@@ -1,0 +1,62 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}{{departement}}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="border p-3 me-3 d-flex">
+        <h1>{{departement}}</h1>
+        <button class="enable-edit-form btn btn-danger ms-auto" data-target="#departement-edit-form">{% trans 'Edit' %}</button>
+    </div>
+    <form id="departement-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'departement-edit' departement.pk %}" method="post">
+        <fieldset class="d-flex w-100 justify-content-between" disabled>
+        {% csrf_token %}
+        {% bootstrap_form form layout='inline' %}
+        {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
+        <fieldset>
+    </form>
+</div>
+<div class="row">
+    <div>
+        <div class="border p-2 d-flex justify-content-between">
+            <h3 class="text-decoration-underline">Laboratoires :</h3>
+            <a class="btn btn-primary btn-ajax-form" href="{% url 'laboratoire-create' departement.pk %}">{% trans 'Add' %}</a>
+        </div>
+        <div class="border">
+            <table class="table">
+                <thead>
+                    <tr scope="row">
+                        <th scope="col">Acronyme</th>
+                        <th scope="col">Intitulé</th>
+                        <th scope="col">Directeur</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lab in departement.laboratoires.all %}
+                    <tr id="laboratoire-{{lab.id}}">
+                        <td>{{lab.acronyme}}</td>
+                        <td>{{lab.intitule}}</td>
+                        <td>
+                            <a class="text-secondary" href="">{{lab.get_current_directeur}}</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'laboratoire-edit' departement.pk lab.pk %}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ lab }} ?" data-target="#laboratoire-{{lab.id}}" href="{% url 'laboratoire-delete' departement.pk lab.pk %}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

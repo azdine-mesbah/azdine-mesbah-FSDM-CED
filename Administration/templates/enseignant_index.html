@@ -1,0 +1,56 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}List des Enseignants{% endblock %}
+{% block content %}
+<div class="border p-3 my-3 row">
+        <div class="col-12 col-md-8">
+            <h3>List des Enseignants</h3>
+            <form action="{% url 'enseignant-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
+                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
+                <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 d-flex">
+            <a class="btn btn-primary mt-auto ms-auto btn-ajax-form" href="{% url 'enseignant-create' %}">{% trans 'Add' %}</a>
+        </div>
+</div>
+{% bootstrap_pagination page_obj %}
+<table class="table table-responsive border">
+    <thead>
+    <tr scope="row">
+        <th scope="col">Nom</th>
+        <th scope="col">Prènom</th>
+        <th scope="col">Téléphone</th>
+        <th scope="col">établissement</th>
+        <th scope="col">N° sujets</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for ens in enseignants %}
+            <tr id="enseignant-{{ens.id}}">
+                <td>{{ens.nom}}</td>
+                <td>{{ens.prenom}}</td>
+                <td>{% firstof ens.telephone or "--" %}</td>
+                <td>{% firstof ens.etablissement or "--" %}</td>
+                <td>{% firstof ens.sujets.count or "--" %}</td>
+                <td class="d-flex">
+                    <a class="btn btn-info text-white ms-auto me-3" href="{% url 'enseignant-detail' ens.pk %}">
+                        <i class="fas fa-info-circle"></i>
+                        {% trans 'Details' %}
+                    </a>
+                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ ens }} ?" data-target="#enseignant-{{ens.id}}" href="{% url 'enseignant-delete' ens.pk %}">
+                        <i class="fas fa-trash"></i>
+                        {% trans 'Delete' %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

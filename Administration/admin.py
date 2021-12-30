@@ -1,13 +1,16 @@
 from django.contrib import admin
-from django.core.exceptions import ValidationError
-from .models import Departement, Laboratoire, Enseignant, Sujet
-from .forms import LaboratoireCreateForm, SujetCreateForm
-from django.db.models.signals import post_save
+from .models import Departement, Laboratoire, Etablissement, Enseignant, Sujet
+from .forms import LaboratoireAdminCreateForm, SujetAdminCreateForm
 
 @admin.register(Departement)
 class DepartementAdmin(admin.ModelAdmin):
     list_display = ('intitule', 'description')
     search_fields = ('intitule',)
+
+@admin.register(Etablissement)
+class EtablissementAdmin(admin.ModelAdmin):
+    list_display = ('intitule','description', 'ville','pays')
+    search_fields = ('intitule','description', 'ville','pays__nom')
 
 @admin.register(Enseignant)
 class EnseignantAdmin(admin.ModelAdmin):
@@ -20,15 +23,7 @@ class LaboratoireAdmin(admin.ModelAdmin):
     search_fields = ('intitule', 'acronyme','departement__intitule')
     list_filter = ('departement',)
     autocomplete_fields = ('departement',)
-    form = LaboratoireCreateForm
-
-    def save_model(self, request, obj, form, change):
-        directeur = form.cleaned_data['directeur']
-        obj.save()
-        obj.directeurs.filter(courant=True).update(courant=False)
-        directeur.laboratoires.filter(courant=True).update(courant=False)
-        obj.directeurs.create(directeur_id = directeur.id)
-        return super().save_model(request, obj, form, change)
+    form = LaboratoireAdminCreateForm
 
 @admin.register(Sujet)
 class SujetAdmin(admin.ModelAdmin):
@@ -37,7 +32,7 @@ class SujetAdmin(admin.ModelAdmin):
     list_filter = ('annee', 'laboratoire', 'directeur','co_directeur')
     autocomplete_fields = ('annee', 'laboratoire', 'directeur', 'co_directeur')
     exclude = ('directeur',)
-    form = SujetCreateForm
+    form = SujetAdminCreateForm
 
     def save_model(self, request, obj, form, change):
         obj.directeur = form.cleaned_data['laboratoire'].get_current_directeur()

@@ -1,0 +1,52 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}List des Départements{% endblock %}
+{% block content %}
+<div class="border p-3 my-3 row">
+        <div class="col-12 col-md-8">
+            <h3>List des Départements</h3>
+            <form action="{% url 'departement-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
+                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
+                <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
+            </form>
+        </div>
+        <div class="col-12 col-md-4 d-flex">
+            <a class="btn btn-primary mt-auto ms-auto btn-ajax-form" href="{% url 'departement-create' %}">{% trans 'Add' %}</a>
+        </div>
+</div>
+{% bootstrap_pagination page_obj %}
+<table class="table table-responsive border">
+    <thead>
+    <tr scope="row">
+        <th scope="col">Intitulé</th>
+        <th scope="col">Description</th>
+        <th scope="col">N° Laboratoires</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for dep in departements %}
+            <tr id="departement-{{dep.id}}">
+                <td>{{dep.intitule}}</td>
+                <td>{{dep.description}}</td>
+                <td>{{dep.laboratoires.count}}</td>
+                <td class="d-flex">
+                    <a class="btn btn-info text-white ms-auto me-3" href="{% url 'departement-detail' dep.pk %}">
+                        <i class="fas fa-info-circle"></i>
+                        {% trans 'Details' %}
+                    </a>
+                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ dep }} ?" data-target="#departement-{{dep.id}}" href="{% url 'departement-delete' dep.pk %}">
+                        <i class="fas fa-trash"></i>
+                        {% trans 'Delete' %}
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}
