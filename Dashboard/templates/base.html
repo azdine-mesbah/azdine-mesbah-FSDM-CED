@@ -16,33 +16,39 @@
     <!-- Bootstrap CSS -->
     {% bootstrap_css %}
     <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
+
     <!-- Bootstrap JavaScript not in body -->
     {% if 'javascript_in_head'|bootstrap_setting %}
         {% bootstrap_javascript %}
     {% endif %}
 
     <!-- Jquery -->
-    <script defer src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
 
     <!-- SweetAlert2 -->
-    <script defer src="{% static '/js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static '/js/sweetalert2.all.min.js' %}"></script>
 
     <!-- Cookie library -->
-    <script defer src="{% static '/js/js.cookie.min.js' %}"></script>
+    <script src="{% static '/js/js.cookie.min.js' %}"></script>
 
     <!-- Axios library -->
-    <script defer src="{% static '/js/axios.min.js' %}"></script>
+    <script src="{% static '/js/axios.min.js' %}"></script>
+
+    <!-- Chart library -->
+    <script src="{% static '/js/chart.min.js' %}"></script>
 
     <!-- Custom JavaScript -->
     <script defer src="{% static '/js/scripts.js' %}"></script>
 
+
+    <!-- Fontawsome -->
     <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
     <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     
     {% block head %}{% endblock %}
 </head>
 <body>
-    <header class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
+    <header class="navbar navbar-expand-md navbar-light bg-light shadow-sm sticky-top">
         <nav class="container-fluid">
             <a class="navbar-brand" href="{% url 'welcome' %}">
                 CED

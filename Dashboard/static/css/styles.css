@@ -46,6 +46,11 @@ footer{
     min-width: 12rem;
     min-height: 94vh;
     position: fixed;
+    background-color: rgba(94,117,143,1) !important;
+}
+.nav-link.active, .page-item.active .page-link{
+    background-color: rgba(0,0,0,.6) !important;
+    border-color: rgba(0,0,0,.6) !important;
 }
 
 .flex-form > div{
@@ -60,8 +65,6 @@ fieldset:disabled button{
 a.card{
     text-decoration: none;
     color: var(--bs-gray-900);
-}
-.card{
     box-shadow: 0.5em 0.5rem 1rem rgba(117,117,94,.2);
 }
 .min-w-max-centent{
