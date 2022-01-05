@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Doctorant, CursusType, Cursus, Inscription, RetraitType, Retrait
+from .models import Doctorant, CursusType, Cursus, Inscription, RetraitType, Retrait, Publication, Formation_C_Inscription
 # Register your models here.
 
 @admin.register(Doctorant)
@@ -43,7 +43,32 @@ class RetraitAdmin(admin.ModelAdmin):
 
 @admin.register(Inscription)
 class InscriptionAdmin(admin.ModelAdmin):
-    list_display = ('annee','doctorant','sujet','sujet_detail')
+    list_display = ('get_annee','get_doctorant','get_sujet','sujet_detail')
     list_filter = ('annee','sujet')
     search_fields = ('annee__intitule','doctorant__nom','doctorant__prenom','doctorant__cne','doctorant__cin','sujet_detail','sujet__intitule')
     autocomplete_fields = ('annee','doctorant','sujet')
+
+
+    @admin.display(description='Inscription Année')
+    def get_annee(self, obj):
+        return obj.annee
+
+
+    @admin.display(description='Doctorant')
+    def get_doctorant(self, obj):
+        return obj.doctorant
+
+    @admin.display(description='Sujet')
+    def get_sujet(self, obj):
+        return obj.sujet
+
+@admin.register(Publication)
+class PublicationAdmin(admin.ModelAdmin):
+    list_display = ('sujet','intitule','date','url')
+    search_fields = ('intitule','description','inscription__annee__intitule','inscription__doctorant__nom','inscription__doctorant__prenom','inscription__doctorant__cne','inscription__doctorant__cin','inscription__sujet_detail','inscription__sujet__intitule')
+    autocomplete_fields = ('inscription',)
+
+@admin.register(Formation_C_Inscription)
+class Formation_C_InscriptionAdmin(admin.ModelAdmin):
+    list_display = ('inscription','formation_complementaire','date')
+    autocomplete_fields = ('inscription','formation_complementaire')

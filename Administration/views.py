@@ -2,14 +2,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMix
 from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, DeleteView, ModelFormMixin, UpdateView
-from django.db.models import Q, fields
+from django.db.models import Q
 from django.contrib import messages
 from django.urls import reverse
 from django.http.response import JsonResponse
 from django.shortcuts import get_object_or_404
 
-from .models import Departement, Enseignant, Laboratoire, Sujet
-from .forms import DepartmentCreateForm, LaboratoireCreateForm, SujetCreateForm
+from .models import Departement, Enseignant, Laboratoire, Sujet, FormationDoctorale, FormationComplementaire
+from .forms import DepartmentCreateForm, LaboratoireCreateForm, SujetCreateForm, FormationDoctoraleCreateForm, FormationComplementaireCreateForm
 
 
 # Departements CRUD
@@ -185,5 +185,97 @@ class SujetEditView(SujetCreateView, LoginRequiredMixin, PermissionRequiredMixin
 class SujetDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Administration.delete_sujet'
     model = Sujet
+    
     def get_success_url(self):
         return reverse('enseignant-detail', kwargs={'pk':self.kwargs.get('enseignant_id')})
+
+
+# Formation doctorale CRUD
+class FormationDoctoraleListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
+    permission_required = 'Administration.view_formation_doctorale'
+    template_name = 'formation_index.html'
+    paginate_by = 10
+    context_object_name = 'formations'
+
+    def get_queryset(self):
+        queryset = FormationDoctorale.objects.all()
+        if self.request.GET.get('search'):
+            search = self.request.GET.get('search')
+            queryset = FormationDoctorale.objects.filter(
+                Q(intitule__icontains=search)|
+                Q(acronyme__icontains=search)|
+                Q(description__icontains=search)|
+                Q(co_ordonateur__nom__icontains=search)|
+                Q(co_ordonateur__prenom__icontains=search))
+            if queryset:
+                messages.success(self.request, f"{len(queryset)} resultats trouvé")
+            else:
+                messages.error(self.request, "Aucune resultats trouvé")
+        return queryset
+
+class FormationDoctoraleCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'Administration.add_formation_doctorale'
+    template_name = 'ajax_formation_d_create.html'
+    model = FormationDoctorale
+    form_class = FormationDoctoraleCreateForm
+
+    def get_success_url(self):
+        return reverse('formation-list')
+    
+    def form_valid(self, form):
+        if self.request.is_ajax():
+            super().form_valid(form)
+            return JsonResponse({"redirect":self.get_success_url()}, status=302)
+        return super().form_valid(form)
+
+class FormationDoctoraleDetailView(LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, DetailView):
+    permission_required = 'Administration.view_formation_doctorale'
+    model = FormationDoctorale
+    template_name = 'formation_d_detail.html'
+    context_object_name = 'formation'
+    form_class = FormationDoctoraleCreateForm
+
+class FormationDoctoraleEditView(FormationDoctoraleCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'Administration.edit_formation_doctorale'
+    def get_success_url(self):
+        return reverse('formation-detail', kwargs={'pk':self.object.id})
+
+class FormationDoctoraleDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'Administration.delete_formation_doctorale'
+    model = FormationDoctorale
+    def get_success_url(self):
+        return reverse('formation-list')
+
+
+# Formation complementaire CRUD
+class FormationComplementaireCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'Administration.add_formation_complementaire'
+    template_name = 'ajax_formation_c_create.html'
+    form_class = FormationComplementaireCreateForm
+    
+    def get_initial(self):
+        formation = get_object_or_404(FormationDoctorale, pk=self.kwargs.get('formation_id'))
+        print('*'*50,formation, '*'*50, sep='\n')
+        return {"formation":formation}
+    
+    def get_success_url(self):
+        return reverse('formation-detail', kwargs={'pk':self.kwargs.get('formation_id')})
+    
+    def form_valid(self, form):
+        if self.request.is_ajax():
+            super().form_valid(form)
+            return JsonResponse({"redirect":self.get_success_url()}, status=302)
+        return super().form_valid(form)
+
+class FormationComplementaireEditView(FormationComplementaireCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'Administration.edit_formation_complementaire'
+    template_name = 'ajax_formation_c_detail.html'
+    model = FormationComplementaire
+    context_object_name = 'fc'
+
+class FormationComplementaireDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'Administration.delete_formation_complementaire'
+    model = FormationComplementaire
+
+    def get_success_url(self):
+        return reverse('formation-detail', kwargs={'pk':self.kwargs.get('formation_id')})

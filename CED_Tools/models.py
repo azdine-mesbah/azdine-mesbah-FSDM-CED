@@ -19,6 +19,7 @@ class Annee(TimeStampedModel):
     def __str__(self):
         return f"{self.annee}"
 
+    @property
     def intitule(self):
         return f"{self.annee}/{self.annee+1}"
 

@@ -22,4 +22,9 @@ urlpatterns = [
     path('<int:doctorant_id>/inscription/detail/<int:pk>/', views.InscriptionEditView.as_view(), name="inscription-detail"),
     path('<int:doctorant_id>/inscription/edit/<int:pk>/', views.InscriptionEditView.as_view(), name="inscription-edit"),
     path('<int:doctorant_id>/inscription/delete/<int:pk>/', views.InscriptionDeleteView.as_view(), name="inscription-delete"),
+
+    path('<int:doctorant_id>/publications/create/', views.PublicationCreateView.as_view(), name="publication-create"),
+    path('<int:doctorant_id>/publications/detail/<int:pk>/', views.PublicationEditView.as_view(), name="publication-detail"),
+    path('<int:doctorant_id>/publications/edit/<int:pk>/', views.PublicationEditView.as_view(), name="publication-edit"),
+    path('<int:doctorant_id>/publications/delete/<int:pk>/', views.PublicationDeleteView.as_view(), name="publication-delete"),
 ]

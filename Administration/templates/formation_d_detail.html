@@ -1,0 +1,60 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}{{formation}}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="border p-3 me-3 d-flex">
+        <h1>{{formation}}</h1>
+        <button class="enable-edit-form btn btn-danger ms-auto" data-target="#formation-edit-form">{% trans 'Edit' %}</button>
+    </div>
+    <form id="formation-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'formation-edit' formation.pk %}" method="post">
+        <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>
+        {% csrf_token %}
+        {% bootstrap_form form layout='inline' %}
+        {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
+        <fieldset>
+    </form>
+</div>
+<div class="row">
+    <div>
+        <div class="border p-2 d-flex justify-content-between">
+            <h3 class="text-decoration-underline">Formations complémentaires :</h3>
+            <a class="btn btn-primary btn-ajax-form" href="{% url 'formation-c-create' formation.pk %}">{% trans 'Add' %}</a>
+        </div>
+        <div class="border table-responsive">
+            <table class="table">
+                <thead>
+                    <tr scope="row">
+                        <th scope="col">Type</th>
+                        <th scope="col">Intitulé</th>
+                        <th scope="col">Volume horaire</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for fc in formation.formations_complementaires.all %}
+                    <tr id="fc-{{fc.id}}">
+                        <td>{{fc.type}}</td>
+                        <td>{{fc.intitule}}</td>
+                        <td>{{fc.volume_horaire}} h</td>
+                        <td>
+                            <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'formation-c-detail' formation.pk fc.pk %}">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ fc }} ?" data-target="#fc-{{fc.id}}" href="{% url 'formation-c-delete' formation.pk fc.pk %}">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>            
+        </div>
+    </div>
+</div>
+{% endblock %}

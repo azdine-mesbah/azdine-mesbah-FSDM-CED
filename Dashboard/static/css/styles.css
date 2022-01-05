@@ -34,21 +34,7 @@ footer{
     text-shadow: #000 1px 0 10px;
     background-color: rgba(0,0,0,.3);
 }
-@media (min-width: 769px) {
-    footer .container{
-        margin-left: 12rem;
-    }
-    .main-content{
-        margin-left: 12rem;
-    }
-}
-.sidebar{
-    min-width: 12rem;
-    min-height: 94vh;
-    position: fixed;
-    background-color: rgba(94,117,143,1) !important;
-}
-.nav-link.active, .page-item.active .page-link{
+.nav-link.active, .page-item.active{
     background-color: rgba(0,0,0,.6) !important;
     border-color: rgba(0,0,0,.6) !important;
 }
@@ -81,4 +67,7 @@ a.card{
 }
 .non-empty{
     background-color: rgba(0,255,0,.1);
+}
+.canvas-container{
+    width: 20rem;
 }

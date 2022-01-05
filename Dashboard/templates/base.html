@@ -48,7 +48,7 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    <header class="navbar navbar-expand-md navbar-light bg-light shadow-sm sticky-top">
+    <header class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
         <nav class="container-fluid">
             <a class="navbar-brand" href="{% url 'welcome' %}">
                 CED
@@ -59,10 +59,54 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav ms-auto">
-                    {% if user.is_staff %}
+                <ul class="navbar-nav ms-5 me-auto">
+                    {% url 'dashboard' as dashboard %}
+                    {% if dashboard and perms.Dashboard.view_dashboard %}
                     <li class="nav-item">
-                        <a class="nav-link font-weight-bold" href="{% url 'admin:index' %}">Admin</a>
+                    <a href="{% url 'dashboard' %}" class="nav-link text-light {% if 'dashboard' in request.resolver_match.url_name %}active{% endif %}">
+                        <i class="fas fa-columns mr-2"></i>
+                        <span class="ms-2">{% trans 'Dashboard' %}</span>
+                    </a>
+                    </li>
+                    {% endif %}
+
+                    {% url 'departement-list' as departement_list %}
+                    {% if departement_list and perms.Administration.view_departement %}
+                    <li class="nav-item">
+                    <a href="{% url 'departement-list' %}" class="nav-link text-light {% if 'departement' in request.resolver_match.url_name %}active{% endif %}">
+                        <i class="fas fa-building mr-2"></i>
+                        <span class="ms-2">{% trans 'Départements' %}</span>
+                    </a>
+                    </li>
+                    {% endif %}
+
+                    {% url 'enseignant-list' as enseignant_list %}
+                    {% if enseignant_list and perms.Administration.view_enseignant %}
+                    <li class="nav-item">
+                    <a href="{% url 'enseignant-list' %}" class="nav-link text-light {% if 'enseignant' in request.resolver_match.url_name %}active{% endif %}">
+                        <i class="fas fa-user-tie mr-2"></i>
+                        <span class="ms-2">{% trans 'Enseignants' %}</span>
+                    </a>
+                    </li>
+                    {% endif %}
+
+                    {% url 'doctorant-list' as doctorant_list %}
+                    {% if doctorant_list and perms.Etudiant.view_doctorant %}
+                    <li class="nav-item">
+                    <a href="{% url 'doctorant-list' %}" class="nav-link text-light {% if 'doctorant' in request.resolver_match.url_name %}active{% endif %}">
+                        <i class="fas fa-user-graduate mr-2"></i>
+                        <span class="ms-2">{% trans 'Doctorants' %}</span>
+                    </a>
+                    </li>
+                    {% endif %}
+
+                    {% url 'formation-list' as formation_list %}
+                    {% if formation_list and perms.Administration.view_formation %}
+                    <li class="nav-item">
+                    <a href="{% url 'formation-list' %}" class="nav-link text-light {% if 'formation' in request.resolver_match.url_name %}active{% endif %}">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="ms-2">{% trans 'Formations' %}</span>
+                    </a>
                     </li>
                     {% endif %}
                 </ul>
@@ -71,6 +115,11 @@
                 <ul class="navbar-nav ms-3">
                     <!-- Authentication Links -->
                     {% if user.is_authenticated %}
+                        {% if user.is_staff %}
+                        <li class="nav-item">
+                            <a class="nav-link font-weight-bold" href="{% url 'admin:index' %}">Admin</a>
+                        </li>
+                        {% endif %}
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 {{ user }}

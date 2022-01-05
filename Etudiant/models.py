@@ -3,13 +3,14 @@ from phonenumber_field.modelfields import PhoneNumberField
 from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime
+from numpy import busday_count
 
 from CED_Tools.tools.Classes import TimeStampedModel
 from CED_Tools.tools.Constants import SEXES, MENTIONS
 from CED_Tools.tools.Functions import photo_upload_to, safe_image_tag, birhdayValidator, avg_to_mention, current_year
 from CED_Tools.models import Annee, Pays
 
-from Administration.models import Sujet
+from Administration.models import Sujet, FormationComplementaire
 
 # Create your models here.
 
@@ -26,7 +27,7 @@ class Doctorant(TimeStampedModel):
     cin = models.CharField('CIN',max_length=10)
     date_naissance = models.CharField('Date de naissance', max_length=10, validators=(birhdayValidator,))
     lieu_naissance = models.CharField('Lieu de naissance', max_length=255)
-    pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, default=Pays.default_value_id)
+    pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, default=Pays.default_value_id, related_name='doctorants')
     nom_ar = models.CharField(max_length=100)
     prenom_ar = models.CharField(max_length=100)
     lieu_naissance_ar = models.CharField(max_length=255)
@@ -63,7 +64,7 @@ class CursusType(TimeStampedModel):
         verbose_name_plural = 'Types de Cursus'
 
     intitule = models.CharField(max_length=255)
-    duree_annees = models.IntegerField()
+    duree_annees = models.IntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self) -> str:
         return f"{self.intitule} - ({self.duree})"
@@ -122,19 +123,21 @@ class Retrait(TimeStampedModel):
     def __str__(self) -> str:
         return f"{self.type} par {self.doctorant}"
 
+    @property
     def delay(self):
-        return (datetime.now().date() - self.created_at.date()).days - 1
+        return busday_count(self.created_at.date(), datetime.now().date()) - self.type.max_delais - 1
 
+    @property
     def is_late(self):
-        return self.delay() > 0
+        return self.delay > 0
 
     def return_date(self):
         if self.definitif:
             return _('Definitive Withdrawal')
         elif self.date_retour:
             return self.date_retour
-        elif self.is_late():
-            return f"{_('Late by')} : {self.delay()} {_('Days')}"
+        elif self.is_late:
+            return f"En retard par : {self.delay} {'jours' if self.delay > 1 else 'jour'}"
         else:
             return "--"
      
@@ -146,3 +149,28 @@ class Inscription(TimeStampedModel):
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='inscriptions', default=current_year)
     sujet = models.ForeignKey(Sujet, on_delete=models.DO_NOTHING, related_name='inscriptions')
     sujet_detail = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.sujet} -- {self.doctorant}"
+
+class Formation_C_Inscription(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_FC_inscription'
+
+    inscription = models.ForeignKey(Inscription, on_delete=models.DO_NOTHING, related_name='fomations_complementaires')
+    formation_complementaire = models.ForeignKey(FormationComplementaire, on_delete=models.DO_NOTHING, related_name='inscriptions')
+    date = models.DateField(blank=True, null=True)
+
+class Publication(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_publications'
+    
+    inscription =  models.ForeignKey(Inscription, on_delete=models.DO_NOTHING, related_name='publications')
+    intitule = models.CharField(max_length=255)
+    description = models.CharField(max_length=255,blank=True, null=True)
+    url = models.CharField(max_length=255,blank=True, null=True)
+    date = models.DateField(blank=True, null=True)
+
+    @property
+    def sujet(self):
+        return self.intitule

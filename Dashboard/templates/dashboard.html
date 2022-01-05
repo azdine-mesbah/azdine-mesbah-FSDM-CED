@@ -1,113 +1,112 @@
 {% extends "base.html" %}
 {% load bootstrap5 %}
 {% block main %}
-    {% include "includes/sidebar.html" %}
     <div class="main-content container-fluid mb-5">
     {% autoescape off %}{% bootstrap_messages %}{% endautoescape %}
     {% block content %}
     <div class="row">
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center {% if departements.count %}non-{% endif %}empty">
                 <div class="row">
-                    <div class="col-2">
+                    <div class="col-2 text-right">
                         <i class="fas fa-building fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{departements.count}} Départements</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="departements-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="departements-chart"></canvas></div>
             </div>
         </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if enseignants.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-user-tie fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{enseignants.count}} Enseignants</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="enseignants-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="enseignants-chart"></canvas></div>
             </div>
         </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if doctorants.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-user-graduate fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{doctorants.count}} Doctorants</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="doctorants-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="doctorants-chart"></canvas></div>
             </div>
         </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if laboratoires.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-microscope fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{laboratoires.count}} Laboratoires</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="laboratoires-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="laboratoires-chart"></canvas></div>
             </div>
         </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if formations.count %}non-{% endif %}empty">
+                <div class="row">
+                    <div class="col-2">
+                        <i class="fas fa-chalkboard-teacher fa-3x mr-2"></i>
+                    </div>
+                    <div class="col text-center">
+                        <h3><strong>{{formations.count}} Formations</strong></h3>                       
+                    </div>
+                </div>
+                <div class="row canvas-container"><canvas  id="formations-chart"></canvas></div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if inscriptions.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-edit fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{inscriptions.count}} Inscriptions</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="inscriptions-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="inscriptions-chart"></canvas></div>
             </div>
         </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if sujets.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-scroll fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{sujets.count}} Sujets</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="sujets-chart"></canvas></div>
+                <div class="row canvas-container"><canvas  id="sujets-chart"></canvas></div>
             </div>
         </div>
-            <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if departements %}non-{% endif %}empty">
+        <div class="col-12 col-md-6 col-lg-3 p-3">
+            <div class="card p-2 align-items-center align-items-center align-items-center {% if publications.count %}non-{% endif %}empty">
                 <div class="row">
                     <div class="col-2">
                         <i class="fas fa-book fa-3x mr-2"></i>
                     </div>
-                    <div class="col text-left">
+                    <div class="col text-center">
                         <h3><strong>{{publications.count}} Publications</strong></h3>                       
                     </div>
                 </div>
-                <div class="row"><canvas  id="publications-chart"></canvas></div>
-            </div>
-        </div>
-        <div class="col my-2 max-w-fit-content p-0">
-            <div class="card min-w-max-centent max-w-fit-content p-1 mx-1 {% if formations %}non-{% endif %}empty">
-                <div class="row">
-                    <div class="col-4" style="font-size: 0.5rem;">
-                        <i class="fas fa-chalkboard-teacher fa-7x mr-2"></i>
-                    </div>
-                    <div class="col-8 text-center">
-                        <strong>{{formations.count}}</strong>
-                        <h6 class="min-w-7"><strong>Formations</strong></h6>
-                    </div>
-                </div>
+                <div class="row canvas-container"><canvas  id="publications-chart"></canvas></div>
             </div>
         </div>
     </div>
@@ -119,12 +118,12 @@
 new Chart(document.getElementById('departements-chart'),{
         type: 'polarArea',
         data: {
-            labels: [{% for dep in departements %}'{{dep.intitule}}',{% endfor %}],
+            labels: {{departements.labels|safe}},
             datasets: [{
             label: 'Laboratoires',
-            backgroundColor: [{% for dep in departements %}'{{dep.color}}',{% endfor %}],
+            backgroundColor: {{departements.colors|safe}},
             borderColor: '#FFF',
-            data: [{% for dep in departements %}'{{dep.laboratoires.count}}',{% endfor %}],
+            data: {{departements.data|safe}}
             }]
         },
         options: {}
@@ -133,12 +132,12 @@ new Chart(document.getElementById('departements-chart'),{
 new Chart(document.getElementById('enseignants-chart'),{
         type: 'doughnut',
         data: {
-            labels: [{% for etablissement in etablissements %}'{{etablissement.intitule}}',{% endfor %}],
+            labels: {{enseignants.labels|safe}},
             datasets: [{
-            label: 'Etablissements',
-            backgroundColor: [{% for etablissement in etablissements %}'{{etablissement.color}}',{% endfor %}],
+            label: 'Laboratoires',
+            backgroundColor: {{enseignants.colors|safe}},
             borderColor: '#FFF',
-            data: [{% for etablissement in etablissements %}'{{etablissement.enseignants.count}}',{% endfor %}],
+            data: {{enseignants.data|safe}}
             }]
         },
         options: {}
@@ -147,12 +146,12 @@ new Chart(document.getElementById('enseignants-chart'),{
 new Chart(document.getElementById('doctorants-chart'),{
         type: 'doughnut',
         data: {
-            labels: [{% for pay in pays %}'{{pay.nom}}',{% endfor %}],
+            labels: {{doctorants.labels|safe}},
             datasets: [{
-            label: 'pays',
-            backgroundColor: [{% for pay in pays %}'{{pay.color}}',{% endfor %}],
-            borderColor: '#FFF',
-            data: [{% for pay in pays %}'{{pay.doctorants.count}}',{% endfor %}],
+                label: 'Laboratoires',
+                backgroundColor: {{doctorants.colors|safe}},
+                borderColor: '#FFF',
+                data: {{doctorants.data|safe}}
             }]
         },
         options: {}
@@ -161,12 +160,12 @@ new Chart(document.getElementById('doctorants-chart'),{
 new Chart(document.getElementById('inscriptions-chart'),{
         type: 'bar',
         data: {
-            labels: [{% for annee in annees %}'{{annee.intitule}}',{% endfor %}],
+            labels: {{inscriptions.labels|safe}},
             datasets: [{
-            label: 'Inscriptions / Année',
-            backgroundColor: [{% for annee in annees %}'{{annee.color}}',{% endfor %}],
-            borderColor: '#FFF',
-            data: [{% for annee in annees %}'{{annee.inscriptions.count}}',{% endfor %}],
+                label: 'Inscriptions / Année',
+                backgroundColor: {{inscriptions.colors|safe}},
+                borderColor: '#FFF',
+                data: {{inscriptions.data|safe}}
             }]
         },
     options: {
@@ -181,32 +180,32 @@ new Chart(document.getElementById('inscriptions-chart'),{
 new Chart(document.getElementById('laboratoires-chart'),{
         type: 'radar',
         data: {
-            labels: [{% for labo in laboratoires %}'{{labo.acronyme}}',{% endfor %}],
+            labels: {{laboratoires.labels|safe}},
             datasets: [{
-            label: 'Sujets / Laboratoire',
-            backgroundColor: [{% for labo in laboratoires %}'{{labo.color}}',{% endfor %}],
-            borderColor: '#FFF',
-            data: [{% for labo in laboratoires %}'{{labo.sujets.count}}',{% endfor %}],
+                label: 'Sujets / Laboratoire',
+                backgroundColor: {{laboratoires.colors|safe}},
+                borderColor: '#FFF',
+                data: {{laboratoires.data|safe}}
             }]
         },
-    options: {
-    scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    },
+        options: {
+            scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
     }
 );
 new Chart(document.getElementById('sujets-chart'),{
         type: 'bar',
         data: {
-            labels: [{% for annee in annees %}'{{annee.intitule}}',{% endfor %}],
+            labels: {{sujets.labels|safe}},
             datasets: [{
-            label: 'Sujets / Année',
-            backgroundColor: [{% for annee in annees %}'{{annee.color}}',{% endfor %}],
-            borderColor: '#FFF',
-            data: [{% for annee in annees %}'{{annee.sujets.count}}',{% endfor %}],
+                label: 'Sujets / Année',
+                backgroundColor: {{sujets.colors|safe}},
+                borderColor: '#FFF',
+                data: {{sujets.data|safe}}
             }]
         },
     options: {
@@ -221,12 +220,12 @@ new Chart(document.getElementById('sujets-chart'),{
 new Chart(document.getElementById('publications-chart'),{
         type: 'bar',
         data: {
-            labels: [{% for annee in annees %}'{{annee.intitule}}',{% endfor %}],
+            labels: {{publications.labels|safe}},
             datasets: [{
-            label: 'Publications / Année',
-            backgroundColor: [{% for annee in annees %}'{{annee.color}}',{% endfor %}],
-            borderColor: '#FFF',
-            data: {{publications}},
+                label: 'Publications / Année',
+                backgroundColor: {{publications.colors|safe}},
+                borderColor: '#FFF',
+                data: {{publications.data|safe}}
             }]
         },
     options: {
@@ -236,6 +235,26 @@ new Chart(document.getElementById('publications-chart'),{
             }
         }
     },
+    }
+);
+new Chart(document.getElementById('formations-chart'),{
+        type: 'radar',
+        data: {
+            labels: {{formations.labels|safe}},
+            datasets: [{
+                label: 'Sujets / Laboratoire',
+                backgroundColor: {{formations.colors|safe}},
+                borderColor: '#FFF',
+                data: {{formations.data|safe}}
+            }]
+        },
+        options: {
+            scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            },
     }
 );
 </script>

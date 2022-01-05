@@ -1,10 +1,13 @@
 from django import forms
 from datetime import datetime
+from django.forms import widgets
+
+from django.views.generic.edit import FormView
 
 from CED_Tools.tools.Constants import SEXES
 from CED_Tools.models import Annee
 
-from .models import Doctorant, Cursus, Inscription, Retrait, RetraitType
+from .models import Doctorant, Cursus, Inscription, Publication, Retrait, RetraitType
 
 class DoctorantCreateForm(forms.ModelForm):
     class Meta:
@@ -47,7 +50,7 @@ class RetraitCreateForm(forms.ModelForm):
         model = Retrait
         fields = '__all__'
         widgets = {'doctorant': forms.HiddenInput(), 'date_retour':forms.DateTimeInput(attrs={'type': 'datetime-local', 'max':datetime.now().strftime("%Y-%m-%dT%H:%M:%S") })}
-    def __init__(self, *args, **kwargs) -> None:
+    def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'instance' in kwargs and kwargs['instance']:
             retraits = kwargs['initial']['doctorant'].retraits.exclude(type_id=kwargs['instance'].type_id).values_list('type_id')
@@ -56,4 +59,15 @@ class RetraitCreateForm(forms.ModelForm):
             self.fields['date_retour'].widget = forms.HiddenInput()
             retraits = kwargs['initial']['doctorant'].retraits.values_list('type_id')
             self.fields['type'].queryset = RetraitType.objects.exclude(pk__in=retraits)
-        
+
+class PublicationCreateForm(forms.ModelForm):
+    class Meta:
+        model = Publication
+        fields = '__all__'
+        widgets = {"date":forms.DateTimeInput(attrs={'type': 'datetime-local'})}
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'instance' in kwargs and kwargs['instance']:
+            pass
+        else:
+            pass

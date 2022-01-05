@@ -4,7 +4,7 @@
     {% load i18n %}
     {% get_current_language as LANGUAGE_CODE %}
 {% endif %}
-<form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form ajax-form" action="{% url 'cursus-edit' form.initial.doctorant.pk cursus.pk %}" method="post">
+<form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form ajax-form" action="{{form.initial.action}}" method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
     <div class="w-100">

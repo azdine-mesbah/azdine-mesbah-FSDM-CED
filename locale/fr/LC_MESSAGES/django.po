@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-30 09:19+0100\n"
+"POT-Creation-Date: 2022-01-05 14:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,16 +20,23 @@ msgstr ""
 
 #: .\Administration\templates\ajax_departement_create.html:11
 #: .\Administration\templates\ajax_enseignant_create.html:11
+#: .\Administration\templates\ajax_formation_c_create.html:11
+#: .\Administration\templates\ajax_formation_c_detail.html:11
+#: .\Administration\templates\ajax_formation_d_create.html:11
 #: .\Administration\templates\ajax_laboratoire_create.html:11
 #: .\Administration\templates\ajax_laboratoire_detail.html:11
 #: .\Administration\templates\ajax_sujet_create.html:11
 #: .\Administration\templates\ajax_sujet_detail.html:11
 #: .\Administration\templates\departement_detail.html:19
 #: .\Administration\templates\enseignant_detail.html:19
+#: .\Administration\templates\formation_d_detail.html:19
 #: .\Etudiant\templates\ajax_cursus_create.html:11
 #: .\Etudiant\templates\ajax_cursus_detail.html:11
+#: .\Etudiant\templates\ajax_form.html:11
 #: .\Etudiant\templates\ajax_inscription_create.html:11
 #: .\Etudiant\templates\ajax_inscription_detail.html:11
+#: .\Etudiant\templates\ajax_publication_create.html:11
+#: .\Etudiant\templates\ajax_publication_detail.html:11
 #: .\Etudiant\templates\ajax_retrait_create.html:11
 #: .\Etudiant\templates\ajax_retrait_detail.html:11
 #: .\Etudiant\templates\doctorant_create.html:14
@@ -39,16 +46,23 @@ msgstr "Enregistrer"
 
 #: .\Administration\templates\ajax_departement_create.html:11
 #: .\Administration\templates\ajax_enseignant_create.html:11
+#: .\Administration\templates\ajax_formation_c_create.html:11
+#: .\Administration\templates\ajax_formation_c_detail.html:11
+#: .\Administration\templates\ajax_formation_d_create.html:11
 #: .\Administration\templates\ajax_laboratoire_create.html:11
 #: .\Administration\templates\ajax_laboratoire_detail.html:11
 #: .\Administration\templates\ajax_sujet_create.html:11
 #: .\Administration\templates\ajax_sujet_detail.html:11
 #: .\Administration\templates\departement_detail.html:19
 #: .\Administration\templates\enseignant_detail.html:19
+#: .\Administration\templates\formation_d_detail.html:19
 #: .\Etudiant\templates\ajax_cursus_create.html:11
 #: .\Etudiant\templates\ajax_cursus_detail.html:11
+#: .\Etudiant\templates\ajax_form.html:11
 #: .\Etudiant\templates\ajax_inscription_create.html:11
 #: .\Etudiant\templates\ajax_inscription_detail.html:11
+#: .\Etudiant\templates\ajax_publication_create.html:11
+#: .\Etudiant\templates\ajax_publication_detail.html:11
 #: .\Etudiant\templates\ajax_retrait_create.html:11
 #: .\Etudiant\templates\ajax_retrait_detail.html:11
 #: .\Etudiant\templates\doctorant_create.html:14
@@ -58,6 +72,7 @@ msgstr "Effacer"
 
 #: .\Administration\templates\departement_detail.html:13
 #: .\Administration\templates\enseignant_detail.html:13
+#: .\Administration\templates\formation_d_detail.html:13
 #: .\Etudiant\templates\doctorant_detail.html:13
 msgid "Edit"
 msgstr "Modifier"
@@ -66,22 +81,28 @@ msgstr "Modifier"
 #: .\Administration\templates\departement_index.html:19
 #: .\Administration\templates\enseignant_detail.html:28
 #: .\Administration\templates\enseignant_index.html:19
+#: .\Administration\templates\formation_d_detail.html:27
+#: .\Administration\templates\formation_index.html:19
 #: .\Etudiant\templates\doctorant_detail.html:28
-#: .\Etudiant\templates\doctorant_detail.html:73
-#: .\Etudiant\templates\doctorant_detail.html:108
+#: .\Etudiant\templates\doctorant_detail.html:63
+#: .\Etudiant\templates\doctorant_detail.html:104
+#: .\Etudiant\templates\doctorant_detail.html:149
 #: .\Etudiant\templates\doctorant_index.html:19
 msgid "Add"
 msgstr "Ajouter"
 
-#: .\Administration\templates\departement_detail.html:49
-#: .\Administration\templates\departement_index.html:43
+#: .\Administration\templates\departement_detail.html:51
+#: .\Administration\templates\departement_index.html:44
 #: .\Administration\templates\enseignant_detail.html:56
 #: .\Administration\templates\enseignant_detail.html:86
-#: .\Administration\templates\enseignant_index.html:47
-#: .\Etudiant\templates\doctorant_detail.html:60
-#: .\Etudiant\templates\doctorant_detail.html:95
-#: .\Etudiant\templates\doctorant_detail.html:131
-#: .\Etudiant\templates\doctorant_index.html:45
+#: .\Administration\templates\enseignant_index.html:48
+#: .\Administration\templates\formation_d_detail.html:49
+#: .\Administration\templates\formation_index.html:46
+#: .\Etudiant\templates\doctorant_detail.html:50
+#: .\Etudiant\templates\doctorant_detail.html:90
+#: .\Etudiant\templates\doctorant_detail.html:136
+#: .\Etudiant\templates\doctorant_detail.html:173
+#: .\Etudiant\templates\doctorant_index.html:46
 msgid "Are you sure you want to delete"
 msgstr "Etes-vous sûr que vous voulez supprimer"
 
@@ -89,95 +110,94 @@ msgstr "Etes-vous sûr que vous voulez supprimer"
 #: .\Administration\templates\departement_index.html:15
 #: .\Administration\templates\enseignant_index.html:14
 #: .\Administration\templates\enseignant_index.html:15
+#: .\Administration\templates\formation_index.html:14
+#: .\Administration\templates\formation_index.html:15
 #: .\Etudiant\templates\doctorant_index.html:14
 #: .\Etudiant\templates\doctorant_index.html:15
 msgid "Search"
 msgstr "Rechercher"
 
-#: .\Administration\templates\departement_index.html:41
-#: .\Administration\templates\enseignant_index.html:45
-#: .\Etudiant\templates\doctorant_index.html:43
+#: .\Administration\templates\departement_index.html:42
+#: .\Administration\templates\enseignant_index.html:46
+#: .\Administration\templates\formation_index.html:44
+#: .\Etudiant\templates\doctorant_index.html:44
 msgid "Details"
 msgstr "Détails"
 
-#: .\Administration\templates\departement_index.html:45
-#: .\Administration\templates\enseignant_index.html:49
-#: .\Etudiant\templates\doctorant_index.html:47
+#: .\Administration\templates\departement_index.html:46
+#: .\Administration\templates\enseignant_index.html:50
+#: .\Administration\templates\formation_index.html:48
+#: .\Etudiant\templates\doctorant_index.html:48
 msgid "Delete"
 msgstr "Supprimer"
+
+#: .\CED_Tools\models.py:63
+msgid "Download"
+msgstr "Télécharger"
 
 #: .\CED_Tools\tools\Functions.py:75
 #, python-format
 msgid "%(value)s is not a valid birthday"
 msgstr "%(value)s n'est pas une date de naissance valide"
 
-#: .\Dashboard\templates\base.html:71
+#: .\Dashboard\templates\base.html:68
+#: .\Dashboard\templates\includes\sidebar.html:14
+msgid "Dashboard"
+msgstr "Tableau de bord"
+
+#: .\Dashboard\templates\base.html:78
+#: .\Dashboard\templates\includes\sidebar.html:24
+msgid "Départements"
+msgstr ""
+
+#: .\Dashboard\templates\base.html:88
+#: .\Dashboard\templates\includes\sidebar.html:34
+msgid "Enseignants"
+msgstr ""
+
+#: .\Dashboard\templates\base.html:98
+#: .\Dashboard\templates\includes\sidebar.html:44
+msgid "Doctorants"
+msgstr ""
+
+#: .\Dashboard\templates\base.html:108
+#: .\Dashboard\templates\includes\sidebar.html:54
+#, fuzzy
+#| msgid "Duration"
+msgid "Formations"
+msgstr "Durée"
+
+#: .\Dashboard\templates\base.html:130
 msgid "Logout"
 msgstr "Se déconnecter"
 
-#: .\Dashboard\templates\base.html:81
+#: .\Dashboard\templates\base.html:140
 #: .\Dashboard\templates\registration\login.html:11
 #: .\Dashboard\templates\registration\login.html:17
 msgid "Login"
 msgstr "Se connecter"
 
-#: .\Dashboard\templates\includes\sidebar.html:14
-msgid "Dashboard"
-msgstr "Tableau de bord"
-
-#: .\Dashboard\templates\includes\sidebar.html:24
-msgid "Départements"
-msgstr ""
-
-#: .\Dashboard\templates\includes\sidebar.html:34
-msgid "Enseignants"
-msgstr ""
-
-#: .\Dashboard\templates\includes\sidebar.html:44
-msgid "Doctorants"
-msgstr ""
-
-#: .\Etudiant\models.py:133
+#: .\Etudiant\models.py:136
 msgid "Definitive Withdrawal"
 msgstr "Retrait définitif"
 
-#: .\Etudiant\templates\doctorant_detail.html:34
-#: .\Etudiant\templates\doctorant_detail.html:114
-msgid "Type"
-msgstr ""
+#~ msgid "Speciality"
+#~ msgstr "Spécialité"
 
-#: .\Etudiant\templates\doctorant_detail.html:35
-msgid "Speciality"
-msgstr "Spécialité"
+#~ msgid "Establishment"
+#~ msgstr "Établissement"
 
-#: .\Etudiant\templates\doctorant_detail.html:36
-msgid "Establishment"
-msgstr "Établissement"
+#~ msgid "City"
+#~ msgstr "Ville"
 
-#: .\Etudiant\templates\doctorant_detail.html:37
-msgid "City"
-msgstr "Ville"
+#~ msgid "Year"
+#~ msgstr "An"
 
-#: .\Etudiant\templates\doctorant_detail.html:38
-msgid "Year"
-msgstr "An"
+#~ msgid "Average"
+#~ msgstr "Moyenne"
 
-#: .\Etudiant\templates\doctorant_detail.html:39
-msgid "Duration"
-msgstr "Durée"
+#~ msgid "Withdraw Date"
+#~ msgstr "Date de retrait"
 
-#: .\Etudiant\templates\doctorant_detail.html:40
-msgid "Mention"
-msgstr ""
-
-#: .\Etudiant\templates\doctorant_detail.html:41
-msgid "Average"
-msgstr "Moyenne"
-
-#: .\Etudiant\templates\doctorant_detail.html:115
-msgid "Withdraw Date"
-msgstr "Date de retrait"
-
-#: .\Etudiant\templates\doctorant_detail.html:116
-msgid "Return Date"
-msgstr "Date de retour"
+#~ msgid "Return Date"
+#~ msgstr "Date de retour"

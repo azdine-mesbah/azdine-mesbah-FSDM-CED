@@ -7,7 +7,7 @@
 {% endif %}
 {% block title %}List Doctorants{% endblock %}
 {% block content %}
-    <form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form text-center" enctype="multipart/form-data" action="{% url 'doctorant-create' %}" method="post">
+    <form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form  ajax-form text-center" enctype="multipart/form-data" action="{% url 'doctorant-create' %}" method="post">
         {% csrf_token %}
         {% bootstrap_form form %}
         <div class="w-100">

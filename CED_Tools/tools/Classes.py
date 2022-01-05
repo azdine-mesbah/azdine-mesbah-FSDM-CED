@@ -1,5 +1,6 @@
 from django.db import models
 from softdelete.models import SoftDeleteObject
+from random import randint
 
 class TimeStampedModel(SoftDeleteObject):
     """
@@ -11,3 +12,7 @@ class TimeStampedModel(SoftDeleteObject):
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def color(self):
+        return "#{:06x}".format(randint(0, 0xFFFFFF))

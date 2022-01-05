@@ -5,18 +5,18 @@
     {% load i18n %}
     {% get_current_language as LANGUAGE_CODE %}
 {% endif %}
-{% block title %}List Doctorants{% endblock %}
+{% block title %}List des Formations{% endblock %}
 {% block content %}
 <div class="border p-3 my-3 row">
         <div class="col-12 col-md-8">
-            <h3>List des Doctorants </h3>
-            <form action="{% url 'doctorant-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
+            <h3>List des Formations</h3>
+            <form action="{% url 'formation-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
                 <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
                 <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
             </form>
         </div>
         <div class="col-12 col-md-4 d-flex">
-            <a class="btn btn-primary mt-auto ms-auto" href="{% url 'doctorant-create' %}">{% trans 'Add' %}</a>
+            <a class="btn btn-primary mt-auto ms-auto btn-ajax-form" href="{% url 'formation-create' %}">{% trans 'Add' %}</a>
         </div>
 </div>
 {% bootstrap_pagination page_obj %}
@@ -24,26 +24,26 @@
 <table class="table table-responsive border">
     <thead>
     <tr scope="row">
-        <th scope="col">NOM</th>
-        <th scope="col">PRENOM</th>
-        <th scope="col">CIN</th>
-        <th scope="col">CNE</th>
+        <th scope="col">Acronyme</th>
+        <th scope="col">Intitule</th>
+        <th scope="col">Description</th>
+        <th scope="col">Coordonateur</th>
         <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
-        {% for doc in doctorants %}
-            <tr id="doctorant-{{doc.id}}">
-                <td>{{doc.nom}}</td>
-                <td>{{doc.prenom}}</td>
-                <td>{{doc.cin}}</td>
-                <td>{{doc.cne}}</td>
+        {% for formation in formations %}
+            <tr id="formation-{{formation.id}}">
+                <td>{{formation.acronyme}}</td>
+                <td>{{formation.intitule}}</td>
+                <td>{{formation.description}}</td>
+                <td>{{formation.co_ordonateur}}</td>
                 <td class="d-flex">
-                    <a class="btn btn-info text-white ms-auto me-3" href="{% url 'doctorant-detail' doc.id %}">
+                    <a class="btn btn-info text-white ms-auto me-3" href="{% url 'formation-detail' formation.pk %}">
                         <i class="fas fa-info-circle"></i>
                         {% trans 'Details' %}
                     </a>
-                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ doc }} ?" data-target="#doctorant-{{doc.id}}" href="{% url 'doctorant-delete' doc.id %}">
+                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ formation }} ?" data-target="#formation-{{formation.id}}" href="{% url 'formation-delete' formation.pk %}">
                         <i class="fas fa-trash"></i>
                         {% trans 'Delete' %}
                     </a>

@@ -1,6 +1,6 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Departement, Laboratoire, Enseignant, LaboratoireDirecteur, Sujet
+from .models import Departement, FormationComplementaire, FormationDoctorale, Laboratoire, Enseignant, LaboratoireDirecteur, Sujet
 
 class DepartmentCreateForm(forms.ModelForm):
     class Meta:
@@ -66,3 +66,29 @@ class SujetCreateForm(SujetAdminCreateForm):
         model = Sujet
         fields = '__all__'
         widgets = {'directeur':forms.HiddenInput(),'laboratoire':forms.HiddenInput()}
+
+class FormationDoctoraleCreateForm(forms.ModelForm):
+    class Meta:
+        model = FormationDoctorale
+        fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        current_coordenateurs = FormationDoctorale.objects.all()
+        if 'instance' in kwargs and kwargs['instance']:
+            current_coordenateurs = current_coordenateurs.exclude(pk=kwargs['instance'].pk)
+            self.fields['co_ordonateur'].initial = kwargs['instance'].co_ordonateur
+        self.fields['co_ordonateur'].queryset = Enseignant.objects.exclude(pk__in=[_.co_ordonateur_id for _ in current_coordenateurs])
+
+class FormationComplementaireCreateForm(forms.ModelForm):
+    class Meta:
+        model = FormationComplementaire
+        fields = '__all__'
+        widgets = {'formation_doctorale': forms.HiddenInput()}
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if 'instance' in kwargs and kwargs['instance']:
+            pass
+        else:
+            self.fields['formation_doctorale'].initial = self.initial['formation']

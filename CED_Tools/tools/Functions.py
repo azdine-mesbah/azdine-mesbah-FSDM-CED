@@ -28,7 +28,7 @@ def photo_upload_to(instance, filename):
 def file_upload_to(instance, filename):
     return f"files/{id_generator()}_-_{filename}"
 
-def safe_image_tag(src=getattr(settings, "MEDIA_ROOT", "/media")+"/photos/no_image.jpg"):
+def safe_image_tag(src=getattr(settings, "MEDIA_URL", "/media")+"photos/no_photo.svg"):
     return mark_safe(f'<img src="{src}" style="width:100%;max-width:300px"/>')
 
 def avg_to_mention(avg):

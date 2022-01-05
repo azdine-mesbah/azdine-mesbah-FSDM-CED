@@ -45,5 +45,15 @@
       </a>
     </li>
     {% endif %}
+
+    {% url 'formation-list' as formation_list %}
+    {% if formation_list and perms.Administration.view_formation %}
+    <li class="nav-item">
+      <a href="{% url 'formation-list' %}" class="nav-link text-light {% if 'formation' in request.resolver_match.url_name %}active{% endif %}">
+        <i class="fas fa-chalkboard-teacher"></i>
+        <span class="ms-2">{% trans 'Formations' %}</span>
+      </a>
+    </li>
+    {% endif %}
   </ul>
 </div>

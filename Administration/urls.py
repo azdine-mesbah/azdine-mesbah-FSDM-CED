@@ -23,4 +23,16 @@ urlpatterns = [
     path('enseignants/<int:enseignant_id>/sujets/detail/<int:pk>', views.SujetEditView.as_view(), name="sujet-detail"),
     path('enseignants/<int:enseignant_id>/sujets/edit/<int:pk>', views.SujetEditView.as_view(), name="sujet-edit"),
     path('enseignants/<int:enseignant_id>/sujets/delete/<int:pk>', views.SujetDeleteView.as_view(), name="sujet-delete"),
+
+    path('formations/', views.FormationDoctoraleListView.as_view(), name="formation-list"),
+    path('formations/create/', views.FormationDoctoraleCreateView.as_view(), name="formation-create"),
+    path('formations/detail/<int:pk>', views.FormationDoctoraleDetailView.as_view(), name="formation-detail"),
+    path('formations/edit/<int:pk>', views.FormationDoctoraleEditView.as_view(), name="formation-edit"),
+    path('formations/delete/<int:pk>', views.FormationDoctoraleDeleteView.as_view(), name="formation-delete"),
+
+    path('formations/<int:formation_id>/c/create/', views.FormationComplementaireCreateView.as_view(), name="formation-c-create"),
+    path('formations/<int:formation_id>/fc/detail/<int:pk>', views.FormationComplementaireEditView.as_view(), name="formation-c-detail"),
+    path('formations/<int:formation_id>/fc/edit/<int:pk>', views.FormationComplementaireEditView.as_view(), name="formation-c-edit"),
+    path('formations/<int:formation_id>/fc/delete/<int:pk>', views.FormationComplementaireDeleteView.as_view(), name="formation-c-delete"),
+    
 ]

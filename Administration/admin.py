@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Departement, Laboratoire, Etablissement, Enseignant, Sujet
+from .models import Departement, Laboratoire, Etablissement, Enseignant, Sujet, FormationDoctorale, TypeFormationComplementaire, FormationComplementaire
 from .forms import LaboratoireAdminCreateForm, SujetAdminCreateForm
 
 @admin.register(Departement)
@@ -15,14 +15,14 @@ class EtablissementAdmin(admin.ModelAdmin):
 @admin.register(Enseignant)
 class EnseignantAdmin(admin.ModelAdmin):
     list_display = ('nom', 'prenom', 'telephone', 'etablissement')
-    search_fields = ('nom', 'prenom','etablissement')
+    search_fields = ('nom', 'prenom','cin','som','etablissement__intitule','etablissement__description')
 
 @admin.register(Laboratoire)
 class LaboratoireAdmin(admin.ModelAdmin):
-    list_display = ('acronyme', 'intitule','departement')
+    list_display = ('acronyme', 'intitule','departement','formation_doctorale')
     search_fields = ('intitule', 'acronyme','departement__intitule')
-    list_filter = ('departement',)
-    autocomplete_fields = ('departement',)
+    list_filter = ('departement','formation_doctorale')
+    autocomplete_fields = ('departement','formation_doctorale')
     form = LaboratoireAdminCreateForm
 
 @admin.register(Sujet)
@@ -39,3 +39,19 @@ class SujetAdmin(admin.ModelAdmin):
         if obj.co_directeur and obj.co_directeur.pk == obj.directeur.pk:
             obj.co_directeur = None
         return super().save_model(request, obj, form, change)
+
+@admin.register(FormationDoctorale)
+class FormationDoctoraleAdmin(admin.ModelAdmin):
+    list_display = ('intitule',)
+    search_fields = ('intitule','acronyme','co_ordonateur__nom', 'co_ordonateur__prenom','co_ordonateur__cin','co_ordonateur__som')
+    autocomplete_fields = ('co_ordonateur',)
+
+@admin.register(TypeFormationComplementaire)
+class TypeFormationComplementaireAdmin(admin.ModelAdmin):
+    list_display = ('intitule',)
+    search_fields = ('intitule',)
+
+@admin.register(FormationComplementaire)
+class TypeFormationComplementaireAdmin(admin.ModelAdmin):
+    list_display = ('intitule','type')
+    search_fields = ('intitule','type__intitule')

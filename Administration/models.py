@@ -1,7 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 from CED_Tools.tools.Classes import TimeStampedModel
 from CED_Tools.models import Annee, Pays
@@ -49,6 +49,17 @@ class Enseignant(TimeStampedModel):
         except:
             return None
 
+class FormationDoctorale(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_formations_doctorales'
+    intitule = models.CharField(max_length=255)
+    description = models.CharField(max_length=255)
+    acronyme = models.CharField(max_length=255)
+    co_ordonateur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name="formations_doctorales")
+
+    def __str__(self) -> str:
+        return f"({self.acronyme}) {self.intitule}"
+
 class Laboratoire(TimeStampedModel):
     class Meta:
         db_table = 'ced_laboratoires'
@@ -56,6 +67,7 @@ class Laboratoire(TimeStampedModel):
     intitule = models.CharField(max_length=255)
     acronyme = models.CharField(max_length=255)
     departement = models.ForeignKey(Departement, on_delete=models.DO_NOTHING, related_name="laboratoires")
+    formation_doctorale = models.ForeignKey(FormationDoctorale, on_delete=models.DO_NOTHING, related_name="laboratoires")
 
     def __str__(self):
         return f'({self.acronyme}) {self.intitule} -- {self.get_current_directeur()}'
@@ -89,3 +101,24 @@ class Sujet(TimeStampedModel):
 
     def __str__(self):
         return f"({self.annee}) {self.intitule}"
+
+class TypeFormationComplementaire(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_types_formations_complementaires'
+
+    intitule = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.intitule
+
+class FormationComplementaire(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_formations_complementaires'
+
+    type = models.ForeignKey(TypeFormationComplementaire, on_delete=models.DO_NOTHING, related_name='formations_complementaires')
+    formation_doctorale = models.ForeignKey(FormationDoctorale, on_delete=models.DO_NOTHING, related_name='formations_complementaires')
+    intitule = models.CharField(max_length=255)
+    volume_horaire = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(200)])
+
+    def __str__(self) -> str:
+        return self.intitule

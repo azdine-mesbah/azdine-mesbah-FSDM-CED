@@ -13,7 +13,7 @@
         <button class="enable-edit-form btn btn-danger ms-auto" data-target="#enseignant-edit-form">{% trans 'Edit' %}</button>
     </div>
     <form id="enseignant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'enseignant-edit' enseignant.pk %}" method="post">
-        <fieldset class="d-flex w-100 justify-content-between" disabled>
+        <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>
         {% csrf_token %}
         {% bootstrap_form form layout='inline' %}
         {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
@@ -30,7 +30,7 @@
             <h3 class="text-decoration-underline">Co-Sujets :</h3>
             {% endif %}
         </div>
-        <div class="border">
+        <div class="border table-responsive">
             {% if enseignant.get_current_laboratoire %}
             <table class="table">
                 <thead>
