@@ -47,7 +47,7 @@
                                     <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'inscription-detail' doctorant.pk inscription.pk %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ inscription }} ?" data-target="#inscription-{{inscription.id}}" href="{% url 'inscription-delete' doctorant.pk inscription.pk %}">
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="Si vous supprimez cette Inscription, les Publications associées à celle-ci seront également supprimées. Etes-vous sûr que vous voulez supprimer {{ inscription }} ?" data-target="#inscription-{{inscription.id}}" href="{% url 'inscription-delete' doctorant.pk inscription.pk %}">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
@@ -133,7 +133,7 @@
                                     <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'cursus-detail' doctorant.pk cursus.pk %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ cursus }} ?" data-target="#cursus-{{cursus.id}}" href="{% url 'cursus-delete' doctorant.pk cursus.pk %}">
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ cursus }} ?" data-target="#cursus-{{cursus.id}}" href="{% url 'cursus-delete' doctorant.pk cursus.pk %}">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 </td>
@@ -170,7 +170,7 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 {% if not retrait.definitif %}
-                                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ retrait }} ?" data-target="#retrait-{{retrait.id}}" href="{% url 'retrait-delete' doctorant.pk retrait.pk %}">
+                                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ retrait }} ?" data-target="#retrait-{{retrait.id}}" href="{% url 'retrait-delete' doctorant.pk retrait.pk %}">
                                         <i class="fas fa-trash"></i>
                                     </a>
                                 {% endif %}

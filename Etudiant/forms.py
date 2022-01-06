@@ -49,7 +49,7 @@ class RetraitCreateForm(forms.ModelForm):
     class Meta:
         model = Retrait
         fields = '__all__'
-        widgets = {'doctorant': forms.HiddenInput(), 'date_retour':forms.DateTimeInput(attrs={'type': 'datetime-local', 'max':datetime.now().strftime("%Y-%m-%dT%H:%M:%S") })}
+        widgets = {'doctorant': forms.HiddenInput(), 'date_retour':forms.DateTimeInput(attrs={'type': 'datetime-local', 'max':datetime.now().strftime("%Y-%m-%d") })}
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         if 'instance' in kwargs and kwargs['instance']:

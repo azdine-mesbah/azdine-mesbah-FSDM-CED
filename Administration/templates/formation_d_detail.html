@@ -46,7 +46,7 @@
                             <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'formation-c-detail' formation.pk fc.pk %}">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ fc }} ?" data-target="#fc-{{fc.id}}" href="{% url 'formation-c-delete' formation.pk fc.pk %}">
+                            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ fc }} ?" data-target="#fc-{{fc.id}}" href="{% url 'formation-c-delete' formation.pk fc.pk %}">
                                 <i class="fas fa-trash"></i>
                             </a>
                         </td>

@@ -67,6 +67,7 @@ class CursusCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'Doctorant.add_cursus'
     template_name = 'ajax_cursus_create.html'
     form_class = CursusCreateForm
+    model = Cursus
 
     def get_initial(self):
         doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
@@ -81,34 +82,18 @@ class CursusCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
             return JsonResponse({"redirect":self.get_success_url()}, status=302)
         return super().form_valid(form)
 
-class CursusEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class CursusEditView(CursusCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Doctorant.edit_cursus'
-    model = Cursus
     template_name = 'ajax_cursus_detail.html'
-    form_class = CursusCreateForm
 
-    def get_initial(self):
-        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
-        return {"doctorant":doctorant}
-
-    def get_success_url(self):
-        return reverse('doctorant-detail', kwargs={'pk':self.kwargs.get('doctorant_id')})
-
-class CursusDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class CursusDeleteView(CursusEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Doctorant.delete_cursus'
-    model = Cursus
-
-    def get_initial(self):
-        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
-        return {"doctorant":doctorant}
-
-    def get_success_url(self):
-        return reverse('doctorant-detail', kwargs={'pk':self.kwargs.get('doctorant_id')})
 
 
 # Retrait CRUD
 class RetraitCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'Doctorant.add_retrait'
+    model = Retrait
     form_class = RetraitCreateForm
     template_name = 'ajax_retrait_create.html'
 
@@ -125,29 +110,12 @@ class RetraitCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
             return JsonResponse({"redirect":self.get_success_url()}, status=302)
         return super().form_valid(form)
 
-class RetraitEditView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class RetraitEditView(RetraitCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Doctorant.edit_retrait'
-    model = Retrait
     template_name = 'ajax_retrait_detail.html'
-    form_class = RetraitCreateForm
 
-    def get_initial(self):
-        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
-        return {"doctorant":doctorant}
-
-    def get_success_url(self):
-        return reverse('doctorant-detail', kwargs={'pk':self.kwargs.get('doctorant_id')})
-
-class RetraitDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class RetraitDeleteView(RetraitEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Doctorant.delete_retrait'
-    model = Retrait
-    
-    def get_initial(self):
-        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
-        return {"doctorant":doctorant}
-
-    def get_success_url(self):
-        return reverse('doctorant-detail', kwargs={'pk':self.kwargs.get('doctorant_id')})
 
 
 # Inscription CRUD
@@ -155,6 +123,7 @@ class InscriptionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     permission_required = 'Doctorant.add_inscription'
     form_class = InscriptionCreateForm
     template_name = 'ajax_inscription_create.html'
+    model = Inscription
 
     def get_initial(self):
         doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
@@ -171,7 +140,6 @@ class InscriptionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
 
 class InscriptionEditView(InscriptionCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Doctorant.edit_inscription'
-    model = Inscription
     template_name = 'ajax_inscription_detail.html'
 
 class InscriptionDeleteView(InscriptionEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -181,8 +149,9 @@ class InscriptionDeleteView(InscriptionEditView, LoginRequiredMixin, PermissionR
 # Publication CRUD
 class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'Doctorant.add_publication'
-    form_class = PublicationCreateForm
     template_name = 'ajax_publication_create.html'
+    form_class = PublicationCreateForm
+    model = Publication
 
     def get_initial(self):
         doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
@@ -199,7 +168,6 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
     
 class PublicationEditView(PublicationCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Doctorant.edit_publication'
-    model = Publication
     template_name = 'ajax_publication_detail.html'
 
 class PublicationDeleteView(PublicationEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):

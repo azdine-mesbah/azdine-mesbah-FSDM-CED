@@ -154,8 +154,6 @@ class LaboratoireEditView(LaboratoireCreateView, LoginRequiredMixin, PermissionR
 class LaboratoireDeleteView(LaboratoireEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Administration.delete_laboratoire'
     model = Laboratoire
-    def get_success_url(self):
-        return reverse('departement-detail', kwargs={'pk':self.kwargs.get('departement_id')})
 
 
 # Sujet CRUD
@@ -163,6 +161,7 @@ class SujetCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     permission_required = 'Administration.add_sujet'
     template_name = 'ajax_sujet_create.html'
     form_class = SujetCreateForm
+    model = Sujet
 
     def get_initial(self):
         enseignant = get_object_or_404(Enseignant, pk=self.kwargs.get('enseignant_id'))
@@ -180,14 +179,9 @@ class SujetCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 class SujetEditView(SujetCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Administration.edit_sujet'
     template_name = 'ajax_sujet_detail.html'
-    model = Sujet
-
-class SujetDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    permission_required = 'Administration.delete_sujet'
-    model = Sujet
     
-    def get_success_url(self):
-        return reverse('enseignant-detail', kwargs={'pk':self.kwargs.get('enseignant_id')})
+class SujetDeleteView(SujetEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'Administration.delete_sujet'
 
 
 # Formation doctorale CRUD
@@ -252,6 +246,8 @@ class FormationComplementaireCreateView(LoginRequiredMixin, PermissionRequiredMi
     permission_required = 'Administration.add_formation_complementaire'
     template_name = 'ajax_formation_c_create.html'
     form_class = FormationComplementaireCreateForm
+    model = FormationComplementaire
+    context_object_name = 'fc'
     
     def get_initial(self):
         formation = get_object_or_404(FormationDoctorale, pk=self.kwargs.get('formation_id'))
@@ -270,12 +266,7 @@ class FormationComplementaireCreateView(LoginRequiredMixin, PermissionRequiredMi
 class FormationComplementaireEditView(FormationComplementaireCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     permission_required = 'Administration.edit_formation_complementaire'
     template_name = 'ajax_formation_c_detail.html'
-    model = FormationComplementaire
-    context_object_name = 'fc'
 
-class FormationComplementaireDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+class FormationComplementaireDeleteView(FormationComplementaireEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Administration.delete_formation_complementaire'
-    model = FormationComplementaire
 
-    def get_success_url(self):
-        return reverse('formation-detail', kwargs={'pk':self.kwargs.get('formation_id')})
