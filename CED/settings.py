@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'fontawesome',
     'softdelete',
     'phonenumber_field',
-    'pandas',
     'humanize',
     'CED_Tools',
     'Dashboard',
