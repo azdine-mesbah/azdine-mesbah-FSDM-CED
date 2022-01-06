@@ -1,6 +1,5 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
-from django.utils.translation import gettext as _
 from django.core.validators import MaxValueValidator, MinValueValidator
 from datetime import datetime
 from numpy import busday_count
@@ -133,7 +132,7 @@ class Retrait(TimeStampedModel):
 
     def return_date(self):
         if self.definitif:
-            return _('Definitive Withdrawal')
+            return 'Retrait définitif'
         elif self.date_retour:
             return self.date_retour
         elif self.is_late:

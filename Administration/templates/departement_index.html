@@ -39,9 +39,9 @@
                 <td class="d-flex">
                     <a class="btn btn-info text-white ms-auto me-3" href="{% url 'departement-detail' dep.pk %}">
                         <i class="fas fa-info-circle"></i>
-                        {% trans 'Details' %}
+                        Détails
                     </a>
-                    <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ dep }} ?" data-target="#departement-{{dep.id}}" href="{% url 'departement-delete' dep.pk %}">
+                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ dep }} ?" data-target="#departement-{{dep.id}}" href="{% url 'departement-delete' dep.pk %}">
                         <i class="fas fa-trash"></i>
                         {% trans 'Delete' %}
                     </a>

@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.contenttypes.models import ContentType
-from django.utils.translation import gettext as _
 from django.utils.html import mark_safe
 from humanize import naturalsize
 
@@ -60,7 +59,7 @@ class BulkData(TimeStampedModel):
 
     @property
     def download_link(self):
-        return mark_safe(f'<a href="{self.file.url}">'+_('Download')+'</a>')
+        return mark_safe(f'<a href="{self.file.url}">Télécharger</a>')
 
     def get_content_type_fields(self):
         excluded_fields = ['id'] + list(map(lambda x:x.name, TimeStampedModel._meta.fields))

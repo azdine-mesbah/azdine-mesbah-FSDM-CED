@@ -10,7 +10,7 @@
 <div class="row">
     <div class="border p-3 me-3 d-flex">
         <h1>{{formation}}</h1>
-        <button class="enable-edit-form btn btn-danger ms-auto" data-target="#formation-edit-form">{% trans 'Edit' %}</button>
+        <button class="enable-edit-form btn btn-danger ms-auto" data-target="#formation-edit-form">Modifier</button>
     </div>
     <form id="formation-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'formation-edit' formation.pk %}" method="post">
         <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>

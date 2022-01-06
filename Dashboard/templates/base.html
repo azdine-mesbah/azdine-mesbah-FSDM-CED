@@ -49,7 +49,7 @@
 </head>
 <body>
     <header class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm sticky-top">
-        <nav class="container-fluid">
+        <nav class="container">
             <a class="navbar-brand" href="{% url 'welcome' %}">
                 CED
             </a>
@@ -65,7 +65,7 @@
                     <li class="nav-item">
                     <a href="{% url 'dashboard' %}" class="nav-link text-light {% if 'dashboard' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-columns mr-2"></i>
-                        <span class="ms-2">{% trans 'Dashboard' %}</span>
+                        <span class="ms-2">Statistiques</span>
                     </a>
                     </li>
                     {% endif %}
@@ -75,7 +75,7 @@
                     <li class="nav-item">
                     <a href="{% url 'departement-list' %}" class="nav-link text-light {% if 'departement' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-building mr-2"></i>
-                        <span class="ms-2">{% trans 'Départements' %}</span>
+                        <span class="ms-2">Départements</span>
                     </a>
                     </li>
                     {% endif %}
@@ -85,7 +85,7 @@
                     <li class="nav-item">
                     <a href="{% url 'enseignant-list' %}" class="nav-link text-light {% if 'enseignant' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-user-tie mr-2"></i>
-                        <span class="ms-2">{% trans 'Enseignants' %}</span>
+                        <span class="ms-2">Enseignants</span>
                     </a>
                     </li>
                     {% endif %}
@@ -95,7 +95,7 @@
                     <li class="nav-item">
                     <a href="{% url 'doctorant-list' %}" class="nav-link text-light {% if 'doctorant' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-user-graduate mr-2"></i>
-                        <span class="ms-2">{% trans 'Doctorants' %}</span>
+                        <span class="ms-2">Doctorants</span>
                     </a>
                     </li>
                     {% endif %}
@@ -105,7 +105,7 @@
                     <li class="nav-item">
                     <a href="{% url 'formation-list' %}" class="nav-link text-light {% if 'formation' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-chalkboard-teacher"></i>
-                        <span class="ms-2">{% trans 'Formations' %}</span>
+                        <span class="ms-2">Formations</span>
                     </a>
                     </li>
                     {% endif %}
@@ -127,7 +127,7 @@
 
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="{% url 'logout' %}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    {% trans 'Logout' %}
+                                    Se déconnecter
                                 </a>
 
                                 <form id="logout-form" action="{% url 'logout' %}" method="POST" class="d-none">
@@ -137,7 +137,7 @@
                         </li>
                     {% else %}
                         <li class="nav-item">
-                            <a class="nav-link font-weight-bold" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                            <a class="nav-link font-weight-bold" href="{% url 'login' %}">Se connecter</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -150,12 +150,12 @@
     </main>
     <footer>
         <div class="container d-flex flex-column flex-md-row justify-content-between py-2 px-4">
-            <span>Faculté de Science Dhar El Mahraz - Fès</span>
-            <strong>
-                <a href="http://fsdmfes.ac.ma">FSDM</a>
+            <span class="text-center text-md-start">Faculté de Science Dhar El Mahraz - Fès</span>
+            <strong class="text-center">
+                <a class="text-white" href="http://fsdmfes.ac.ma">FSDM</a>
                 <span>© {% now "Y" %}</span>
             </strong>
-            <span>كـلية العلوم ظهر المهراز - فـــاس</span>
+            <span class="text-center text-md-end">كـلية العلوم ظهر المهراز - فـــاس</span>
         </div>
     </footer>
 

@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 col-md-5 col-lg-3 px-0">
             <div class="border p-3 me-3">
-                <button class="enable-edit-form btn btn-danger" data-target="#doctorant-edit-form">{% trans 'Edit' %}</button>
+                <button class="enable-edit-form btn btn-danger" data-target="#doctorant-edit-form">Modifier</button>
             </div>
             <form id="doctorant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" enctype="multipart/form-data" action="{% url 'doctorant-edit' doctorant.pk %}" method="post">
             {{ doctorant.photo_preview }}
@@ -87,7 +87,7 @@
                                             <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'publication-edit' doctorant.pk publication.pk %}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <a class="btn btn-danger btn-ajax-delete" data-message="{% trans 'Are you sure you want to delete' %} {{ publication }} ?" data-target="#publication-{{publication.id}}" href="{% url 'publication-delete' doctorant.pk publication.pk %}">
+                                            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ publication }} ?" data-target="#publication-{{publication.id}}" href="{% url 'publication-delete' doctorant.pk publication.pk %}">
                                                 <i class="fas fa-trash"></i>
                                             </a>
                                         </td>
