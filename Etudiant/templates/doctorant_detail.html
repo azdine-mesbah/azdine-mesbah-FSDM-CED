@@ -9,8 +9,19 @@
 {% block content %}
     <div class="row">
         <div class="col-12 col-md-5 col-lg-3 px-0">
-            <div class="border p-3 me-3">
-                <button class="enable-edit-form btn btn-danger" data-target="#doctorant-edit-form">Modifier</button>
+            <div class="border p-3 me-3 d-flex justify-content-between">
+                <button class="enable-edit-form btn btn-primary" data-target="#doctorant-edit-form">Modifier</button>
+                {% if doctorant.inscriptions.count %}
+                    {% if doctorant.soutenance %}
+                    <a class="btn btn-secondary text-white ms-auto me-3" href="{% url 'soutenance-detail' doctorant.id doctorant.soutenance.pk %}">
+                        <i class="fas fa-chalkboard-teacher"></i> Soutenance
+                    </a>
+                    {% else %}
+                    <a class="btn btn-secondary text-white ms-auto me-3 btn-ajax-form" href="{% url 'soutenance-create' doctorant.id %}">
+                        <i class="fas fa-chalkboard-teacher"></i> Soutenance
+                    </a>
+                    {% endif %}
+                {% endif %}
             </div>
             <form id="doctorant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" enctype="multipart/form-data" action="{% url 'doctorant-edit' doctorant.pk %}" method="post">
             {{ doctorant.photo_preview }}
@@ -83,7 +94,7 @@
                                         <td>{{publication.intitule}}</td>
                                         <td>{{publication.date}}</td>
                                         <td>{% firstof publication.url or "--" %}</td>
-                                        <td class="d-flex">
+                                        <td class="d-flex justify-content-end">
                                             <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'publication-edit' doctorant.pk publication.pk %}">
                                                 <i class="fas fa-edit"></i>
                                             </a>
@@ -99,7 +110,7 @@
                 </div>
             </div>
             <div class="mb-3">
-                <div class="border p-2 d-flex justify-content-between ">
+                <div class="border p-2 d-flex justify-content-between">
                     <h3 class="text-decoration-underline">Cursus :</h3>
                     <a class="btn btn-primary btn-ajax-form" href="{% url 'cursus-create' doctorant.pk %}">{% trans 'Add' %}</a>
                 </div>

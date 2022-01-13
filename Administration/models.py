@@ -36,6 +36,7 @@ class Enseignant(TimeStampedModel):
     prenom = models.CharField(max_length=50)
     cin = models.CharField(max_length=50, blank=True, null=True)
     som =  models.CharField(max_length=50, blank=True, null=True)
+    grade =  models.CharField(max_length=50, blank=True, null=True)
     telephone = PhoneNumberField(blank=True, null=True)
     etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING, related_name='enseignants')
 
@@ -69,7 +70,7 @@ class Laboratoire(TimeStampedModel):
     formation_doctorale = models.ForeignKey(FormationDoctorale, on_delete=models.DO_NOTHING, related_name="laboratoires")
 
     def __str__(self):
-        return f'({self.acronyme}) {self.intitule} -- {self.get_current_directeur()}'
+        return f'({self.acronyme}) -- {self.get_current_directeur()}'
 
     def get_current_directeur(self):
         try:
@@ -121,3 +122,13 @@ class FormationComplementaire(TimeStampedModel):
 
     def __str__(self) -> str:
         return self.intitule
+        
+class LocalisationSoutenance(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_localisations_soutenance'
+
+    intitule = models.CharField(max_length=255)
+    etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING)
+
+    def __str__(self) -> str:
+        return f"{self.intitule} -- {self.etablissement}"

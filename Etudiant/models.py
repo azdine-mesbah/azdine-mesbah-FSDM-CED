@@ -9,7 +9,7 @@ from CED_Tools.tools.Constants import SEXES, MENTIONS
 from CED_Tools.tools.Functions import photo_upload_to, safe_image_tag, birhdayValidator, avg_to_mention, current_year
 from CED_Tools.models import Annee, Pays
 
-from Administration.models import Sujet, FormationComplementaire
+from Administration.models import Sujet, FormationComplementaire, Enseignant, LocalisationSoutenance
 
 # Create your models here.
 
@@ -56,6 +56,10 @@ class Doctorant(TimeStampedModel):
 
     def __str__(self) -> str:
         return f"{self.cin.upper()} - {self.nom.upper()} {self.prenom.upper()}"
+
+    @property
+    def soutenance(self):
+        return self.inscriptions.last().soutenances.first()
 
 class CursusType(TimeStampedModel):
     class Meta:
@@ -173,3 +177,32 @@ class Publication(TimeStampedModel):
     @property
     def sujet(self):
         return self.intitule
+
+class Soutenance(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_soutenances'
+
+    inscription = models.ForeignKey(Inscription, on_delete=models.DO_NOTHING, related_name='soutenances')
+    date = models.DateTimeField(blank=True, null=True)
+    localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
+    president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')
+    enseignants = models.ManyToManyField(Enseignant, through='SoutenanceMembers')
+
+    def __str__(self) -> str:
+        return f"{self.inscription}"
+
+    @property
+    def rapporteurs(self):
+        return self.enseignants.through.objects.filter(rapporteur=True)
+
+    @property
+    def members(self):
+        return self.enseignants.through.objects.filter(rapporteur=False)
+
+class SoutenanceMembers(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_soutenence_members'
+
+    soutenance = models.ForeignKey(Soutenance, on_delete=models.DO_NOTHING)
+    member = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING)
+    rapporteur = models.BooleanField(default=False)

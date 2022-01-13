@@ -21,79 +21,69 @@
     </form>
 </div>
 <div class="row">
-    <div>
-        <div class="border p-2 d-flex justify-content-between">
-            {% if enseignant.get_current_laboratoire %}
-            <h3 class="text-decoration-underline">Sujets :</h3>
-            <a class="btn btn-primary btn-ajax-form" href="{% url 'sujet-create' enseignant.pk %}">{% trans 'Add' %}</a>
-            {% else %}
-            <h3 class="text-decoration-underline">Co-Sujets :</h3>
-            {% endif %}
-        </div>
-        <div class="border table-responsive">
-            {% if enseignant.get_current_laboratoire %}
-            <table class="table">
-                <thead>
-                    <tr scope="row">
-                        <th scope="col">Année</th>
-                        <th scope="col">Intitulé</th>
-                        <th scope="col">Laboratoire</th>
-                        <th scope="col">Co-Directeur</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for sujet in enseignant.sujets.all %}
-                    <tr id="sujet-{{sujet.id}}">
-                        <td>{{sujet.annee}}</td>
-                        <td>{{sujet.intitule}}</td>
-                        <td>{{sujet.laboratoire}}</td>
-                        <td>{{sujet.co_directeur}}</td>
-                        <td>
-                            <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ sujet }} ?" data-target="#sujet-{{sujet.id}}" href="{% url 'sujet-delete' enseignant.pk sujet.pk %}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% else %}
-            <table class="table">
-                <thead>
-                    <tr scope="row">
-                        <th scope="col">Année</th>
-                        <th scope="col">Intitulé</th>
-                        <th scope="col">Laboratoire</th>
-                        <th scope="col">Directeur</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for sujet in enseignant.co_sujets.all %}
-                    <tr id="sujet-{{sujet.id}}">
-                        <td>{{sujet.annee}}</td>
-                        <td>{{sujet.intitule}}</td>
-                        <td>{{sujet.laboratoire}}</td>
-                        <td>{{sujet.directeur}}</td>
-                        <td>
-                            <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
-                                <i class="fas fa-edit"></i>
-                            </a>
-                            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ sujet }} ?" data-target="#sujet-{{sujet.id}}" href="{% url 'sujet-delete' enseignant.pk sujet.pk %}">
-                                <i class="fas fa-trash"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-            {% endif %}
-            
-        </div>
+    {% if enseignant.get_current_laboratoire %}
+    <div class="border p-2 d-flex justify-content-between">
+        <h3 class="text-decoration-underline">Sujets :</h3>
+        <a class="btn btn-primary btn-ajax-form" href="{% url 'sujet-create' enseignant.pk %}">{% trans 'Add' %}</a>
+    </div>
+    <div class="border table-responsive">
+        <table class="table">
+            <thead>
+                <tr scope="row">
+                    <th scope="col">Année</th>
+                    <th scope="col">Intitulé</th>
+                    <th scope="col">Laboratoire</th>
+                    <th scope="col">Co-Directeur</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sujet in enseignant.sujets.all %}
+                <tr id="sujet-{{sujet.id}}">
+                    <td>{{sujet.annee}}</td>
+                    <td>{{sujet.intitule}}</td>
+                    <td>({{sujet.laboratoire.acronyme}}) {{sujet.laboratoire.intitule}}</td>
+                    <td>{{sujet.co_directeur}}</td>
+                    <td>
+                        <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ sujet }} ?" data-target="#sujet-{{sujet.id}}" href="{% url 'sujet-delete' enseignant.pk sujet.pk %}">
+                            <i class="fas fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+    <div class="border p-2 d-flex justify-content-between">
+        <h3 class="text-decoration-underline">Co-Sujets :</h3>
+    </div>
+    <div class="border table-responsive">
+        <table class="table">
+            <thead>
+                <tr scope="row">
+                    <th scope="col">Année</th>
+                    <th scope="col">Intitulé</th>
+                    <th scope="col">Laboratoire</th>
+                    <th scope="col">Directeur</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sujet in enseignant.co_sujets.all %}
+                <tr id="sujet-{{sujet.id}}">
+                    <td>{{sujet.annee}}</td>
+                    <td>{{sujet.intitule}}</td>
+                    <td>({{sujet.laboratoire.acronyme}}) {{sujet.laboratoire.intitule}}</td>
+                    <td>{{sujet.directeur}}</td>
+                    <td></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

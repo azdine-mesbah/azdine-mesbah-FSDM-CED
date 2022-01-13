@@ -27,4 +27,14 @@ urlpatterns = [
     path('<int:doctorant_id>/publications/detail/<int:pk>/', views.PublicationEditView.as_view(), name="publication-detail"),
     path('<int:doctorant_id>/publications/edit/<int:pk>/', views.PublicationEditView.as_view(), name="publication-edit"),
     path('<int:doctorant_id>/publications/delete/<int:pk>/', views.PublicationDeleteView.as_view(), name="publication-delete"),
+
+    path('<int:doctorant_id>/soutenance/create/', views.SoutenanceCreateView.as_view(), name="soutenance-create"),
+    path('<int:doctorant_id>/soutenance/detail/<int:pk>/', views.SoutenanceDetailView.as_view(), name="soutenance-detail"),
+    path('<int:doctorant_id>/soutenance/edit/<int:pk>/', views.SoutenanceEditView.as_view(), name="soutenance-edit"),
+    path('<int:doctorant_id>/soutenance/delete/<int:pk>/', views.SoutenanceDeleteView.as_view(), name="soutenance-delete"),
+
+    path('<int:doctorant_id>/soutenance/<int:soutenance_id>/<type>/create', views.MemberCreateView.as_view(), name="member-create"),
+    path('<int:doctorant_id>/soutenance/<int:soutenance_id>/<type>/detail/<int:pk>', views.MemberEditView.as_view(), name="member-detail"),
+    path('<int:doctorant_id>/soutenance/<int:soutenance_id>/<type>/edit/<int:pk>', views.MemberEditView.as_view(), name="member-edit"),
+    path('<int:doctorant_id>/soutenance/<int:soutenance_id>/<type>/delete/<int:pk>', views.MemberDeleteView.as_view(), name="member-delete"),
 ]

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Departement, Laboratoire, Etablissement, Enseignant, Sujet, FormationDoctorale, TypeFormationComplementaire, FormationComplementaire
+from .models import Departement, Laboratoire, Etablissement, Enseignant, Sujet, FormationDoctorale, TypeFormationComplementaire, FormationComplementaire, LocalisationSoutenance
 from .forms import LaboratoireAdminCreateForm, SujetAdminCreateForm
 
 @admin.register(Departement)
@@ -27,9 +27,9 @@ class LaboratoireAdmin(admin.ModelAdmin):
 
 @admin.register(Sujet)
 class SujetAdmin(admin.ModelAdmin):
-    list_display = ('intitule', 'annee', 'laboratoire', 'directeur', 'co_directeur')
+    list_display = ('intitule', 'annee', 'laboratoire', 'co_directeur')
     search_fields = ('intitule', 'annee__intitule', 'laboratoire__intitule','laboratoire__acronyme')
-    list_filter = ('annee', 'laboratoire', 'directeur','co_directeur')
+    list_filter = ('laboratoire',)
     autocomplete_fields = ('annee', 'laboratoire', 'directeur', 'co_directeur')
     exclude = ('directeur',)
     form = SujetAdminCreateForm
@@ -55,3 +55,9 @@ class TypeFormationComplementaireAdmin(admin.ModelAdmin):
 class TypeFormationComplementaireAdmin(admin.ModelAdmin):
     list_display = ('intitule','type')
     search_fields = ('intitule','type__intitule')
+
+@admin.register(LocalisationSoutenance)
+class LocalisationSoutenanceAdmin(admin.ModelAdmin):
+    list_display = ('intitule','etablissement')
+    search_fields = ('intitule','etablissement__intitule','etablissement__ville')
+    autocomplete_fields = ('etablissement',)

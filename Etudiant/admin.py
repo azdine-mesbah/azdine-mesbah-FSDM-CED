@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Doctorant, CursusType, Cursus, Inscription, RetraitType, Retrait, Publication, Formation_C_Inscription
+from .models import Doctorant, CursusType, Cursus, Inscription, RetraitType, Retrait, Publication, Formation_C_Inscription, Soutenance, SoutenanceMembers
 # Register your models here.
 
 @admin.register(Doctorant)
@@ -72,3 +72,13 @@ class PublicationAdmin(admin.ModelAdmin):
 class Formation_C_InscriptionAdmin(admin.ModelAdmin):
     list_display = ('inscription','formation_complementaire','date')
     autocomplete_fields = ('inscription','formation_complementaire')
+
+class MemberInline(admin.TabularInline):
+    model = SoutenanceMembers
+    extra = 0
+
+@admin.register(Soutenance)
+class SoutenanceAdmin(admin.ModelAdmin):
+    list_display = ('inscription','date','localisation','president')
+    autocomplete_fields = ('inscription','president','localisation')
+    inlines = (MemberInline,)

@@ -251,7 +251,6 @@ class FormationComplementaireCreateView(LoginRequiredMixin, PermissionRequiredMi
     
     def get_initial(self):
         formation = get_object_or_404(FormationDoctorale, pk=self.kwargs.get('formation_id'))
-        print('*'*50,formation, '*'*50, sep='\n')
         return {"formation":formation}
     
     def get_success_url(self):

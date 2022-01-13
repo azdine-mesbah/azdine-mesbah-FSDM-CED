@@ -8,8 +8,8 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.shortcuts import get_object_or_404
 
-from .models import Doctorant, Cursus, Inscription, Retrait, Publication
-from .forms import DoctorantCreateForm, CursusCreateForm, RetraitCreateForm, InscriptionCreateForm, PublicationCreateForm
+from .models import Doctorant, Cursus, Inscription, Retrait, Publication, Soutenance, SoutenanceMembers
+from .forms import DoctorantCreateForm, CursusCreateForm, RetraitCreateForm, InscriptionCreateForm, PublicationCreateForm, SoutenanceCreateForm, SoutenanceMemberCreateForm
 
 
 
@@ -46,7 +46,7 @@ class DoctorantDetailView(LoginRequiredMixin,PermissionRequiredMixin, ModelFormM
     form_class = DoctorantCreateForm
     
 class DoctorantEditView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
-    permission_required = 'Doctorant.edit_doctorant'
+    permission_required = 'Doctorant.change_doctorant'
     model = Doctorant
     template_name = 'doctorant_detail.html'
     fields = '__all__'
@@ -83,7 +83,7 @@ class CursusCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
         return super().form_valid(form)
 
 class CursusEditView(CursusCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = 'Doctorant.edit_cursus'
+    permission_required = 'Doctorant.change_cursus'
     template_name = 'ajax_cursus_detail.html'
 
 class CursusDeleteView(CursusEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -111,7 +111,7 @@ class RetraitCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
         return super().form_valid(form)
 
 class RetraitEditView(RetraitCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = 'Doctorant.edit_retrait'
+    permission_required = 'Doctorant.change_retrait'
     template_name = 'ajax_retrait_detail.html'
 
 class RetraitDeleteView(RetraitEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -139,7 +139,7 @@ class InscriptionCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
 
 class InscriptionEditView(InscriptionCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = 'Doctorant.edit_inscription'
+    permission_required = 'Doctorant.change_inscription'
     template_name = 'ajax_inscription_detail.html'
 
 class InscriptionDeleteView(InscriptionEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
@@ -167,8 +167,95 @@ class PublicationCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateV
         return super().form_valid(form)
     
 class PublicationEditView(PublicationCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
-    permission_required = 'Doctorant.edit_publication'
+    permission_required = 'Doctorant.change_publication'
     template_name = 'ajax_publication_detail.html'
 
 class PublicationDeleteView(PublicationEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Doctorant.delete_publication'
+
+
+# Soutenence CRUD
+class SoutenanceCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'Doctorant.add_soutenance'
+    template_name = 'ajax_soutenance_create.html'
+    form_class = SoutenanceCreateForm
+    model = Soutenance
+
+    def get_initial(self):
+        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
+        return {"doctorant":doctorant}
+    
+    def get_success_url(self):
+        return reverse('soutenance-detail', kwargs={'doctorant_id':self.kwargs.get('doctorant_id'),'pk':self.object.id})
+
+    def form_valid(self, form):
+        if self.request.is_ajax():
+            super().form_valid(form)
+            return JsonResponse({"redirect":self.get_success_url()}, status=302)
+        return super().form_valid(form)
+
+class SoutenanceDetailView(LoginRequiredMixin,PermissionRequiredMixin, ModelFormMixin, DetailView):
+    permission_required = 'Doctorant.view_soutenance'
+    model = Soutenance
+    template_name = 'soutenance_detail.html'
+    form_class = SoutenanceCreateForm
+
+    def get_initial(self):
+        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
+        return {"doctorant":doctorant}
+    
+    def get_success_url(self):
+        return reverse('doctorant-list')
+
+    def form_valid(self, form):
+        if self.request.is_ajax():
+            super().form_valid(form)
+            return JsonResponse({"redirect":self.get_success_url()}, status=302)
+        return super().form_valid(form)
+
+class SoutenanceEditView(SoutenanceCreateView, LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
+    permission_required = 'Doctorant.change_soutenance'
+
+class SoutenanceDeleteView(SoutenanceEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'Doctorant.delete_soutenance'
+
+    def get_success_url(self):
+        return reverse('doctorant-detail', kwargs={'pk':self.kwargs.get('doctorant_id')})
+
+    def delete(self, request, *args, **kwargs):
+        super().delete(request, *args, **kwargs)
+        return JsonResponse({"redirect":self.get_success_url()}, status=302)
+
+
+# Soutenance Members CRUD
+class MemberCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'Doctorant.add_soutenancemembers'
+    template_name = 'ajax_soutenance_member_create.html'
+    form_class = SoutenanceMemberCreateForm
+    model = SoutenanceMembers
+    context_object_name = 'soutenence_member'
+
+    def get_initial(self):
+        return {
+            "doctorant":get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id')),
+            "soutenance":get_object_or_404(Soutenance, pk=self.kwargs.get('soutenance_id')),
+            "type": self.kwargs.get('type'),
+            "pk":self.kwargs.get('pk')
+            }
+
+    def get_success_url(self):
+        return reverse('soutenance-detail', kwargs={'doctorant_id':self.kwargs.get('doctorant_id'), 'pk':self.kwargs.get('soutenance_id')})
+
+    def form_valid(self, form):
+        if self.request.is_ajax():
+            super().form_valid(form)
+            return JsonResponse({"redirect":self.get_success_url()}, status=302)
+        return super().form_valid(form)
+
+class MemberEditView(MemberCreateView, LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+    permission_required = 'Doctorant.change_soutenancemembers'
+    template_name = 'ajax_soutenance_member_detail.html'
+
+
+class MemberDeleteView(MemberEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'Doctorant.delete_soutenancemembers'

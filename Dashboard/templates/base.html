@@ -64,7 +64,7 @@
                     {% if dashboard and perms.Dashboard.view_dashboard %}
                     <li class="nav-item">
                     <a href="{% url 'dashboard' %}" class="nav-link text-light {% if 'dashboard' in request.resolver_match.url_name %}active{% endif %}">
-                        <i class="fas fa-columns mr-2"></i>
+                        <i class="fas fa-chart-bar mr-2"></i>
                         <span class="ms-2">Statistiques</span>
                     </a>
                     </li>
@@ -104,11 +104,12 @@
                     {% if formation_list and perms.Administration.view_formation %}
                     <li class="nav-item">
                     <a href="{% url 'formation-list' %}" class="nav-link text-light {% if 'formation' in request.resolver_match.url_name %}active{% endif %}">
-                        <i class="fas fa-chalkboard-teacher"></i>
+                        <i class="fas fa-chalkboard"></i>
                         <span class="ms-2">Formations</span>
                     </a>
                     </li>
                     {% endif %}
+
                 </ul>
 
                 <!-- Right Side Of Navbar -->

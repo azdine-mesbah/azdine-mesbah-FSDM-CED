@@ -1,0 +1,103 @@
+{% extends "dashboard.html" %}
+{% load static %}
+{% load bootstrap5 %}
+{% if 'use_i18n'|bootstrap_setting %}
+    {% load i18n %}
+    {% get_current_language as LANGUAGE_CODE %}
+{% endif %}
+{% block title %}{{form.initial.doctorant}}{% endblock %}
+{% block content %}
+<div class="row">
+    <div class="border p-3 me-3 d-flex">
+        <h1>{{form.initial.doctorant}}</h1>
+        <div class="ms-auto">
+            <button class="enable-edit-form btn btn-primary ms-auto" data-target="#soutenance-edit-form"><i class="fas fa-edit"></i> Modifier</button>
+            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ soutenance }} ?" href="{% url 'soutenance-delete' form.initial.doctorant.pk soutenance.pk %}">
+                <i class="fas fa-trash"></i> {% trans 'Delete' %}
+            </a>
+        </div>
+        
+    </div>
+    <form id="soutenance-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'soutenance-edit' form.initial.doctorant.pk soutenance.pk %}" method="post">
+        <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>
+        {% csrf_token %}
+        {% bootstrap_form form %}
+        {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
+        <fieldset>
+    </form>
+</div>
+<div class="row">
+    <div class="border p-2 d-flex justify-content-between">
+        <h3 class="text-decoration-underline">Rapporteurs :</h3>
+        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' %}">{% trans 'Add' %}</a>
+    </div>
+    <div class="border table-responsive">
+        <table class="table">
+        <thead>
+            <th scope="col">Grade</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prènom</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">établissement</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {% for rapporteur in soutenance.rapporteurs %}
+            <tr id="rapporteur-{{rapporteur.id}}">
+                <td>{% firstof rapporteur.member.grade or "--" %}</td>
+                <td>{{rapporteur.member.nom}}</td>
+                <td>{{rapporteur.member.prenom}}</td>
+                <td>{% firstof rapporteur.member.telephone or "--" %}</td>
+                <td>{% firstof rapporteur.member.etablissement or "--" %}</td>
+                <td scope="col" class="d-flex justify-content-end">
+                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' rapporteur.pk %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ rapporteur }} ?" data-target="#rapporteur-{{rapporteur.id}}" href="{% url 'member-delete' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' rapporteur.pk %}">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="border p-2 d-flex justify-content-between">
+        <h3 class="text-decoration-underline">Members :</h3>
+        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' %}">{% trans 'Add' %}</a>
+    </div>
+    <div class="border table-responsive">
+        <table class="table">
+        <thead>
+            <th scope="col">Grade</th>
+            <th scope="col">Nom</th>
+            <th scope="col">Prènom</th>
+            <th scope="col">Téléphone</th>
+            <th scope="col">établissement</th>
+            <th scope="col"></th>
+        </thead>
+        <tbody>
+            {% for member in soutenance.members %}
+            <tr id="member-{{member.id}}">
+                <td>{% firstof member.member.grade or "--" %}</td>
+                <td>{{member.member.nom}}</td>
+                <td>{{member.member.prenom}}</td>
+                <td>{% firstof member.member.telephone or "--" %}</td>
+                <td>{% firstof member.member.etablissement or "--" %}</td>
+                <td scope="col" class="d-flex justify-content-end">
+                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' member.pk %}">
+                        <i class="fas fa-edit"></i>
+                    </a>
+                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ member }} ?" data-target="#member-{{member.id}}" href="{% url 'member-delete' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' member.pk %}">
+                        <i class="fas fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

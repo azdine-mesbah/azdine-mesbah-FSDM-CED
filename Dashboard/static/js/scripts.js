@@ -18,13 +18,22 @@ $(document).ready(function(){
         }).then(result=>{
             if(result.isConfirmed){
                 const csrftoken = $('input[name="csrfmiddlewaretoken"]').val()
+                Swal.enableLoading()
                 axios.post($(this).prop('href'), {}, {headers: {'X-CSRFToken': csrftoken}}).then(res=>{
                     $($(this).attr('data-target')).fadeOut(300, function() { $(this).remove(); });
+                    console.log(res.status)
                 }).catch(err=>{
-                    Swal.fire({
-                        html:err.data,
-                        showConfirmButton: false
-                    })
+                    console.log(err.response.status)
+                    if(err.response.status==302){
+                        window.location.href = err.response.data.redirect
+                    }else{
+                        Swal.fire({
+                            html:err.data,
+                            showConfirmButton: false
+                        })
+                    }
+                }).finally(function(){
+                    Swal.disableLoading()
                 })
             }
         })

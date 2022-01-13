@@ -57,8 +57,8 @@ class SujetAdminCreateForm(forms.ModelForm):
     def clean(self):
         if self.cleaned_data['co_directeur'] == self.cleaned_data['laboratoire'].get_current_directeur():
             raise ValidationError('Le Directeur et le Co-Directeur ne doivent pas être les même. (vous pouvez laissier vide!)')
-        elif self.cleaned_data['laboratoire'].get_current_directeur() != self.cleaned_data['directeur']:
-            raise ValidationError('Directeur and Laboratoire missmatch')
+        # elif self.cleaned_data['laboratoire'].get_current_directeur() != self.cleaned_data['directeur']:
+        #     raise ValidationError('Directeur and Laboratoire missmatch')
         return super().clean()
 
 class SujetCreateForm(SujetAdminCreateForm):

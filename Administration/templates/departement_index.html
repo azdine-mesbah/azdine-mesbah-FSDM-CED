@@ -36,8 +36,8 @@
                 <td>{{dep.intitule}}</td>
                 <td>{{dep.description}}</td>
                 <td>{{dep.laboratoires.count}}</td>
-                <td class="d-flex">
-                    <a class="btn btn-info text-white ms-auto me-3" href="{% url 'departement-detail' dep.pk %}">
+                <td class="d-flex justify-content-end">
+                    <a class="btn btn-info text-white me-3" href="{% url 'departement-detail' dep.pk %}">
                         <i class="fas fa-info-circle"></i>
                         Détails
                     </a>
