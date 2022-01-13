@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from Administration.models import Departement, Enseignant, Laboratoire, Sujet, Etablissement, FormationDoctorale
 from CED_Tools.models import Pays, Annee
-from Etudiant.models import Doctorant, Inscription, Publication
+from Etudiant.models import Doctorant, Inscription, Publication, Soutenance
 def index(request):
     if request.user.is_authenticated:
         return redirect('dashboard')
@@ -23,6 +23,7 @@ def dashboard(request):
     sujets = Sujet.objects.all()
     publications = Publication.objects.all()
     annees = Annee.objects.order_by('-annee')[:5][::-1]
+    soutenances = Soutenance.objects.all()
     data = {
         'departements':{
             'count':departements.count(),
@@ -72,6 +73,12 @@ def dashboard(request):
             'labels':[annee.intitule for annee in annees],
             'colors':[annee.color for annee in annees],
             'data':[sum([inscription.publications.count() for inscription in annee.inscriptions.all()]) for annee in annees],
-        }        
+        },
+        'soutenances':{
+            'count':soutenances.count(),
+            'labels':[annee.intitule for annee in annees],
+            'colors':[annee.color for annee in annees],
+            'data':[sum([inscription.soutenances.count() for inscription in annee.inscriptions.all()]) for annee in annees],
+        }
     }
     return render(request, 'dashboard.html', data)
