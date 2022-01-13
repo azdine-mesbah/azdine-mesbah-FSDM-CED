@@ -13,7 +13,7 @@
                 <button class="enable-edit-form btn btn-primary" data-target="#doctorant-edit-form">Modifier</button>
                 {% if doctorant.inscriptions.count %}
                     {% if doctorant.soutenance %}
-                    <a class="btn btn-secondary text-white ms-auto me-3" href="{% url 'soutenance-detail' doctorant.id doctorant.soutenance.pk %}">
+                    <a class="btn btn-secondary text-white ms-auto me-3" href="{% url 'soutenance-detail' doctorant.id %}">
                         <i class="fas fa-chalkboard-teacher"></i> Soutenance
                     </a>
                     {% else %}

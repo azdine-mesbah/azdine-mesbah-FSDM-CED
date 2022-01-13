@@ -79,6 +79,6 @@ class MemberInline(admin.TabularInline):
 
 @admin.register(Soutenance)
 class SoutenanceAdmin(admin.ModelAdmin):
-    list_display = ('inscription','date','localisation','president')
-    autocomplete_fields = ('inscription','president','localisation')
+    list_display = ('doctorant','date','localisation','president')
+    autocomplete_fields = ('doctorant','president','localisation')
     inlines = (MemberInline,)

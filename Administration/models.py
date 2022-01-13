@@ -100,7 +100,7 @@ class Sujet(TimeStampedModel):
     co_directeur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='co_sujets', null=True, blank=True)
 
     def __str__(self):
-        return f"({self.annee}) {self.intitule}"
+        return f"{self.intitule}"
 
 class TypeFormationComplementaire(TimeStampedModel):
     class Meta:

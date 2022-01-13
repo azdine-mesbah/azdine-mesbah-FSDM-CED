@@ -70,14 +70,14 @@ class SoutenanceCreateForm(forms.ModelForm):
         model = Soutenance
         fields = '__all__'
         exclude = ('enseignants',)
-        widgets = {'date':forms.DateTimeInput(attrs={'type': 'datetime-local'}), 'inscription':forms.HiddenInput()}
+        widgets = {'date':forms.DateTimeInput(attrs={'type': 'datetime-local'}), 'doctorant':forms.HiddenInput()}
     
     directeur = forms.CharField(label='Directeur de thèse',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         doctorant = kwargs['initial']['doctorant']
-        self.fields['inscription'].initial = doctorant.inscriptions.last()
+        self.fields['doctorant'].initial = doctorant
         self.fields['directeur'].queryset = Enseignant.objects.filter(pk=doctorant.inscriptions.last().sujet.directeur.pk)
         self.fields['directeur'].initial = doctorant.inscriptions.last().sujet.directeur
 
@@ -89,12 +89,13 @@ class SoutenanceMemberCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        soutenance = kwargs['initial']['soutenance']
+        doctorant = kwargs['initial']['doctorant']
+        soutenance = doctorant.soutenance
         self.fields['soutenance'].initial = soutenance
         self.fields['rapporteur'].initial = kwargs['initial']['type'] == 'rapporteur'
         self.fields['member'].label = kwargs['initial']['type'].capitalize()
 
-        excluded_members = list(soutenance.enseignants.through.objects.values_list('member_id', flat=True)) + [soutenance.president.pk, soutenance.inscription.sujet.directeur.pk]
+        excluded_members = list(soutenance.enseignants.through.objects.values_list('member_id', flat=True)) + [soutenance.president.pk, doctorant.last_inscription.sujet.directeur.pk]
 
         if 'instance' in kwargs and kwargs['instance']:
             excluded_members.remove(kwargs['instance'].member.pk)

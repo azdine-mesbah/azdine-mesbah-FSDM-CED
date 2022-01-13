@@ -12,13 +12,13 @@
         <h1>{{form.initial.doctorant}}</h1>
         <div class="ms-auto">
             <button class="enable-edit-form btn btn-primary ms-auto" data-target="#soutenance-edit-form"><i class="fas fa-edit"></i> Modifier</button>
-            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ soutenance }} ?" href="{% url 'soutenance-delete' form.initial.doctorant.pk soutenance.pk %}">
+            <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ soutenance }} ?" href="{% url 'soutenance-delete' form.initial.doctorant.pk %}">
                 <i class="fas fa-trash"></i> {% trans 'Delete' %}
             </a>
         </div>
         
     </div>
-    <form id="soutenance-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'soutenance-edit' form.initial.doctorant.pk soutenance.pk %}" method="post">
+    <form id="soutenance-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'soutenance-edit' form.initial.doctorant.pk %}" method="post">
         <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>
         {% csrf_token %}
         {% bootstrap_form form %}
@@ -29,7 +29,7 @@
 <div class="row">
     <div class="border p-2 d-flex justify-content-between">
         <h3 class="text-decoration-underline">Rapporteurs :</h3>
-        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' %}">{% trans 'Add' %}</a>
+        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'rapporteur' %}">{% trans 'Add' %}</a>
     </div>
     <div class="border table-responsive">
         <table class="table">
@@ -50,10 +50,10 @@
                 <td>{% firstof rapporteur.member.telephone or "--" %}</td>
                 <td>{% firstof rapporteur.member.etablissement or "--" %}</td>
                 <td scope="col" class="d-flex justify-content-end">
-                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' rapporteur.pk %}">
+                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk 'rapporteur' rapporteur.pk %}">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ rapporteur }} ?" data-target="#rapporteur-{{rapporteur.id}}" href="{% url 'member-delete' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'rapporteur' rapporteur.pk %}">
+                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ rapporteur }} ?" data-target="#rapporteur-{{rapporteur.id}}" href="{% url 'member-delete' form.initial.doctorant.pk 'rapporteur' rapporteur.pk %}">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>
@@ -66,7 +66,7 @@
 <div class="row">
     <div class="border p-2 d-flex justify-content-between">
         <h3 class="text-decoration-underline">Members :</h3>
-        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' %}">{% trans 'Add' %}</a>
+        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'member' %}">{% trans 'Add' %}</a>
     </div>
     <div class="border table-responsive">
         <table class="table">
@@ -87,10 +87,10 @@
                 <td>{% firstof member.member.telephone or "--" %}</td>
                 <td>{% firstof member.member.etablissement or "--" %}</td>
                 <td scope="col" class="d-flex justify-content-end">
-                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' member.pk %}">
+                    <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk 'member' member.pk %}">
                         <i class="fas fa-edit"></i>
                     </a>
-                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ member }} ?" data-target="#member-{{member.id}}" href="{% url 'member-delete' form.initial.doctorant.pk form.initial.doctorant.soutenance.pk 'member' member.pk %}">
+                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ member }} ?" data-target="#member-{{member.id}}" href="{% url 'member-delete' form.initial.doctorant.pk 'member' member.pk %}">
                         <i class="fas fa-trash"></i>
                     </a>
                 </td>

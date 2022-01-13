@@ -59,7 +59,14 @@ class Doctorant(TimeStampedModel):
 
     @property
     def soutenance(self):
-        return self.inscriptions.last().soutenances.first()
+        try:
+            return self.soutenances.first()
+        except:
+            return None
+
+    @property
+    def last_inscription(self):
+        return self.inscriptions.last()
 
 class CursusType(TimeStampedModel):
     class Meta:
@@ -154,11 +161,11 @@ class Inscription(TimeStampedModel):
     sujet_detail = models.CharField(max_length=255)
 
     def __str__(self):
-        return f"{self.sujet} -- {self.doctorant}"
+        return f"({self.annee}) {self.sujet} -- {self.doctorant}"
 
 class Formation_C_Inscription(TimeStampedModel):
     class Meta:
-        db_table = 'ced_FC_inscription'
+        db_table = 'ced_fc_inscription'
 
     inscription = models.ForeignKey(Inscription, on_delete=models.DO_NOTHING, related_name='fomations_complementaires')
     formation_complementaire = models.ForeignKey(FormationComplementaire, on_delete=models.DO_NOTHING, related_name='inscriptions')
@@ -182,14 +189,11 @@ class Soutenance(TimeStampedModel):
     class Meta:
         db_table = 'ced_soutenances'
 
-    inscription = models.ForeignKey(Inscription, on_delete=models.DO_NOTHING, related_name='soutenances')
+    doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='soutenances')
     date = models.DateTimeField(blank=True, null=True)
     localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
     president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')
     enseignants = models.ManyToManyField(Enseignant, through='SoutenanceMembers')
-
-    def __str__(self) -> str:
-        return f"{self.inscription}"
 
     @property
     def rapporteurs(self):

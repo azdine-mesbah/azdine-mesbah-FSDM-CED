@@ -10,7 +10,7 @@
 <div class="row">
     <div class="border p-3 me-3 d-flex">
         <h1>{{enseignant}}</h1>
-        <button class="enable-edit-form btn btn-danger ms-auto" data-target="#enseignant-edit-form">Modifier</button>
+        <button class="enable-edit-form btn btn-outline-danger ms-auto" data-target="#enseignant-edit-form">Modifier</button>
     </div>
     <form id="enseignant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'enseignant-edit' enseignant.pk %}" method="post">
         <fieldset class="d-flex w-100 flex-column flex-md-row justify-content-between" disabled>
@@ -24,7 +24,7 @@
     {% if enseignant.get_current_laboratoire %}
     <div class="border p-2 d-flex justify-content-between">
         <h3 class="text-decoration-underline">Sujets :</h3>
-        <a class="btn btn-primary btn-ajax-form" href="{% url 'sujet-create' enseignant.pk %}">{% trans 'Add' %}</a>
+        <a class="btn btn-outline-primary btn-ajax-form" href="{% url 'sujet-create' enseignant.pk %}">{% trans 'Add' %}</a>
     </div>
     <div class="border table-responsive">
         <table class="table">
@@ -45,10 +45,10 @@
                     <td>({{sujet.laboratoire.acronyme}}) {{sujet.laboratoire.intitule}}</td>
                     <td>{{sujet.co_directeur}}</td>
                     <td>
-                        <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
+                        <a class="btn btn-outline-info ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
                             <i class="fas fa-edit"></i>
                         </a>
-                        <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ sujet }} ?" data-target="#sujet-{{sujet.id}}" href="{% url 'sujet-delete' enseignant.pk sujet.pk %}">
+                        <a class="btn btn-outline-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ sujet }} ?" data-target="#sujet-{{sujet.id}}" href="{% url 'sujet-delete' enseignant.pk sujet.pk %}">
                             <i class="fas fa-trash"></i>
                         </a>
                     </td>

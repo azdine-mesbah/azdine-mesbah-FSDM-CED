@@ -39,21 +39,21 @@
                 <td>{{doc.cin}}</td>
                 <td>{{doc.cne}}</td>
                 <td class="d-flex justify-content-end">
-                    {% if doc.inscriptions.count %}
+                    {% if doc.inscriptions.count > 2 %}
                         {% if doc.soutenance %}
-                        <a class="btn btn-secondary text-white me-3" href="{% url 'soutenance-detail' doc.id doc.soutenance.pk %}">
+                        <a class="btn btn-outline-secondary me-3" href="{% url 'soutenance-detail' doc.id %}">
                             <i class="fas fa-chalkboard-teacher"></i> Soutenance
                         </a>
                         {% else %}
-                        <a class="btn btn-secondary text-white me-3 btn-ajax-form" href="{% url 'soutenance-create' doc.id %}">
+                        <a class="btn btn-outline-secondary me-3 btn-ajax-form" href="{% url 'soutenance-create' doc.id %}">
                             <i class="fas fa-chalkboard-teacher"></i> Soutenance
                         </a>
                         {% endif %}
                     {% endif %}
-                    <a class="btn btn-info text-white me-3" href="{% url 'doctorant-detail' doc.id %}">
+                    <a class="btn btn-outline-info me-3" href="{% url 'doctorant-detail' doc.id %}">
                         <i class="fas fa-info-circle"></i> Détails
                     </a>
-                    <a class="btn btn-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ doc }} ?" data-target="#doctorant-{{doc.id}}" href="{% url 'doctorant-delete' doc.id %}">
+                    <a class="btn btn-outline-danger btn-ajax-delete" data-message="Etes-vous sûr que vous voulez supprimer {{ doc }} ?" data-target="#doctorant-{{doc.id}}" href="{% url 'doctorant-delete' doc.id %}">
                         <i class="fas fa-trash"></i> {% trans 'Delete' %}
                     </a>
                 </td>
