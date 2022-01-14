@@ -71,3 +71,13 @@ a.card{
 .canvas-container{
     width: 20rem;
 }
+.swal-pdf-preview{
+    min-width: 22cm !important;
+    height: 30cm !important;
+    overflow-y: scroll;
+    font-family: 'Times New Roman', Times, serif !important;
+}
+.pdf-header{
+    border-bottom: 5px solid #1D49A3;
+    padding-bottom: 0.3cm;
+}

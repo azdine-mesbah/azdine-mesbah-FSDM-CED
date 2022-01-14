@@ -6,7 +6,11 @@ from django.http.response import JsonResponse
 from django.views.generic.edit import CreateView, DeleteView, ModelFormMixin, UpdateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.views import View
 from django.shortcuts import get_object_or_404
+from datetime import datetime
+from django.shortcuts import render
+
 
 from .models import Doctorant, Cursus, Inscription, Retrait, Publication, Soutenance, SoutenanceMembers
 from .forms import DoctorantCreateForm, CursusCreateForm, RetraitCreateForm, InscriptionCreateForm, PublicationCreateForm, SoutenanceCreateForm, SoutenanceMemberCreateForm
@@ -247,3 +251,20 @@ class MemberEditView(MemberCreateView, LoginRequiredMixin, PermissionRequiredMix
 
 class MemberDeleteView(MemberEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Doctorant.delete_soutenancemembers'
+
+class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, View):
+    permission_required = 'Doctorant.preview_soutenance'
+    model = Soutenance
+    template_name = 'soutenance/previews/%s.html'
+
+    def get_object(self):
+        doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
+        soutenance = get_object_or_404(Soutenance, pk=doctorant.soutenance.pk)
+        return soutenance
+
+    def get(self, request, *args, **kwargs):
+        data = {
+            "template":request.GET.get('template'),
+            "receivers":request.GET.getlist('receivers')
+        }
+        return render(request, self.template_name % data['template'], context={"soutenance":self.get_object()})

@@ -66,7 +66,11 @@ class Doctorant(TimeStampedModel):
 
     @property
     def last_inscription(self):
-        return self.inscriptions.last()
+        return self.inscriptions.order_by('-created_at').last()
+
+    @property
+    def first_inscription(self):
+        return self.inscriptions.order_by('-created_at').first()
 
 class CursusType(TimeStampedModel):
     class Meta:
@@ -163,6 +167,10 @@ class Inscription(TimeStampedModel):
     def __str__(self):
         return f"({self.annee}) {self.sujet} -- {self.doctorant}"
 
+    @property
+    def date(self):
+        return self.created_at.strftime("%d/%m/%Y") 
+
 class Formation_C_Inscription(TimeStampedModel):
     class Meta:
         db_table = 'ced_fc_inscription'
@@ -190,6 +198,7 @@ class Soutenance(TimeStampedModel):
         db_table = 'ced_soutenances'
 
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='soutenances')
+    speciality = models.CharField(max_length=255, blank=True, null=True)
     date = models.DateTimeField(blank=True, null=True)
     localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
     president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')

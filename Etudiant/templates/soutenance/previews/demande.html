@@ -1,0 +1,71 @@
+{% include "soutenance/previews/pdf_header.html" %}
+<div class="text-end"><strong class="text-dark">Fès, le {% now "d/m/Y" %}</strong></div>
+<div class="text-center px-5 mx-5 mb-3"><strong class="text-dark mx-5 fs-5">DEMANDE D’AUTORISATION DE SOUTENANCE DE DOCTORAT</strong></div>
+<div class="text-start text-dark"><strong class="me-3">Formation Doctorale :</strong>{{soutenance.doctorant.last_inscription.sujet.laboratoire.formation_doctorale}}</div>
+<div class="text-start text-dark"><strong class="me-3">Spécialité :</strong>{% firstof soutenance.speciality or "--" %}</div>
+<div class="text-start text-dark"><strong class="me-3">Nom et prènom du candidat :</strong>{{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</div>
+<div class="text-start text-dark"><strong class="me-3">Date et lieu de naissance :</strong>{{soutenance.doctorant.date_naissance}} à {{soutenance.doctorant.lieu_naissance}}</div>
+<div class="text-start text-dark"><strong class="me-3">Date de la première inscription :</strong>{{soutenance.doctorant.first_inscription.date}}</div>
+<div class="text-start text-dark"><strong class="me-3">Nom du Directeur de recherches :</strong>--</div>
+<div class="text-start text-dark my-3"><strong class="me-3">Tire de la thèse :</strong>--</div>
+<div class="text-start text-dark">Proposition de jury  (*) :</div>
+<table class="table border text-start">
+    <thead>
+        <th scope="col"></th>
+        <th scope="col">Nom et prénom</th>
+        <th scope="col">Grade</th>
+        <th scope="col">Etablissement</th>
+    </thead>
+    <tbody>
+        <tr>
+            <td><strong>Président</strong></td>
+            <td><strong>{{ soutenance.president }}</strong></td>
+            <td><strong>{% firstof soutenance.president.grade or "--" %}</strong></td>
+            <td><strong>{% firstof soutenance.president.etablissement or "--" %}</strong></td>
+        </tr>
+        <tr>
+            <td><strong>Directeur de thèse</strong></td>
+            <td><strong>{{ soutenance.doctorant.last_inscription.sujet.directeur }}</strong></td>
+            <td><strong>{% firstof soutenance.doctorant.last_inscription.sujet.directeur.grade or "--" %}</strong></td>
+            <td><strong>{% firstof soutenance.doctorant.last_inscription.sujet.directeur.etablissement or "--" %}</strong></td>
+        </tr>
+        <tr>
+            <td rowspan="{{soutenance.rapporteurs.count}}" class="align-middle"><strong>Rapporteurs</strong></td>
+            <td><strong>{{soutenance.rapporteurs.first.member}}</strong></td>
+            <td><strong>{% firstof soutenance.rapporteurs.first.member.grade or "--" %}</strong></td>
+            <td><strong>{% firstof soutenance.rapporteurs.first.member.etablissement or "--" %}</strong></td>
+        </tr>
+        {% for rapporteur in soutenance.rapporteurs|slice:"1:" %}
+        <tr>
+            <td><strong>{{rapporteur.member}}</strong></td>
+            <td><strong>{% firstof rapporteur.member.grade or "--" %}</strong></td>
+            <td><strong>{% firstof rapporteur.member.etablissement or "--" %}</strong></td>
+        </tr>
+        {% endfor %}
+
+        <tr>
+            <td rowspan="{{soutenance.members.count}}" class="align-middle"><strong>Members</strong></td>
+            <td><strong>{{soutenance.members.first.member}}</strong></td>
+            <td><strong>{% firstof soutenance.members.first.member.grade or "--" %}</strong></td>
+            <td><strong>{% firstof soutenance.members.first.member.etablissement or "--" %}</strong></td>
+        </tr>
+        {% for member in soutenance.members|slice:"1:" %}
+        <tr>
+            <td><strong>{{member.member}}</strong></td>
+            <td><strong>{% firstof member.member.grade or "--" %}</strong></td>
+            <td><strong>{% firstof member.member.etablissement or "--" %}</strong></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div class="text-start text-dark my-3">Proposition de date et d’heure : {% firstof soutenance.date or "--" %}</div>
+<table class="text-center mb-3 text-dark w-100">
+    <tr>
+        <td><strong>Le Directeur de recherche</strong></td>
+        <td><strong>Le responsable de la structure de recherche</strong></td>
+    </tr>
+    <tr>
+        <td><strong>Le Directeur du C E D</strong></td>
+        <td><strong>Le Doyen</strong></td>
+    </tr>
+</table>

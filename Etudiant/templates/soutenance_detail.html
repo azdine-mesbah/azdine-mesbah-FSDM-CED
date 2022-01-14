@@ -1,4 +1,5 @@
 {% extends "dashboard.html" %}
+{% block scripts %}{% endblock %}
 {% load static %}
 {% load bootstrap5 %}
 {% if 'use_i18n'|bootstrap_setting %}
@@ -26,10 +27,56 @@
         <fieldset>
     </form>
 </div>
+<div class="row border p-3 mb-5">
+    <div class="col">
+        <div class="btn-group w-auto">
+            <a class="btn btn-secondary">Demande d'autorisation</a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=demande"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="btn-group w-auto">
+            <a class="btn btn-secondary">Invitation au Président du jury</a>
+            <a class="btn btn-outline-primary btn-ajax-preview"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="btn-group w-auto">
+            <a class="btn btn-secondary">Invitation au Directeur</a>
+            <a class="btn btn-outline-primary btn-ajax-preview"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+    </div>
+    <div class="col">
+        <div class="btn-group w-auto">
+            <a class="btn btn-secondary">Invitation au Co-Directeur</a>
+            <a class="btn btn-outline-primary btn-ajax-preview"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+    </div>
+</div>
 <div class="row">
-    <div class="border p-2 d-flex justify-content-between">
+    <div class="border p-2 d-flex justify-content-start">
         <h3 class="text-decoration-underline">Rapporteurs :</h3>
-        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'rapporteur' %}">{% trans 'Add' %}</a>
+        <div class="btn-group w-auto mx-5">
+            <a class="btn btn-secondary">Invitations au Rapporteurs</a>
+            <a class="btn btn-outline-primary btn-ajax-preview"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+        <div class="btn-group w-auto mx-5">
+            <a class="btn btn-secondary">Demandes des Rapports</a>
+            <a class="btn btn-outline-primary btn-ajax-preview"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+        <a class="btn btn-primary btn-ajax-form ms-auto" href="{% url 'member-create' form.initial.doctorant.pk 'rapporteur' %}">{% trans 'Add' %}</a>
     </div>
     <div class="border table-responsive">
         <table class="table">
@@ -64,9 +111,15 @@
     </div>
 </div>
 <div class="row">
-    <div class="border p-2 d-flex justify-content-between">
+    <div class="border p-2 d-flex justify-content-start">
         <h3 class="text-decoration-underline">Members :</h3>
-        <a class="btn btn-primary btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'member' %}">{% trans 'Add' %}</a>
+        <div class="btn-group w-auto ms-5">
+            <a class="btn btn-secondary">Invitations au Members</a>
+            <a class="btn btn-outline-primary"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+        </div>
+        <a class="btn btn-primary ms-auto btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'member' %}">{% trans 'Add' %}</a>
     </div>
     <div class="border table-responsive">
         <table class="table">

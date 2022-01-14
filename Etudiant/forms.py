@@ -73,13 +73,14 @@ class SoutenanceCreateForm(forms.ModelForm):
         widgets = {'date':forms.DateTimeInput(attrs={'type': 'datetime-local'}), 'doctorant':forms.HiddenInput()}
     
     directeur = forms.CharField(label='Directeur de thèse',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    co_directeur = forms.CharField(label='Co-Directeur',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         doctorant = kwargs['initial']['doctorant']
         self.fields['doctorant'].initial = doctorant
-        self.fields['directeur'].queryset = Enseignant.objects.filter(pk=doctorant.inscriptions.last().sujet.directeur.pk)
-        self.fields['directeur'].initial = doctorant.inscriptions.last().sujet.directeur
+        self.fields['directeur'].initial = doctorant.last_inscription.sujet.directeur
+        self.fields['co_directeur'].initial = doctorant.last_inscription.sujet.co_directeur
 
 class SoutenanceMemberCreateForm(forms.ModelForm):
     class Meta:

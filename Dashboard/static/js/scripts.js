@@ -68,4 +68,20 @@ $(document).ready(function(){
             })
         })
     })
+
+    $('.btn-ajax-preview').click(function(e){
+        e.preventDefault()
+        Swal.enableLoading()
+        axios.get($(this).prop('href')).then(function(res){
+            Swal.fire({
+                showConfirmButton: false,
+                html:res.data,
+                customClass: 'swal-pdf-preview',
+            })
+        }).catch(function(err){
+
+        }).finally(function(){
+            Swal.disableLoading()
+        })
+    })
 });
