@@ -78,7 +78,7 @@ def dashboard(request):
             'count':soutenances.count(),
             'labels':[annee.intitule for annee in annees],
             'colors':[annee.color for annee in annees],
-            'data':[sum([inscription.soutenances.count() for inscription in annee.inscriptions.all()]) for annee in annees],
+            'data':[sum([inscription.doctorant.soutenances.count() for inscription in annee.inscriptions.all() if inscription == inscription.doctorant.last_inscription]) for annee in annees],
         }
     }
     return render(request, 'dashboard.html', data)
