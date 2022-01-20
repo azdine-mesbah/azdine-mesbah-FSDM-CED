@@ -198,8 +198,8 @@ class Soutenance(TimeStampedModel):
         db_table = 'ced_soutenances'
 
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='soutenances')
-    speciality = models.CharField(max_length=255, blank=True, null=True)
-    date = models.DateTimeField(blank=True, null=True)
+    speciality = models.CharField('spécialité',max_length=255, blank=True, null=True)
+    date = models.DateTimeField(null=True)
     localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
     president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')
     enseignants = models.ManyToManyField(Enseignant, through='SoutenanceMembers')
@@ -219,3 +219,4 @@ class SoutenanceMembers(TimeStampedModel):
     soutenance = models.ForeignKey(Soutenance, on_delete=models.DO_NOTHING)
     member = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING)
     rapporteur = models.BooleanField(default=False)
+    emailed = models.BooleanField(default=False)

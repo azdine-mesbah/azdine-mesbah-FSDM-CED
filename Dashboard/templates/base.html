@@ -1,21 +1,20 @@
 <!DOCTYPE html>
 {% load static %}
 {% load bootstrap5 %}
-{% if 'use_i18n'|bootstrap_setting %}
-    {% load i18n %}
-    {% get_current_language as LANGUAGE_CODE %}
-{% endif %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+
 <html lang="{{ LANGUAGE_CODE|default:'en_us' }}">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/svg" href="{% static '/img/favicon.svg' %}">
+    <link rel="icon" type="image/svg" href="{% static '/CED/img/favicon.svg' %}">
     <title>{% block title %}CED{% endblock %}</title>
 
     <!-- Bootstrap CSS -->
-    {% bootstrap_css %}
-    <link rel="stylesheet" type="text/css" href="{% static '/css/styles.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/CED/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static '/CED/css/styles.css' %}">
 
     <!-- Bootstrap JavaScript not in body -->
     {% if 'javascript_in_head'|bootstrap_setting %}
@@ -23,27 +22,27 @@
     {% endif %}
 
     <!-- Jquery -->
-    <script src="{% static '/js/jquery-3.6.0.min.js' %}"></script>
+    <script src="{% static '/CED/js/jquery-3.6.0.min.js' %}"></script>
 
     <!-- SweetAlert2 -->
-    <script src="{% static '/js/sweetalert2.all.min.js' %}"></script>
+    <script src="{% static '/CED/js/sweetalert2.all.min.js' %}"></script>
 
     <!-- Cookie library -->
-    <script src="{% static '/js/js.cookie.min.js' %}"></script>
+    <script src="{% static '/CED/js/js.cookie.min.js' %}"></script>
 
     <!-- Axios library -->
-    <script src="{% static '/js/axios.min.js' %}"></script>
+    <script src="{% static '/CED/js/axios.min.js' %}"></script>
 
     <!-- Chart library -->
-    <script src="{% static '/js/chart.min.js' %}"></script>
+    <script src="{% static '/CED/js/chart.min.js' %}"></script>
 
     <!-- Custom JavaScript -->
-    <script defer src="{% static '/js/scripts.js' %}"></script>
+    <script defer src="{% static '/CED/js/scripts.js' %}"></script>
 
 
     <!-- Fontawsome -->
-    <script src="{% static 'fontawesome_free/js/all.min.js' %}"></script>
-    <link href="{% static 'fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <script src="{% static '/fontawesome_free/js/all.min.js' %}"></script>
+    <link href="{% static '/fontawesome_free/css/all.min.css' %}" rel="stylesheet" type="text/css">
     
     {% block head %}{% endblock %}
 </head>

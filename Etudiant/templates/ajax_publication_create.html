@@ -1,12 +1,11 @@
 {% load static %}
 {% load bootstrap5 %}
-{% if 'use_i18n'|bootstrap_setting %}
-    {% load i18n %}
-    {% get_current_language as LANGUAGE_CODE %}
-{% endif %}
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+{% load crispy_forms_tags %}
 <form class="d-flex flex-wrap align-items-center justify-content-between border p-3 flex-form ajax-form" action="{% url 'publication-create' form.initial.doctorant.pk %}" method="post">
     {% csrf_token %}
-    {% bootstrap_form form %}
+    {{ form|crispy }}
     <div class="w-100">
     {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
     </div>

@@ -39,5 +39,5 @@ urlpatterns = [
     path('<int:doctorant_id>/soutenance/<type>/delete/<int:pk>', views.MemberDeleteView.as_view(), name="member-delete"),
 
     path('<int:doctorant_id>/soutenance/preview/', views.SoutenancePreviewView.as_view(), name="soutenance-preview"),
-    path('<int:doctorant_id>/soutenance/pdf/', views.SoutenancePreviewView.as_view(), name="soutenance-pdf"),
+    path('<int:doctorant_id>/soutenance/pdf/', views.SoutenancePDFView.as_view(), name="soutenance-pdf"),
 ]

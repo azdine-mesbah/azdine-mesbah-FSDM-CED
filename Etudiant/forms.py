@@ -63,15 +63,17 @@ class PublicationCreateForm(forms.ModelForm):
     class Meta:
         model = Publication
         fields = '__all__'
-        widgets = {"date":forms.DateTimeInput(attrs={'type': 'datetime-local'})}
+    date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})
+)  
 
 class SoutenanceCreateForm(forms.ModelForm):
     class Meta:
         model = Soutenance
         fields = '__all__'
         exclude = ('enseignants',)
-        widgets = {'date':forms.DateTimeInput(attrs={'type': 'datetime-local'}), 'doctorant':forms.HiddenInput()}
-    
+        widgets = {'doctorant':forms.HiddenInput()}
+
+    date = forms.DateTimeField(widget=forms.TextInput(attrs={'type': 'datetime-local'}), input_formats=('%Y-%m-%dT%H:%M:%S',))
     directeur = forms.CharField(label='Directeur de thèse',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
     co_directeur = forms.CharField(label='Co-Directeur',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
@@ -81,12 +83,14 @@ class SoutenanceCreateForm(forms.ModelForm):
         self.fields['doctorant'].initial = doctorant
         self.fields['directeur'].initial = doctorant.last_inscription.sujet.directeur
         self.fields['co_directeur'].initial = doctorant.last_inscription.sujet.co_directeur
+        if 'instance' in kwargs and kwargs['instance']:
+            self.initial['date'] = kwargs['instance'].date.strftime('%Y-%m-%dT%H:%M:%S')
 
 class SoutenanceMemberCreateForm(forms.ModelForm):
     class Meta:
         model = SoutenanceMembers
         fields = '__all__'
-        widgets = {'soutenance':forms.HiddenInput(),'rapporteur':forms.HiddenInput()}
+        widgets = {'soutenance':forms.HiddenInput(),'rapporteur':forms.HiddenInput(),'emailed':forms.HiddenInput()}
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

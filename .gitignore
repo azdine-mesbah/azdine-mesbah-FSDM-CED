@@ -71,5 +71,8 @@ example/db.sqlite3
 # db file
 db.sqlite3
 
+# static files
+static/*
+
 # static media files
 media/*

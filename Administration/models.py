@@ -1,7 +1,7 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.validators import MaxValueValidator, MinValueValidator
-
+from django.contrib.auth.models import User
 from CED_Tools.tools.Classes import TimeStampedModel
 from CED_Tools.models import Annee, Pays
 
@@ -26,7 +26,7 @@ class Etablissement(TimeStampedModel):
     pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, related_name='etablissements')
     
     def __str__(self):
-        return f"{self.intitule} ({self.ville}, {self.pays})"
+        return f"{self.intitule}"
 
 class Enseignant(TimeStampedModel):
     class Meta:
@@ -37,6 +37,7 @@ class Enseignant(TimeStampedModel):
     cin = models.CharField(max_length=50, blank=True, null=True)
     som =  models.CharField(max_length=50, blank=True, null=True)
     grade =  models.CharField(max_length=50, blank=True, null=True)
+    email = models.EmailField(blank=True, null=True)
     telephone = PhoneNumberField(blank=True, null=True)
     etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING, related_name='enseignants')
 
@@ -131,4 +132,4 @@ class LocalisationSoutenance(TimeStampedModel):
     etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING)
 
     def __str__(self) -> str:
-        return f"{self.intitule} -- {self.etablissement}"
+        return f"{self.intitule}, {self.etablissement}"

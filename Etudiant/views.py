@@ -8,9 +8,12 @@ from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views import View
 from django.shortcuts import get_object_or_404
-from datetime import datetime
-from django.shortcuts import render
-
+from django.shortcuts import render, HttpResponse
+from django.template.loader import get_template
+from pdfkit import from_string
+from django.conf import settings
+import os
+import base64
 
 from .models import Doctorant, Cursus, Inscription, Retrait, Publication, Soutenance, SoutenanceMembers
 from .forms import DoctorantCreateForm, CursusCreateForm, RetraitCreateForm, InscriptionCreateForm, PublicationCreateForm, SoutenanceCreateForm, SoutenanceMemberCreateForm
@@ -255,7 +258,7 @@ class MemberDeleteView(MemberEditView, LoginRequiredMixin, PermissionRequiredMix
 class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, View):
     permission_required = 'Doctorant.preview_soutenance'
     model = Soutenance
-    template_name = 'soutenance/previews/%s.html'
+    template_name = 'soutenance/%s.html'
 
     def get_object(self):
         doctorant = get_object_or_404(Doctorant, pk=self.kwargs.get('doctorant_id'))
@@ -263,8 +266,39 @@ class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFo
         return soutenance
 
     def get(self, request, *args, **kwargs):
-        data = {
-            "template":request.GET.get('template'),
-            "receivers":request.GET.getlist('receivers')
-        }
-        return render(request, self.template_name % data['template'], context={"soutenance":self.get_object()})
+        extra_data = self.get_b64_data()
+        return render(request, self.template_name % request.GET.get('template'), context={"soutenance":self.get_object(), "receivers":request.GET.get('receivers'), **extra_data})
+
+    def get_b64_data(self):
+        b64bs = ""
+        with open(os.path.join(settings.STATIC_ROOT,'CED','css','bootstrap.min.css'), 'r') as data:
+            b64bs += data.read()
+
+        b64img = "data:application/font-woff2;charset=utf-8;base64,"
+        with open(os.path.join(settings.STATIC_ROOT,'CED','img','header_logo.png'), 'rb') as data:
+            b64img += base64.b64encode(data.read()).decode('utf-8')
+
+        b64font = "data:application/font-woff2;charset=utf-8;base64,"
+        with open(os.path.join(settings.STATIC_ROOT,'CED','fonts','Playball-Regular.ttf'), 'rb') as data:
+            b64font += base64.b64encode(data.read()).decode('utf-8')
+
+        return {'header_logo':b64img, 'font':b64font, 'bootstrap':b64bs}
+
+class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, View):
+    permission_required = 'Doctorant.print_soutenance'
+    
+    def get_pdf(self, request, *args, **kwargs):
+        template = get_template(self.template_name % request.GET.get('template'))
+        extra_data = super().get_b64_data()
+        
+        html = template.render({"soutenance":self.get_object(), "receivers":request.GET.get('receivers'), **extra_data})
+        return from_string(html, False, settings.PDF_SETTINGS)
+
+    def get(self, request, *args, **kwargs):
+        pdf = self.get_pdf(request, args, kwargs)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        # response['Content-Disposition'] = f'attachment;filename="{request.GET.get("template")}.pdf"'
+        return response
+
+    def post(self, request, *args, **kwargs):
+        pdf = self.get_pdf(request, args, kwargs)

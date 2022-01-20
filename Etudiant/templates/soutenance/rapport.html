@@ -1,0 +1,18 @@
+{% include "soutenance/customstyles.html" %}
+{% for rapporteur in soutenance.rapporteurs %}
+{% include "soutenance/pdf_header.html" %}
+<div class="page">
+    <div style="text-align:center;font-size:1.5em;padding:0 6rem;margin:1rem 6rem;" class="fancy-text"><strong>Le Doyen de la Faculté des Sciences</strong></div>
+    <div style="text-align:center;font-size:1.2em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>Dhar El Mahraz de Fès</strong></div>
+    <div style="text-align:center;font-size:1.2em;padding:0 6rem;margin:0 6rem;" class="fancy-text text-uppercase"><strong>à</strong></div>
+    <div style="text-align:center;font-size:1.2em;padding:0 6rem;margin:0 3rem;" class="fancy-text"><strong>Madame Monsieur le Professeur {{rapporteur.member}}</strong></div>
+    <div style="text-align:center;font-size:1.2em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement}}</strong></div>
+    <div style="text-align:center;font-size:1.2em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement.pays}}</strong></div>
+    <div style="text-align:left;font-size:1.5em;padding:0 6rem;margin:0;" class="fancy-text"><strong>Objet : Rapport de thèse de Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong></div>
+    <div style="text-align:left;font-size:1.3em;padding:0 3rem;margin:0.5rem 0;" class="fancy-text">Madame Monsieur le Professeur,</div>
+    <div style="text-align:left;font-size:1.3em;padding:0 3rem;margin:0 2rem 0 0;" class="fancy-text">J'ai l'honneur de vous proposer, en tant que spécialiste, pour rapporter le mémoire qui nous a été soumis par <strong>Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong> en vue de l’obtention du diplôme de Doctorat et ce conformément au décret n° 1371-07 du 22 ramadan 1429 (23 Septembre 2008) approuvant le cahier des normes pédagogiques nationales du cycle du doctorat.</div>
+    <div style="text-align:left;font-size:1.3em;padding:0 3rem;margin:0;" class="fancy-text">En vous remerciant de votre disponibilité et de votre collaboration, je vous prie, Madame le Professeur, de bien vouloir me remettre votre rapport dans les meilleurs délais et d’agréer l'expression de mes sentiments distingués.</div>
+    <div style="text-align:right;font-size:1.5em;padding:0 3rem;margin:1rem 0 30rem 0;" class="fancy-text"><strong class="me-5 pe-5">Le Doyen</strong></div>
+</div>
+{% include "soutenance/pdf_footer.html" %}
+{% endfor %}

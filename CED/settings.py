@@ -41,6 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'crispy_bootstrap5',
     'bootstrap5',
     'fontawesome',
     'softdelete',
@@ -155,8 +157,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # dirs where to lookup for templates
 STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    '/var/www/static/',
     BASE_DIR / "CED/static",
 ]
 
@@ -179,3 +179,18 @@ PHONENUMBER_DEFAULT_REGION = 'MA'
 # CED_Tools app settings
 MIN_YEAR = 1960
 MEDIA_ROOT = path.join(BASE_DIR, 'media')
+STATIC_ROOT = path.join(BASE_DIR, 'static')
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = "bootstrap5"
+
+PDF_SETTINGS = {
+        'page-size': 'A4',
+        'margin-top': '1cm',
+        'margin-right': '1cm',
+        'margin-left': '1cm',
+        'margin-bottom': '0.5cm',
+        'encoding': "UTF-8",
+        'no-outline': None,
+        "enable-local-file-access": None,
+    }

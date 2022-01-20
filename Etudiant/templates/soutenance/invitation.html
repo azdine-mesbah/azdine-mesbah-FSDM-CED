@@ -1,0 +1,146 @@
+{% include "soutenance/customstyles.html" %}
+{% if receivers == 'president' %}
+    {% include "soutenance/pdf_header.html" %}
+    <div class="page">
+        <div style="text-align:center;font-size:1.8em;" class="fancy-text"><strong>Le Doyen de la Faculté des Sciences</strong></div>
+        <div style="text-align:center;font-size:1.6em;" class="fancy-text"><strong>Dhar El Mahraz de Fès</strong></div>
+        <div style="text-align:center;font-size:1.4em;" class="fancy-text text-uppercase"><strong>à</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 3rem;" class="fancy-text"><strong>Madame Monsieur le Professeur {{soutenance.president}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 6rem;" class="fancy-text"><strong>{{soutenance.president.etablissement}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{{soutenance.president.etablissement.pays}}</strong></div>
+        <div style="text-align:left;font-size:1.6em;padding-left:3em;margin:0;"><strong class="fancy-text">Objet : Soutenance de la thèse de Mr </strong><strong class="fancy-text bold">{{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong></div>
+        <div style="text-align:left;font-size:1.4em;padding:0 3rem;margin:0.5rem 0;" class="fancy-text">Madame Monsieur le Professeur,</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">J’ai l’honneur de vous demander de bien vouloir <strong class="text-decoration-underline fancy-text bold">présider le jury</strong> qui examinera la thèse présentée par <strong class="fancy-text bold">Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong> vue de l’obtention du Diplôme de Doctorat.</div>
+        <table style="text-align:left;border:1px solid #FFF;table-layout:fixed;width:90%;padding:0 6rem;margin:0.5rem 3rem;font-size:1.2em;">
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Formation Doctorale </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet.laboratoire.formation_doctorale or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Spécialité </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.speciality or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Sujet de la thèse </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet or "--" %}</strong></td>
+            </tr>
+        </table>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">La soutenance est prévue le <strong class="fancy-text bold">{{soutenance.date}}</strong> à {{soutenance.localisation}}.</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">Je vous prie de croire, Monsieur le Professeur, à l’expression de mes sentiments les meilleurs.</div>
+        <div style="text-align:right;font-size:2em;padding:0 3rem;margin:1rem 0 9em 0;" class="fancy-text bold"><strong class="me-5 pe-5">Le Doyen</strong></div>
+    </div>
+    {% include "soutenance/pdf_footer.html" %}
+{% elif receivers == 'directeur' or receivers == 'co_directeur' %}
+    {% include "soutenance/pdf_header.html" %}
+    <div class="page">
+        <div style="text-align:center;font-size:1.8em;padding:0 6rem;margin:1rem 6rem;" class="fancy-text"><strong>Le Doyen de la Faculté des Sciences</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>Dhar El Mahraz de Fès</strong></div>
+        <div style="text-align:center;font-size:1.4em;padding:0 6rem;margin:0 6rem;" class="fancy-text text-uppercase"><strong>à</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 3rem;" class="fancy-text"><strong>Madame Monsieur le Professeur {% if receivers == 'co_directeur' %}{{soutenance.doctorant.last_inscription.sujet.co_directeur}}{% else %}{{soutenance.doctorant.last_inscription.sujet.directeur}}{% endif %}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{% if receivers == 'co_directeur' %}{{soutenance.doctorant.last_inscription.sujet.co_directeur.etablissement}}{% else %}{{soutenance.doctorant.last_inscription.sujet.directeur.etablissement}}{% endif %}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{% if receivers == 'co_directeur' %}{{soutenance.doctorant.last_inscription.sujet.co_directeur.etablissement.pays}}{% else %}{{soutenance.doctorant.last_inscription.sujet.directeur.etablissement.pays}}{% endif %}</strong></div>
+        <div style="text-align:left;font-size:1.6em;padding:0 6rem;margin:0;" class="fancy-text"><strong>Objet : Soutenance de la thèse de Mr </strong><strong class="fancy-text bold">{{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong></div>
+        <div style="text-align:left;font-size:1.4em;padding:0 3rem;margin:0.5rem 0;" class="fancy-text">Madame Monsieur le Professeur,</div>
+        <div style="text-align:left;font-size:1.6em;padding-left:3rem;margin:0 2rem 0 0;" class="fancy-text">J’ai l’honneur de vous demander de bien vouloir faire partie du jury, en tant que <strong class="text-decoration-underline fancy-text bold">{% if receivers == 'co_directeur' %}Co-{% endif %}Directeur</strong> de la thèse présentée par <strong class="fancy-text bold">Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong> vue de l’obtention du Diplôme de Doctorat.</div>
+        <table style="text-align:left;border:1px solid #FFF;table-layout:fixed;width:90%;padding:0 6rem;margin:0.5rem 3rem;font-size:1.2em;">
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Formation Doctorale </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet.laboratoire.formation_doctorale or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Spécialité </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.speciality or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Sujet de la thèse </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet or "--" %}</strong></td>
+            </tr>
+        </table>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">La soutenance est prévue le <strong class="fancy-text bold">{{soutenance.date}}</strong> à {{soutenance.localisation}}.</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">Je vous prie de croire, Monsieur le Professeur, à l’expression de mes sentiments les meilleurs.</div>
+        <div style="text-align:right;font-size:2em;padding:0 3rem;margin:1rem 0 9em 0;" class="fancy-text bold"><strong class="me-5 pe-5">Le Doyen</strong></div>
+    </div>
+    {% include "soutenance/pdf_footer.html" %}
+{% elif receivers == 'rapporteur' %}
+    {% for rapporteur in soutenance.rapporteurs %}
+    {% include "soutenance/pdf_header.html" %}
+    <div class="page">
+        <div style="text-align:center;font-size:1.8em;padding:0 6rem;margin:1rem 6rem;" class="fancy-text"><strong>Le Doyen de la Faculté des Sciences</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>Dhar El Mahraz de Fès</strong></div>
+        <div style="text-align:center;font-size:1.4em;padding:0 6rem;margin:0 6rem;" class="fancy-text text-uppercase"><strong>à</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 3rem;" class="fancy-text"><strong>Madame Monsieur le Professeur {{rapporteur.member}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement.pays}}</strong></div>
+        <div style="text-align:left;font-size:1.6em;padding:0 6rem;margin:0;" class="fancy-text"><strong>Objet : Soutenance de la thèse de Mr </strong><strong class="fancy-text bold">{{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong></div>
+        <div style="text-align:left;font-size:1.4em;padding:0 3rem;margin:0.5rem 0;" class="fancy-text">Madame Monsieur le Professeur,</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0 2rem 0 0;" class="fancy-text">J’ai l’honneur de vous demander de bien vouloir faire partie du jury, en tant que <strong class="text-decoration-underline fancy-text bold">rapporteur</strong> de la thèse présentée par <strong class="fancy-text bold">Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong > vue de l’obtention du Diplôme de Doctorat.</div>
+        <table style="text-align:left;border:1px solid #FFF;table-layout:fixed;width:90%;padding:0 6rem;margin:0.5rem 3rem;font-size:1.2em;">
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Formation Doctorale </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet.laboratoire.formation_doctorale or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Spécialité </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.speciality or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Sujet de la thèse </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet or "--" %}</strong></td>
+            </tr>
+        </table>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">La soutenance est prévue le <strong class="fancy-text bold">{{soutenance.date}}</strong> à {{soutenance.localisation}}.</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">Je vous prie de croire, Monsieur le Professeur, à l’expression de mes sentiments les meilleurs.</div>
+        <div style="text-align:right;font-size:2em;padding:0 3rem;margin:1rem 0 9em 0;" class="fancy-text bold"><strong class="me-5 pe-5">Le Doyen</strong></div>
+    </div>
+    {% include "soutenance/pdf_footer.html" %}
+    {% endfor %}
+{% else %}
+    {% for member in soutenance.members %}
+    {% include "soutenance/pdf_header.html" %}
+    <div class="page">
+        <div style="text-align:center;font-size:1.8em;padding:0 6rem;margin:1rem 6rem;" class="fancy-text"><strong>Le Doyen de la Faculté des Sciences</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>Dhar El Mahraz de Fès</strong></div>
+        <div style="text-align:center;font-size:1.4em;padding:0 6rem;margin:0 6rem;" class="fancy-text text-uppercase"><strong>à</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 3rem;" class="fancy-text"><strong>Madame Monsieur le Professeur {{rapporteur.member}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement}}</strong></div>
+        <div style="text-align:center;font-size:1.6em;padding:0 6rem;margin:0 6rem;" class="fancy-text"><strong>{{rapporteur.member.etablissement.pays}}</strong></div>
+        <div style="text-align:left;font-size:1.6em;padding:0 6rem;margin:0;" class="fancy-text"><strong>Objet : Soutenance de la thèse de Mr </strong><strong class="fancy-text bold">{{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong></div>
+        <div style="text-align:left;font-size:1.4em;padding:0 3rem;margin:0.5rem 0;" class="fancy-text">Madame Monsieur le Professeur,</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0 2rem 0 0;" class="fancy-text">J’ai l’honneur de vous demander de bien vouloir faire partie du jury qui <strong class="text-decoration-underline fancy-text bold">examinera</strong> la thèse présentée par <strong class="fancy-text bold">Mr {{soutenance.doctorant.nom}} {{soutenance.doctorant.prenom}}</strong > vue de l’obtention du Diplôme de Doctorat.</div>
+        <table style="text-align:left;border:1px solid #FFF;table-layout:fixed;width:90%;padding:0 6rem;margin:0.5rem 3rem;font-size:1.2em;">
+            <tr><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Formation Doctorale </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet.laboratoire.formation_doctorale or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Spécialité </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.speciality or "--" %}</strong></td>
+            </tr>
+            <tr>
+                <td colspan="10" class="align-baseline"><strong style="margin-right:10px">Sujet de la thèse </strong></td>
+                <td class="text-end align-baseline"><strong style="margin-right:10px">:</strong></td>
+                <td colspan="26"><strong style="margin-right:10px">{% firstof soutenance.doctorant.last_inscription.sujet or "--" %}</strong></td>
+            </tr>
+        </table>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">La soutenance est prévue le <strong class="fancy-text bold">{{soutenance.date}}</strong> à {{soutenance.localisation}}.</div>
+        <div style="text-align:left;font-size:1.6em;padding:0 3rem;margin:0;" class="fancy-text">Je vous prie de croire, Monsieur le Professeur, à l’expression de mes sentiments les meilleurs.</div>
+        <div style="text-align:right;font-size:2em;padding:0 3rem;margin:1rem 0 9em 0;" class="fancy-text bold"><strong class="me-5 pe-5">Le Doyen</strong></div>
+    </div>
+    {% include "soutenance/pdf_footer.html" %}
+    {% endfor %}
+{% endif %}
