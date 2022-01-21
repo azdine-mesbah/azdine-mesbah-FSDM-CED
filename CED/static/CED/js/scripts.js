@@ -84,4 +84,25 @@ $(document).ready(function(){
             Swal.disableLoading()
         })
     })
+
+    $('.btn-ajax-email').click(function(e){
+        e.preventDefault()
+        if(!$(this).hasClass('disabled')){
+            $(this).addClass('disabled')
+            $(this).html('<i class="fas fa-spinner fa-pulse"></i>')
+            const csrftoken = $('input[name="csrfmiddlewaretoken"]').val()
+            axios.post($(this).prop('href'),{},{headers: {'X-CSRFToken': csrftoken}}).then(res=>{
+                $(this).toggleClass('btn-outline-primary').toggleClass('btn-outline-success')
+                $(this).html('<i class="fas fa-check"></i>')
+            }).catch(err=>{
+                $(this).toggleClass('btn-outline-danger').toggleClass('btn-outline-success')
+                $(this).html('<i class="fas fa-exclamation-circle"></i>')
+            })
+        }
+    })
+
+    $('.btn-ajax-bulk-email').click(function(e){
+        e.preventDefault()
+       $(`[data-trigger=${$(this).attr('data-target')}]`).trigger( "click" )
+    })
 });

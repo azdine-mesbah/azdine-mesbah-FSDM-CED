@@ -1,5 +1,10 @@
-{% include "soutenance/customstyles.html" %}
-<div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% include "soutenance/customstyles.html" %}
+</head>
+<body>
     {% include "soutenance/pdf_header.html" %}
     <div style="text-align:right"><strong>Fès, le {% now "d/m/Y" %}</strong></div>
     <div style="text-align:center;font-size:1.5em;padding:0 6rem;margin:0 6rem 1rem 6rem;"><strong>DEMANDE D’AUTORISATION DE SOUTENANCE DE DOCTORAT</strong></div>
@@ -113,4 +118,5 @@
             <li style="font-size:14px;">Le dépôt de la demande de soutenance doit se faire au plus tard <strong style="text-decoration:underline;">un mois</strong> avant la date proposée de présentation publique de la thèse</li>
         </ul>
     </div>
-</div>
+</body>
+</html>

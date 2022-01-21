@@ -26,65 +26,58 @@
         <fieldset>
     </form>
 </div>
-<div class="row border p-3 mb-5">
+<div class="row border p-3 mb-3">
     <div class="col">
         <div class="btn-group w-auto">
             <a class="btn btn-secondary">Demande d'autorisation</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=demande"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=demande"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'demande' %}"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}"><i class="fas fa-envelope"></i></a>
         </div>
     </div>
     <div class="col">
         <div class="btn-group w-auto">
             <a class="btn btn-secondary">Invitation au Président du jury</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=invitation&receivers=president"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=invitation&receivers=president"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="fas fa-envelope"></i></a>
         </div>
     </div>
     <div class="col">
         <div class="btn-group w-auto">
             <a class="btn btn-secondary">Invitation au Directeur</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=invitation&receivers=directeur"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=invitation&receivers=directeur"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="fas fa-envelope"></i></a>
         </div>
     </div>
     <div class="col">
         <div class="btn-group w-auto">
             <a class="btn btn-secondary">Invitation au Co-Directeur</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=invitation&receivers=co_directeur"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=invitation&receivers=co_directeur"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="fas fa-print"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="fas fa-envelope"></i></a>
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="border p-2 d-flex justify-content-start">
-        <h3 class="text-decoration-underline">Rapporteurs :</h3>
-        <div class="btn-group w-auto mx-5">
-            <a class="btn btn-secondary">Invitations au Rapporteurs</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=invitation&receivers=rapporteur"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary"target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=invitation&receivers=rapporteur"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
-        </div>
-        <div class="btn-group w-auto mx-5">
-            <a class="btn btn-secondary">Demandes des Rapports</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=rapport"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=rapport"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
-        </div>
-        <a class="btn btn-primary btn-ajax-form ms-auto" href="{% url 'member-create' form.initial.doctorant.pk 'rapporteur' %}">{% trans 'Add' %}</a>
-    </div>
-    <div class="border table-responsive">
+<div class="row border table-responsive">
         <table class="table">
+        <thead>
+            <th colspan="9">
+                <div class="border p-2 d-flex justify-content-start">
+                <h3 class="text-decoration-underline">Rapporteurs :</h3>
+                <a class="btn btn-primary btn-ajax-form ms-auto" href="{% url 'member-create' form.initial.doctorant.pk 'rapporteur' %}">{% trans 'Add' %}</a>
+            </div>
+            </th>
+        </thead>
         <thead>
             <th scope="col">Grade</th>
             <th scope="col">Nom</th>
             <th scope="col">Prènom</th>
             <th scope="col">Téléphone</th>
-            <th scope="col">établissement</th>
+            <th scope="col">Établissement</th>
+            <th scope="col">Invitations<a class="btn btn-outline-primary btn-ajax-bulk-email ms-1" data-target="invitation-rapporteur"><i class="fas fa-mail-bulk"></i></a></th>
+            <th scope="col">Rapports<a class="btn btn-outline-primary btn-ajax-bulk-email ms-3" data-target="rapport-rapporteur"><i class="fas fa-mail-bulk"></i></a></th>
             <th scope="col"></th>
         </thead>
         <tbody>
@@ -95,6 +88,20 @@
                 <td>{{rapporteur.member.prenom}}</td>
                 <td>{% firstof rapporteur.member.telephone or "--" %}</td>
                 <td>{% firstof rapporteur.member.etablissement or "--" %}</td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="far fa-eye"></i></a>
+                        <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="fas fa-print"></i></a>
+                        <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}" data-trigger="invitation-rapporteur"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </td>
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="far fa-eye"></i></a>
+                        <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="fas fa-print"></i></a>
+                        <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}" data-trigger="rapport-rapporteur"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </td>
                 <td scope="col" class="d-flex justify-content-end">
                     <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk 'rapporteur' rapporteur.pk %}">
                         <i class="fas fa-edit"></i>
@@ -106,28 +113,21 @@
             </tr>
             {% endfor %}
         </tbody>
-        </table>
-    </div>
-</div>
-<div class="row">
-    <div class="border p-2 d-flex justify-content-start">
-        <h3 class="text-decoration-underline">Members :</h3>
-        <div class="btn-group w-auto ms-5">
-            <a class="btn btn-secondary">Invitations au Members</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' form.initial.doctorant.pk %}?template=invitation&receivers=member"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' form.initial.doctorant.pk %}?template=invitation&receivers=member"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary"><i class="far fa-envelope"></i></a>
-        </div>
-        <a class="btn btn-primary ms-auto btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'member' %}">{% trans 'Add' %}</a>
-    </div>
-    <div class="border table-responsive">
-        <table class="table">
+        <thead>
+            <th colspan="9">
+                <div class="border p-2 d-flex justify-content-start">
+                <h3 class="text-decoration-underline">Members :</h3>
+                <a class="btn btn-primary ms-auto btn-ajax-form" href="{% url 'member-create' form.initial.doctorant.pk 'member' %}">{% trans 'Add' %}</a>
+            </div>
+            </th>
+        </thead>
         <thead>
             <th scope="col">Grade</th>
             <th scope="col">Nom</th>
             <th scope="col">Prènom</th>
             <th scope="col">Téléphone</th>
-            <th scope="col">établissement</th>
+            <th scope="col">Établissement</th>
+            <th scope="col" colspan="2">Invitations<a class="btn btn-outline-primary btn-ajax-bulk-email ms-1" data-target="invitation-member"><i class="fas fa-mail-bulk"></i></a></th>
             <th scope="col"></th>
         </thead>
         <tbody>
@@ -138,6 +138,13 @@
                 <td>{{member.member.prenom}}</td>
                 <td>{% firstof member.member.telephone or "--" %}</td>
                 <td>{% firstof member.member.etablissement or "--" %}</td>
+                <td colspan="2">
+                    <div class="btn-group">
+                        <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}"><i class="far fa-eye"></i></a>
+                        <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}"><i class="fas fa-print"></i></a>
+                        <a class="btn btn-outline-primary btn-ajax-email"  href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}" data-trigger="invitation-member"><i class="fas fa-envelope"></i></a>
+                    </div>
+                </td>
                 <td scope="col" class="d-flex justify-content-end">
                     <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'member-detail' form.initial.doctorant.pk 'member' member.pk %}">
                         <i class="fas fa-edit"></i>
@@ -150,6 +157,5 @@
             {% endfor %}
         </tbody>
         </table>
-    </div>
 </div>
 {% endblock %}

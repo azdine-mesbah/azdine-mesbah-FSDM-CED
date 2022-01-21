@@ -1,6 +1,8 @@
+from re import template
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
+from django.dispatch import receiver
 from django.urls import reverse
 from django.http.response import JsonResponse
 from django.views.generic.edit import CreateView, DeleteView, ModelFormMixin, UpdateView
@@ -17,8 +19,6 @@ import base64
 
 from .models import Doctorant, Cursus, Inscription, Retrait, Publication, Soutenance, SoutenanceMembers
 from .forms import DoctorantCreateForm, CursusCreateForm, RetraitCreateForm, InscriptionCreateForm, PublicationCreateForm, SoutenanceCreateForm, SoutenanceMemberCreateForm
-
-
 
 # Doctorant CRUD
 class DoctorantListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
@@ -265,10 +265,6 @@ class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFo
         soutenance = get_object_or_404(Soutenance, pk=doctorant.soutenance.pk)
         return soutenance
 
-    def get(self, request, *args, **kwargs):
-        extra_data = self.get_b64_data()
-        return render(request, self.template_name % request.GET.get('template'), context={"soutenance":self.get_object(), "receivers":request.GET.get('receivers'), **extra_data})
-
     def get_b64_data(self):
         b64bs = ""
         with open(os.path.join(settings.STATIC_ROOT,'CED','css','bootstrap.min.css'), 'r') as data:
@@ -284,21 +280,39 @@ class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFo
 
         return {'header_logo':b64img, 'font':b64font, 'bootstrap':b64bs}
 
+    def get_context(self, request, *args, **kwargs):
+        soutenance = self.get_object()
+        receivers = {
+            'president':soutenance.president,
+            'directeur':soutenance.doctorant.last_inscription.sujet.directeur,
+            'co_directeur':soutenance.doctorant.last_inscription.sujet.co_directeur,
+            'rapporteur':soutenance.rapporteurs.filter(pk=request.GET.get('id')).first().member if request.GET.get('id') and soutenance.rapporteurs.filter(pk=request.GET.get('id')).first() else None,
+            'member':soutenance.members.filter(pk=request.GET.get('id')).first().member if request.GET.get('id') and soutenance.members.filter(pk=request.GET.get('id')).first() else None,
+        }
+        context = {
+            'soutenance':soutenance,
+            'receiver':receivers[request.GET.get('type')] if request.GET.get('type') else None,
+            'type':request.GET.get('type'),
+            **self.get_b64_data()
+        }
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name % self.kwargs.get('template'), context=self.get_context(request))
+
 class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, View):
     permission_required = 'Doctorant.print_soutenance'
     
-    def get_pdf(self, request, *args, **kwargs):
-        template = get_template(self.template_name % request.GET.get('template'))
-        extra_data = super().get_b64_data()
-        
-        html = template.render({"soutenance":self.get_object(), "receivers":request.GET.get('receivers'), **extra_data})
+    def get_pdf(self, request):
+        template = get_template(self.template_name % self.kwargs.get('template'))       
+        html = template.render(super().get_context(request))
         return from_string(html, False, settings.PDF_SETTINGS)
 
     def get(self, request, *args, **kwargs):
-        pdf = self.get_pdf(request, args, kwargs)
+        pdf = self.get_pdf(request)
         response = HttpResponse(pdf, content_type='application/pdf')
         # response['Content-Disposition'] = f'attachment;filename="{request.GET.get("template")}.pdf"'
         return response
 
     def post(self, request, *args, **kwargs):
-        pdf = self.get_pdf(request, args, kwargs)
+        return JsonResponse({"success":"l'E-mail a été envoyé avec succès"}, status=400)
