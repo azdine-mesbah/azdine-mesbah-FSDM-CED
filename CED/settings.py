@@ -194,3 +194,10 @@ PDF_SETTINGS = {
         'no-outline': None,
         "enable-local-file-access": None,
     }
+
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'ced.test22@gmail.com'
+EMAIL_HOST_PASSWORD = 'azdine@@azdine'
+EMAIL_USE_TLS = True

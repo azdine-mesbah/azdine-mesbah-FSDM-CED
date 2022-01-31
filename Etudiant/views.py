@@ -1,8 +1,6 @@
-from re import template
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 from django.db.models import Q
-from django.dispatch import receiver
 from django.urls import reverse
 from django.http.response import JsonResponse
 from django.views.generic.edit import CreateView, DeleteView, ModelFormMixin, UpdateView
@@ -14,6 +12,7 @@ from django.shortcuts import render, HttpResponse
 from django.template.loader import get_template
 from pdfkit import from_string
 from django.conf import settings
+from django.core.mail import EmailMessage
 import os
 import base64
 
@@ -280,15 +279,21 @@ class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFo
 
         return {'header_logo':b64img, 'font':b64font, 'bootstrap':b64bs}
 
-    def get_context(self, request, *args, **kwargs):
+    def get_receivers(self, request):
         soutenance = self.get_object()
         receivers = {
+            'doctorant':soutenance.doctorant,
             'president':soutenance.president,
             'directeur':soutenance.doctorant.last_inscription.sujet.directeur,
             'co_directeur':soutenance.doctorant.last_inscription.sujet.co_directeur,
             'rapporteur':soutenance.rapporteurs.filter(pk=request.GET.get('id')).first().member if request.GET.get('id') and soutenance.rapporteurs.filter(pk=request.GET.get('id')).first() else None,
             'member':soutenance.members.filter(pk=request.GET.get('id')).first().member if request.GET.get('id') and soutenance.members.filter(pk=request.GET.get('id')).first() else None,
         }
+        return receivers
+
+    def get_context(self, request, *args, **kwargs):
+        soutenance = self.get_object()
+        receivers = self.get_receivers(request)
         context = {
             'soutenance':soutenance,
             'receiver':receivers[request.GET.get('type')] if request.GET.get('type') else None,
@@ -300,7 +305,7 @@ class SoutenancePreviewView(LoginRequiredMixin, PermissionRequiredMixin, ModelFo
     def get(self, request, *args, **kwargs):
         return render(request, self.template_name % self.kwargs.get('template'), context=self.get_context(request))
 
-class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin, View):
+class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionRequiredMixin, ModelFormMixin):
     permission_required = 'Doctorant.print_soutenance'
     
     def get_pdf(self, request):
@@ -315,4 +320,20 @@ class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionReq
         return response
 
     def post(self, request, *args, **kwargs):
-        return JsonResponse({"success":"l'E-mail a été envoyé avec succès"}, status=400)
+        receivers = super().get_receivers(request)
+        receiver_type = request.GET.get("type")
+        template = self.kwargs.get("template")
+        to = receivers[receiver_type].email
+        doctorant = self.get_object().doctorant
+        body = 'message'
+        subject = 'DEMANDE D’AUTORISATION DE SOUTENANCE DE DOCTORAT' if template == 'demande' else f"Soutenance de la thèse de Mr {doctorant.nom} {doctorant.prenom}" if template == 'invitation' else f"Rapport de thèse de Mr {doctorant.nom} {doctorant.prenom}"
+        email = EmailMessage(subject=subject, body=body, from_email=settings.EMAIL_HOST_USER, to=[to])
+        email.attach(f'{template}.pdf',self.get_pdf(request),'application/pdf')
+        
+        try:
+            email.send()
+            super().get_object().emails.create(address=to, type=template, sended=True, error_message=None)
+            return JsonResponse({"success":"l'E-mail a été envoyé avec succès"}, status=200)
+        except:
+            super().get_object().emails.create(address=to, type=template, error_message="l'E-mail n'a pas été envoyé !")
+            return JsonResponse({"error":"l'E-mail n'a pas été envoyé !"}, status=400)

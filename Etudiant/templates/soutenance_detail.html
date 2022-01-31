@@ -30,9 +30,15 @@
     <div class="col">
         <div class="btn-group w-auto">
             <a class="btn btn-secondary">Demande d'autorisation</a>
-            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'demande' %}"><i class="far fa-eye"></i></a>
-            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}"><i class="fas fa-print"></i></a>
-            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}"><i class="fas fa-envelope"></i></a>
+            <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'demande' %}?type=doctorant"><i class="far fa-eye"></i></a>
+            <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}?type=doctorant"><i class="fas fa-print"></i></a>
+            {% if soutenance.doctorant_email.sended %}
+            <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+            {% elif soutenance.doctorant_email.error_message %}
+            <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+            {% else %}
+            <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'demande' %}?type=doctorant"><i class="fas fa-envelope"></i></a>
+            {% endif %}
         </div>
     </div>
     <div class="col">
@@ -40,7 +46,13 @@
             <a class="btn btn-secondary">Invitation au Président du jury</a>
             <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="far fa-eye"></i></a>
             <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="fas fa-print"></i></a>
+            {% if soutenance.president_email.sended %}
+            <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+            {% elif soutenance.president_email.error_message %}
+            <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+            {% else %}
             <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=president"><i class="fas fa-envelope"></i></a>
+            {% endif %}
         </div>
     </div>
     <div class="col">
@@ -48,7 +60,13 @@
             <a class="btn btn-secondary">Invitation au Directeur</a>
             <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="far fa-eye"></i></a>
             <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="fas fa-print"></i></a>
+            {% if soutenance.directeur_email.sended %}
+            <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+            {% elif soutenance.directeur_email.error_message %}
+            <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+            {% else %}
             <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=directeur"><i class="fas fa-envelope"></i></a>
+            {% endif %}
         </div>
     </div>
     <div class="col">
@@ -56,7 +74,13 @@
             <a class="btn btn-secondary">Invitation au Co-Directeur</a>
             <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="far fa-eye"></i></a>
             <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="fas fa-print"></i></a>
+            {% if soutenance.co_directeur_email.sended %}
+            <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+            {% elif soutenance.co_directeur_email.error_message %}
+            <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+            {% else %}
             <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=co_directeur"><i class="fas fa-envelope"></i></a>
+            {% endif %}
         </div>
     </div>
 </div>
@@ -92,14 +116,26 @@
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="far fa-eye"></i></a>
                         <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="fas fa-print"></i></a>
+                        {% if rapporteur.invitation_email.sended %}
+                        <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+                        {% elif rapporteur.invitation_email.error_message %}
+                        <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
                         <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=rapporteur&id={{rapporteur.pk}}" data-trigger="invitation-rapporteur"><i class="fas fa-envelope"></i></a>
+                        {% endif %}
                     </div>
                 </td>
                 <td>
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="far fa-eye"></i></a>
                         <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}"><i class="fas fa-print"></i></a>
+                        {% if rapporteur.rapport_email.sended %}
+                        <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+                        {% elif rapporteur.rapport_email.error_message %}
+                        <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
                         <a class="btn btn-outline-primary btn-ajax-email" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'rapport' %}?type=rapporteur&id={{rapporteur.pk}}" data-trigger="rapport-rapporteur"><i class="fas fa-envelope"></i></a>
+                        {% endif %}
                     </div>
                 </td>
                 <td scope="col" class="d-flex justify-content-end">
@@ -142,7 +178,13 @@
                     <div class="btn-group">
                         <a class="btn btn-outline-primary btn-ajax-preview" href="{% url 'soutenance-preview' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}"><i class="far fa-eye"></i></a>
                         <a class="btn btn-outline-primary" target="_blank" href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}"><i class="fas fa-print"></i></a>
+                        {% if member.invitation_email.sended %}
+                        <a class="btn btn-outline-success disabled" href=""><i class="fas fa-envelope"></i></a>
+                        {% elif member.invitation_email.error_message %}
+                        <a class="btn btn-outline-danger disabled" href=""><i class="fas fa-exclamation-circle"></i></a>
+                        {% else %}
                         <a class="btn btn-outline-primary btn-ajax-email"  href="{% url 'soutenance-pdf' soutenance.doctorant.pk 'invitation' %}?type=member&id={{member.pk}}" data-trigger="invitation-member"><i class="fas fa-envelope"></i></a>
+                        {% endif %}
                     </div>
                 </td>
                 <td scope="col" class="d-flex justify-content-end">

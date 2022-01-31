@@ -29,6 +29,7 @@
         <th scope="col">Nom</th>
         <th scope="col">Prènom</th>
         <th scope="col">Téléphone</th>
+        <th scope="col">Email</th>
         <th scope="col">Etablissement</th>
         <th scope="col">Directeur de laboratoire</th>
         <th scope="col"></th>
@@ -41,6 +42,7 @@
                 <td>{{ens.nom}}</td>
                 <td>{{ens.prenom}}</td>
                 <td>{% firstof ens.telephone or "--" %}</td>
+                <td>{% firstof ens.email or "--" %}</td>
                 <td>{% firstof ens.etablissement or "--" %}</td>
                 <td>{% firstof ens.get_current_laboratoire.acronyme or "--" %}</td>
                 <td class="d-flex justify-content-end">

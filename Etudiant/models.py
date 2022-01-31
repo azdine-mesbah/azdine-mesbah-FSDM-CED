@@ -35,8 +35,8 @@ class Doctorant(TimeStampedModel):
     ville = models.CharField(max_length=100)
 
     telephone = PhoneNumberField(blank=True, null=True)
-    email_ac = models.EmailField(max_length=255, blank=True, null=True, )
-    email_pr = models.EmailField(max_length=255, blank=True, null=True, )
+    email_ac = models.EmailField(blank=True, null=True)
+    email_pr = models.EmailField(blank=True, null=True)
 
     handicap = models.BooleanField(default=False)
 
@@ -49,6 +49,10 @@ class Doctorant(TimeStampedModel):
     fonctionnaire = models.BooleanField(default=False)
     employeur = models.CharField(max_length=255, blank=True, null=True)
     profession = models.CharField(max_length=255, blank=True, null=True)
+
+    @property
+    def email(self):
+        return self.email_ac
 
     @property
     def photo_preview(self):
@@ -198,7 +202,7 @@ class Soutenance(TimeStampedModel):
         db_table = 'ced_soutenances'
 
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='soutenances')
-    speciality = models.CharField('spécialité',max_length=255, blank=True, null=True)
+    speciality = models.CharField('spécialité', max_length=255, blank=True, null=True)
     date = models.DateTimeField(null=True)
     localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
     president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')
@@ -212,6 +216,22 @@ class Soutenance(TimeStampedModel):
     def members(self):
         return self.enseignants.through.objects.filter(rapporteur=False)
 
+    @property
+    def doctorant_email(self):
+        return self.emails.filter(address=self.doctorant.email).first()
+
+    @property
+    def president_email(self):
+        return self.emails.filter(address=self.president.email).first()
+    
+    @property
+    def directeur_email(self):
+        return self.emails.filter(address=self.doctorant.last_inscription.sujet.directeur.email).first()
+
+    @property
+    def co_directeur_email(self):
+        return self.emails.filter(address=self.doctorant.last_inscription.sujet.co_directeur.email).first()
+
 class SoutenanceMembers(TimeStampedModel):
     class Meta:
         db_table = 'ced_soutenence_members'
@@ -220,3 +240,21 @@ class SoutenanceMembers(TimeStampedModel):
     member = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING)
     rapporteur = models.BooleanField(default=False)
     emailed = models.BooleanField(default=False)
+
+    @property
+    def invitation_email(self):
+        return self.soutenance.emails.filter(address=self.member.email, type="invitation").first()
+
+    @property
+    def rapport_email(self):
+        return self.soutenance.emails.filter(address=self.member.email, type="rapport").first()
+
+class SoutenanceEmail(TimeStampedModel):
+    class Meta:
+        db_table = 'ced_soutenance_emails'
+
+    soutenance = models.ForeignKey(Soutenance, on_delete=models.DO_NOTHING, related_name='emails')
+    type = models.CharField(max_length=255, null=True)
+    address = models.EmailField()
+    sended = models.BooleanField(default=False)
+    error_message = models.CharField(max_length=255, null=True)
