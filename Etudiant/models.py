@@ -203,8 +203,8 @@ class Soutenance(TimeStampedModel):
 
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='soutenances')
     speciality = models.CharField('spécialité', max_length=255, blank=True, null=True)
-    date = models.DateTimeField(null=True)
-    localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances')
+    date = models.DateTimeField(blank=True, null=True)
+    localisation = models.ForeignKey(LocalisationSoutenance, on_delete=models.DO_NOTHING, related_name='soutenances', blank=True, null=True)
     president = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='soutenances')
     enseignants = models.ManyToManyField(Enseignant, through='SoutenanceMembers')
 

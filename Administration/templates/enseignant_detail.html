@@ -16,7 +16,7 @@
     <form id="enseignant-edit-form" class="d-flex flex-wrap align-items-center justify-content-between border p-3 me-3 flex-form" action="{% url 'enseignant-edit' enseignant.pk %}" method="post">
         <fieldset class="d-flex flex-wrap w-100 flex-column flex-md-row justify-content-between" disabled>
         {% csrf_token %}
-        {% bootstrap_form form layout='inline' %}
+        {% bootstrap_form form %}
         {% buttons submit=_('Save') reset=_('Clear') %}{% endbuttons %}
         <fieldset>
     </form>

@@ -37,7 +37,9 @@
             <div class="mb-3">
                 <div class="border p-2 d-flex justify-content-between ">
                     <h3 class="text-decoration-underline">Inscriptions :</h3>
+                    {% if not doctorant.soutenance %}
                     <a class="btn btn-primary btn-ajax-form" href="{% url 'inscription-create' doctorant.pk %}">{% trans 'Add' %}</a>
+                    {% endif %}
                 </div>
                 <div class="border table-responsive">
                     <table class="table table-hover">
@@ -56,12 +58,14 @@
                                 <td>{{inscription.sujet}}</td>
                                 <td>{% firstof  inscription.sujet_detail or "--" %}</td>
                                 <td class="d-flex">
+                                {% if not doctorant.soutenance %}
                                     <a class="btn btn-info text-white ms-auto me-3 btn-ajax-form" href="{% url 'inscription-detail' doctorant.pk inscription.pk %}">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a class="btn btn-danger btn-ajax-delete" data-message="Si vous supprimez cette Inscription, les Publications associées à celle-ci seront également supprimées. Etes-vous sûr que vous voulez supprimer {{ inscription }} ?" data-target="#inscription-{{inscription.id}}" href="{% url 'inscription-delete' doctorant.pk inscription.pk %}">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                {% endif%}
                                 </td>
                             </tr>
                             {% endfor %}

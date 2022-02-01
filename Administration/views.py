@@ -268,4 +268,3 @@ class FormationComplementaireEditView(FormationComplementaireCreateView, LoginRe
 
 class FormationComplementaireDeleteView(FormationComplementaireEditView, LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     permission_required = 'Administration.delete_formation_complementaire'
-

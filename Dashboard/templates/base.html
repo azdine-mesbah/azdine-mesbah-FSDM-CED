@@ -61,7 +61,7 @@
                 <ul class="navbar-nav ms-5 me-auto">
                     {% url 'dashboard' as dashboard %}
                     {% if dashboard and perms.Dashboard.view_dashboard %}
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                     <a href="{% url 'dashboard' %}" class="nav-link text-light {% if 'dashboard' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-chart-bar mr-2"></i>
                         <span class="ms-2">Statistiques</span>
@@ -71,7 +71,7 @@
 
                     {% url 'departement-list' as departement_list %}
                     {% if departement_list and perms.Administration.view_departement %}
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                     <a href="{% url 'departement-list' %}" class="nav-link text-light {% if 'departement' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-building mr-2"></i>
                         <span class="ms-2">Départements</span>
@@ -81,7 +81,7 @@
 
                     {% url 'enseignant-list' as enseignant_list %}
                     {% if enseignant_list and perms.Administration.view_enseignant %}
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                     <a href="{% url 'enseignant-list' %}" class="nav-link text-light {% if 'enseignant' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-user-tie mr-2"></i>
                         <span class="ms-2">Enseignants</span>
@@ -91,7 +91,7 @@
 
                     {% url 'doctorant-list' as doctorant_list %}
                     {% if doctorant_list and perms.Etudiant.view_doctorant %}
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                     <a href="{% url 'doctorant-list' %}" class="nav-link text-light {% if 'doctorant' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-user-graduate mr-2"></i>
                         <span class="ms-2">Doctorants</span>
@@ -101,7 +101,7 @@
 
                     {% url 'formation-list' as formation_list %}
                     {% if formation_list and perms.Administration.view_formation %}
-                    <li class="nav-item">
+                    <li class="nav-item me-3">
                     <a href="{% url 'formation-list' %}" class="nav-link text-light {% if 'formation' in request.resolver_match.url_name %}active{% endif %}">
                         <i class="fas fa-chalkboard"></i>
                         <span class="ms-2">Formations</span>

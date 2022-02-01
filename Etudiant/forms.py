@@ -1,7 +1,8 @@
 from django import forms
 from datetime import datetime
+from django.core.exceptions import ValidationError
 
-from Administration.models import Enseignant
+from Administration.models import Enseignant, LocalisationSoutenance
 
 from CED_Tools.tools.Constants import SEXES
 from CED_Tools.models import Annee
@@ -35,12 +36,15 @@ class InscriptionCreateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        doctorant = kwargs['initial']['doctorant']
+        if doctorant.soutenance:
+            raise ValidationError(f'Le doctorant {doctorant} est deja fait une soutenance et il n\'a pas encore le droit de faire une inscription')
         if 'instance' in kwargs and kwargs['instance']:
-            inscriptions = kwargs['initial']['doctorant'].inscriptions.exclude(annee_id=kwargs['instance'].annee_id).values_list('annee_id')
+            inscriptions = doctorant.inscriptions.exclude(annee_id=kwargs['instance'].annee_id).values_list('annee_id')
             self.fields['annee'].queryset = Annee.objects.exclude(pk__in=inscriptions)
             self.fields['annee'].widget = forms.HiddenInput()
         else:
-            inscriptions = kwargs['initial']['doctorant'].inscriptions.values_list('annee_id')
+            inscriptions = doctorant.inscriptions.values_list('annee_id')
             self.fields['annee'].queryset = Annee.objects.exclude(pk__in=inscriptions)
 
 class RetraitCreateForm(forms.ModelForm):
@@ -71,11 +75,10 @@ class SoutenanceCreateForm(forms.ModelForm):
         model = Soutenance
         fields = '__all__'
         exclude = ('enseignants',)
-        widgets = {'doctorant':forms.HiddenInput()}
+        widgets = {'doctorant':forms.HiddenInput(), 'date':forms.HiddenInput(), 'localisation':forms.HiddenInput()}
 
-    date = forms.DateTimeField(widget=forms.TextInput(attrs={'type': 'datetime-local'}), input_formats=('%Y-%m-%dT%H:%M:%S',))
-    directeur = forms.CharField(label='Directeur de thèse',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
-    co_directeur = forms.CharField(label='Co-Directeur',widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    directeur = forms.CharField(label='Directeur de thèse', widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+    co_directeur = forms.CharField(label='Co-Directeur', widget=forms.TextInput(attrs={'readonly': 'readonly'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -84,7 +87,12 @@ class SoutenanceCreateForm(forms.ModelForm):
         self.fields['directeur'].initial = doctorant.last_inscription.sujet.directeur
         self.fields['co_directeur'].initial = doctorant.last_inscription.sujet.co_directeur
         if 'instance' in kwargs and kwargs['instance']:
-            self.initial['date'] = kwargs['instance'].date.strftime('%Y-%m-%dT%H:%M:%S')
+            self.fields['date'] = forms.DateTimeField(widget=forms.TextInput(attrs={'type': 'datetime-local'}), input_formats=('%Y-%m-%dT%H:%M:%S',))
+            self.fields['localisation'] = forms.ModelChoiceField(queryset=LocalisationSoutenance.objects.all())
+            if kwargs['instance'].date:
+                self.initial['date'] = kwargs['instance'].date.strftime('%Y-%m-%dT%H:%M:%S')
+            self.initial['localisation'] = kwargs['instance'].localisation
+                
 
 class SoutenanceMemberCreateForm(forms.ModelForm):
     class Meta:
