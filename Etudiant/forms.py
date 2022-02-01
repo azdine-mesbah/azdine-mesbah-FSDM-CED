@@ -2,7 +2,7 @@ from django import forms
 from datetime import datetime
 from django.core.exceptions import ValidationError
 
-from Administration.models import Enseignant, LocalisationSoutenance
+from Administration.models import Enseignant, LocalisationSoutenance, Sujet
 
 from CED_Tools.tools.Constants import SEXES
 from CED_Tools.models import Annee
@@ -39,13 +39,17 @@ class InscriptionCreateForm(forms.ModelForm):
         doctorant = kwargs['initial']['doctorant']
         if doctorant.soutenance:
             raise ValidationError(f'Le doctorant {doctorant} est deja fait une soutenance et il n\'a pas encore le droit de faire une inscription')
+        available_sujets = [sujet.id for sujet in Sujet.objects.all() if sujet.is_available]
         if 'instance' in kwargs and kwargs['instance']:
             inscriptions = doctorant.inscriptions.exclude(annee_id=kwargs['instance'].annee_id).values_list('annee_id')
             self.fields['annee'].queryset = Annee.objects.exclude(pk__in=inscriptions)
             self.fields['annee'].widget = forms.HiddenInput()
+            if not kwargs['instance'].sujet.pk in available_sujets:
+                available_sujets.append(kwargs['instance'].sujet.pk)
         else:
             inscriptions = doctorant.inscriptions.values_list('annee_id')
             self.fields['annee'].queryset = Annee.objects.exclude(pk__in=inscriptions)
+        self.fields['sujet'].queryset = Sujet.objects.filter(pk__in=available_sujets)
 
 class RetraitCreateForm(forms.ModelForm):
     class Meta:
@@ -92,7 +96,6 @@ class SoutenanceCreateForm(forms.ModelForm):
             if kwargs['instance'].date:
                 self.initial['date'] = kwargs['instance'].date.strftime('%Y-%m-%dT%H:%M:%S')
             self.initial['localisation'] = kwargs['instance'].localisation
-                
 
 class SoutenanceMemberCreateForm(forms.ModelForm):
     class Meta:

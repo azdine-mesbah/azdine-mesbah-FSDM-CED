@@ -1,7 +1,7 @@
 from django.db import models
+from django.apps import apps
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.contrib.auth.models import User
 from CED_Tools.tools.Classes import TimeStampedModel
 from CED_Tools.models import Annee, Pays
 
@@ -49,6 +49,10 @@ class Enseignant(TimeStampedModel):
             return self.laboratoires.filter(courant=True).first().laboratoire
         except:
             return None
+
+    @property
+    def current_doctorants(self):
+        return apps.get_model('Etudiant','Doctorant').objects.filter(inscriptions__sujet__directeur=self).distinct().filter(soutenances=None)
 
 class FormationDoctorale(TimeStampedModel):
     class Meta:
@@ -102,6 +106,10 @@ class Sujet(TimeStampedModel):
 
     def __str__(self):
         return f"{self.intitule}"
+
+    @property
+    def is_available(self):
+        return self.directeur.current_doctorants.count() < 12
 
 class TypeFormationComplementaire(TimeStampedModel):
     class Meta:
