@@ -87,8 +87,8 @@ class SoutenanceCreateForm(forms.ModelForm):
         self.fields['directeur'].initial = doctorant.last_inscription.sujet.directeur
         self.fields['co_directeur'].initial = doctorant.last_inscription.sujet.co_directeur
         if 'instance' in kwargs and kwargs['instance']:
-            self.fields['date'] = forms.DateTimeField(widget=forms.TextInput(attrs={'type': 'datetime-local'}), input_formats=('%Y-%m-%dT%H:%M:%S',))
-            self.fields['localisation'] = forms.ModelChoiceField(queryset=LocalisationSoutenance.objects.all())
+            self.fields['date'] = forms.DateTimeField(widget=forms.TextInput(attrs={'type': 'datetime-local'},), input_formats=('%Y-%m-%dT%H:%M:%S',), required=False)
+            self.fields['localisation'] = forms.ModelChoiceField(queryset=LocalisationSoutenance.objects.all(), required=False)
             if kwargs['instance'].date:
                 self.initial['date'] = kwargs['instance'].date.strftime('%Y-%m-%dT%H:%M:%S')
             self.initial['localisation'] = kwargs['instance'].localisation
