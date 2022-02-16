@@ -7,7 +7,7 @@ class DoctorantAdmin(admin.ModelAdmin):
     list_display = ('nom', 'prenom','cin','cne')
     list_filter = ('fonctionnaire', 'sexe')
     search_fields = ('nom','prenom','cne','cin')
-    autocomplete_fields = ('pays','annee_bac')
+    autocomplete_fields = ('pays',)
     readonly_fields = ('photo_preview',)
 
     def photo_preview(self, obj):
@@ -24,9 +24,9 @@ class CursusTypeAdmin(admin.ModelAdmin):
 
 @admin.register(Cursus)
 class CursusAdmin(admin.ModelAdmin):
-    list_display = ('doctorant', 'type','specialite','annee','duree','mention')
+    list_display = ('doctorant', 'type','intitule','annee','duree','mention')
     list_filter = ('type', 'duree')
-    search_fields = ('specialite','ville','etablissement','annee__intitule','type__intitule','doctorant__nom','doctorant__prenom','doctorant__cne','doctorant__cin')
+    search_fields = ('intitule','ville','etablissement','annee__intitule','type__intitule','doctorant__nom','doctorant__prenom','doctorant__cne','doctorant__cin')
     autocomplete_fields = ('doctorant','type','annee')
 
 @admin.register(RetraitType)

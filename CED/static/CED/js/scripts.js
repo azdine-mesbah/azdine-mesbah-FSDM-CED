@@ -44,6 +44,9 @@ $(document).ready(function(){
         axios.get($(this).prop('href'))
         .then(function(res){
             Swal.fire({
+                customClass:{
+                    popup:'w-50'
+                },
                 html:res.data,
                 showConfirmButton: false
             })
@@ -54,7 +57,8 @@ $(document).ready(function(){
                 e.preventDefault()
                 const csrftoken = $('input[name="csrfmiddlewaretoken"]').val()
                 Swal.enableLoading()
-                axios.post(e.target.action, $(this).serialize(), {headers: {'X-CSRFToken': csrftoken}}).then(res=>{
+                formData = new FormData($(this)[0])
+                axios.post(e.target.action, formData, {headers: {'X-CSRFToken': csrftoken}}).then(res=>{
                     $('.ajax-form').html(res.data);
                 }).catch(err=>{
                     if(err.response.status==302){

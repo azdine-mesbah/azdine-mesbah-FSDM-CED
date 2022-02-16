@@ -22,13 +22,26 @@ def year_choices():
 def id_generator(size=6, chars=ascii_uppercase + digits):
     return ''.join(choice(chars) for _ in range(size))
 
-def photo_upload_to(instance, filename):
-    return f"photos/{instance.cin or id_generator()}.{filename.split('.')[-1]}"
+def photo_upload_to(doctorant, filename):
+    folder_name = doctorant.cne if doctorant else 'unknown'
+    file_extention = filename.split('.')[-1]
+    return f"doctorants/{folder_name}/photo.{file_extention}"
+
+def cv_upload_to(doctorant, filename):
+    folder_name = doctorant.cne if doctorant else 'unknown'
+    file_extention = filename.split('.')[-1]
+    return f"doctorants/{folder_name}/CV.{file_extention}"
+
+def cursus_document_upload_to(cursus, filename):
+    folder_name = cursus.doctorant.cne if cursus else 'unknown'
+    file_extention = filename.split('.')[-1]
+    cursus_type = cursus.type.acronyme if cursus else 'unknown'
+    return f"doctorants/{folder_name}/{cursus_type}.{file_extention}"
 
 def file_upload_to(instance, filename):
     return f"files/{id_generator()}_-_{filename}"
 
-def safe_image_tag(src=getattr(settings, "MEDIA_URL", "/media")+"photos/no_photo.svg"):
+def safe_image_tag(src=getattr(settings, "MEDIA_URL", "/media")+"no_photo.svg"):
     return mark_safe(f'<img src="{src}" style="width:100%;max-width:300px"/>')
 
 def avg_to_mention(avg):
@@ -51,19 +64,16 @@ def birhdayValidator(value):
     isValid = True
 
     if day_month_year:
-        print(day_month_year)
         try:
             datetime.strptime(day_month_year, "%d/%m/%Y")
         except:
             isValid = False
     elif month_year:
-        print(month_year)
         try:
             datetime.strptime(month_year, "%m/%Y")
         except:
             isValid = False
     elif year:
-        print(year)
         try:
             datetime.strptime(year, "%Y")
         except:

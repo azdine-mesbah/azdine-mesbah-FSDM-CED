@@ -98,7 +98,7 @@ DATABASES = {
     'default' :{
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'database':'ced_rebuild',
+            'database':'ced',
             'user':'root',
             'password':'',
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

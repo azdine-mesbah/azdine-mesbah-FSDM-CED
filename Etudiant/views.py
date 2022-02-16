@@ -51,11 +51,10 @@ class DoctorantDetailView(LoginRequiredMixin,PermissionRequiredMixin, ModelFormM
     template_name = 'doctorant_detail.html'
     form_class = DoctorantCreateForm
     
-class DoctorantEditView(LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
+class DoctorantEditView(DoctorantCreateView, LoginRequiredMixin,PermissionRequiredMixin, UpdateView):
     permission_required = 'Doctorant.change_doctorant'
     model = Doctorant
     template_name = 'doctorant_detail.html'
-    fields = '__all__'
     
     def get_success_url(self):
         return reverse('doctorant-detail', kwargs={'pk':self.object.id})

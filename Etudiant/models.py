@@ -5,8 +5,8 @@ from datetime import datetime
 from numpy import busday_count
 
 from CED_Tools.tools.Classes import TimeStampedModel
-from CED_Tools.tools.Constants import SEXES, MENTIONS
-from CED_Tools.tools.Functions import photo_upload_to, safe_image_tag, birhdayValidator, avg_to_mention, current_year
+from CED_Tools.tools.Constants import SEXES, HANDICAPE_CHOICES, SITUATIONS_FAMILIALES
+from CED_Tools.tools.Functions import photo_upload_to, cv_upload_to, cursus_document_upload_to, safe_image_tag, birhdayValidator, avg_to_mention, current_year
 from CED_Tools.models import Annee, Pays
 
 from Administration.models import Sujet, FormationComplementaire, Enseignant, LocalisationSoutenance
@@ -18,35 +18,33 @@ class Doctorant(TimeStampedModel):
     class Meta:
         db_table = 'ced_doctorants'
     
-    photo = models.ImageField(upload_to=photo_upload_to, blank=True, null=True)
-    nom = models.CharField(max_length=50)
-    prenom = models.CharField(max_length=50)
+    photo = models.ImageField(upload_to=photo_upload_to, max_length=255, blank=True, null=True)
+    nom = models.CharField(max_length=63)
+    prenom = models.CharField(max_length=63)
     sexe = models.CharField(max_length=1, choices=SEXES)
-    cne = models.CharField('CNE',max_length=10)
-    cin = models.CharField('CIN',max_length=10)
-    date_naissance = models.CharField('Date de naissance', max_length=10, validators=(birhdayValidator,))
-    lieu_naissance = models.CharField('Lieu de naissance', max_length=255)
-    pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, default=Pays.default_value_id, related_name='doctorants')
-    nom_ar = models.CharField(max_length=100)
-    prenom_ar = models.CharField(max_length=100)
-    lieu_naissance_ar = models.CharField(max_length=255)
+    cne = models.CharField('CNE', max_length=15)
+    cin = models.CharField('CIN', max_length=15)
+    date_naissance = models.CharField('Date de naissance', max_length=10, validators=(birhdayValidator,), blank=True, null=True)
+    lieu_naissance = models.CharField('Lieu de naissance', max_length=255, blank=True, null=True)
+    pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, default=Pays.default_value_id, related_name='doctorants', blank=True, null=True)
+    
+    nom_ar = models.CharField(max_length=127, blank=True, null=True)
+    prenom_ar = models.CharField(max_length=127, blank=True, null=True)
+    lieu_naissance_ar = models.CharField(max_length=255, blank=True, null=True)
     
     adresse = models.CharField(max_length=255, blank=True, null=True)
-    ville = models.CharField(max_length=100)
+    ville = models.CharField(max_length=127, blank=True, null=True)
 
     telephone = PhoneNumberField(blank=True, null=True)
-    email_ac = models.EmailField(blank=True, null=True)
-    email_pr = models.EmailField(blank=True, null=True)
+    email_ac = models.EmailField(verbose_name='Email Académique', blank=True, null=True)
+    email_pr = models.EmailField(verbose_name='Email Personnelle', blank=True, null=True)
 
-    handicap = models.BooleanField(default=False)
+    cv = models.FileField(verbose_name='Curriculum Vitae', upload_to=cv_upload_to, max_length=255, blank=True, null=True)
 
-    annee_bac = models.ForeignKey(Annee, on_delete=models.DO_NOTHING)
-    centre_bac = models.CharField(max_length=255)
-    mention_bac = models.CharField(max_length=10, choices=MENTIONS)
-    academie_bac = models.CharField(max_length=255)
-    serie_bac = models.CharField(max_length=16)
+    handicap = models.CharField(max_length=31, blank=True, null=True, choices=HANDICAPE_CHOICES)
+    situation_f = models.CharField(max_length=1, blank=True, null=True, choices=SITUATIONS_FAMILIALES)
 
-    fonctionnaire = models.BooleanField(default=False)
+    fonctionnaire = models.BooleanField(default=False, blank=True, null=True)
     employeur = models.CharField(max_length=255, blank=True, null=True)
     profession = models.CharField(max_length=255, blank=True, null=True)
 
@@ -56,7 +54,7 @@ class Doctorant(TimeStampedModel):
 
     @property
     def photo_preview(self):
-        return safe_image_tag(self.photo.url) if self.photo else safe_image_tag()
+        return safe_image_tag(self.photo.url if self.photo else None)
 
     def __str__(self) -> str:
         return f"{self.cin.upper()} - {self.nom.upper()} {self.prenom.upper()}"
@@ -82,10 +80,12 @@ class CursusType(TimeStampedModel):
         verbose_name_plural = 'Types de Cursus'
 
     intitule = models.CharField(max_length=255)
+    acronyme = models.CharField(max_length=63)
+    description = models.CharField(max_length=255)
     duree_annees = models.IntegerField(validators=[MinValueValidator(1)])
 
     def __str__(self) -> str:
-        return f"{self.intitule} - ({self.duree})"
+        return f"{self.intitule} ({self.acronyme})"
 
     @property
     def duree(self):
@@ -99,11 +99,16 @@ class Cursus(TimeStampedModel):
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='cursus')
     type = models.ForeignKey(CursusType, on_delete=models.DO_NOTHING, related_name='cursus')
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='cursus')
-    specialite = models.CharField(max_length=255)
-    duree = models.IntegerField(validators=[MinValueValidator(1)])
-    ville = models.CharField(max_length=255)
-    etablissement = models.CharField(max_length=255)
+
+    intitule = models.CharField(max_length=255)
+    date_obtention = models.DateField("Date d'obtention", blank=True, null=True)
     moyenne = models.DecimalField(decimal_places=2, max_digits=4, validators=[MinValueValidator(10), MaxValueValidator(20)])
+    duree = models.IntegerField(verbose_name="Durée (ans)", validators=[MinValueValidator(1)])
+    ville = models.CharField(max_length=255)
+    etablissement = models.CharField(verbose_name="Etablissement", max_length=255)
+    photo_diplome = models.FileField(verbose_name="Diplôme", upload_to=cursus_document_upload_to, max_length=255, blank=True, null=True)
+    photo_releve = models.FileField(verbose_name="Relevé des notes", upload_to=cursus_document_upload_to, max_length=255, blank=True, null=True)
+    
 
     @property
     def mention(self):
@@ -114,7 +119,7 @@ class Cursus(TimeStampedModel):
         return f"{self.duree} an" + "s" if self.duree > 1 else ""
 
     def __str__(self) -> str:
-        return f"{self.type} - {self.specialite}"
+        return f"{self.type} - {self.intitule}"
 
 class RetraitType(TimeStampedModel):
     class Meta:
