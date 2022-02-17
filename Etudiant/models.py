@@ -23,7 +23,7 @@ class Doctorant(TimeStampedModel):
     prenom = models.CharField(max_length=63)
     sexe = models.CharField(max_length=1, choices=SEXES)
     cne = models.CharField('CNE', max_length=15)
-    cin = models.CharField('CIN', max_length=15)
+    cin = models.CharField('CIN', max_length=15, unique=True)
     date_naissance = models.CharField('Date de naissance', max_length=10, validators=(birhdayValidator,), blank=True, null=True)
     lieu_naissance = models.CharField('Lieu de naissance', max_length=255, blank=True, null=True)
     pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, default=Pays.default_value_id, related_name='doctorants', blank=True, null=True)

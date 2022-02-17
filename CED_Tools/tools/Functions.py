@@ -42,7 +42,10 @@ def file_upload_to(instance, filename):
     return f"files/{id_generator()}_-_{filename}"
 
 def safe_image_tag(src=getattr(settings, "MEDIA_URL", "/media")+"no_photo.svg"):
-    return mark_safe(f'<img src="{src}" style="width:100%;max-width:300px"/>')
+    #  cleaning external source image
+    src = src.replace('http%3A/','')
+    source = src.replace('/media/','http://') if 'edoctorat.usmba.ac.ma' in src else src
+    return mark_safe(f'<img src="{source}" style="width:100%;max-width:300px"/>')
 
 def avg_to_mention(avg):
     if(avg >= 10 and avg < 12):
