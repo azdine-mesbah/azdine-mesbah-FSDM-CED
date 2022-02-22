@@ -27,7 +27,7 @@ class LaboratoireAdmin(admin.ModelAdmin):
 
 @admin.register(Sujet)
 class SujetAdmin(admin.ModelAdmin):
-    list_display = ('intitule', 'annee', 'laboratoire', 'co_directeur')
+    list_display = ('intitule', 'annee', 'laboratoire', 'co_directeur', 'created_at')
     search_fields = ('intitule', 'annee__intitule', 'laboratoire__intitule','laboratoire__acronyme')
     list_filter = ('laboratoire',)
     autocomplete_fields = ('annee', 'laboratoire', 'directeur', 'co_directeur')

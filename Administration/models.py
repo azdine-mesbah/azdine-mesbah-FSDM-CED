@@ -99,7 +99,7 @@ class Sujet(TimeStampedModel):
         db_table = 'ced_sujets'
 
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='sujets')
-    intitule = models.CharField(max_length=255)
+    intitule = models.TextField(max_length=255)
     laboratoire = models.ForeignKey(Laboratoire, on_delete=models.DO_NOTHING, related_name='sujets')
     directeur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='sujets')
     co_directeur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name='co_sujets', null=True, blank=True)

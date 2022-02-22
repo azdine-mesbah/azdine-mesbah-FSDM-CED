@@ -65,7 +65,7 @@ class SujetCreateForm(SujetAdminCreateForm):
     class Meta:
         model = Sujet
         fields = '__all__'
-        widgets = {'directeur':forms.HiddenInput(),'laboratoire':forms.HiddenInput()}
+        widgets = {'directeur':forms.HiddenInput(),'laboratoire':forms.HiddenInput(), 'intitule':forms.Textarea(attrs={'rows':4})}
 
 class FormationDoctoraleCreateForm(forms.ModelForm):
     class Meta:
