@@ -55,8 +55,8 @@ class SujetAdminCreateForm(forms.ModelForm):
             self.fields['co_directeur'].queryset = Enseignant.objects.exclude(pk=kwargs['initial']['directeur'].pk)
 
     def clean(self):
-        if self.cleaned_data['co_directeur'] == self.cleaned_data['laboratoire'].get_current_directeur():
-            raise ValidationError('Le Directeur et le Co-Directeur ne doivent pas être les même. (vous pouvez laissier vide!)')
+        if self.cleaned_data['co_directeur'] == self.cleaned_data['directeur']:
+            raise ValidationError('Le Directeur de thèse et le Co-Directeur ne doivent pas être les même. (vous pouvez laissier vide!)')
         # elif self.cleaned_data['laboratoire'].get_current_directeur() != self.cleaned_data['directeur']:
         #     raise ValidationError('Directeur and Laboratoire missmatch')
         return super().clean()
@@ -65,7 +65,7 @@ class SujetCreateForm(SujetAdminCreateForm):
     class Meta:
         model = Sujet
         fields = '__all__'
-        widgets = {'directeur':forms.HiddenInput(),'laboratoire':forms.HiddenInput(), 'intitule':forms.Textarea(attrs={'rows':4})}
+        widgets = {'directeur':forms.HiddenInput(), 'intitule':forms.Textarea(attrs={'rows':4})}
 
 class FormationDoctoraleCreateForm(forms.ModelForm):
     class Meta:

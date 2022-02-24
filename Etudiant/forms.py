@@ -1,5 +1,3 @@
-from cProfile import label
-from tabnanny import verbose
 from django import forms
 from datetime import datetime
 from django.core.exceptions import ValidationError
@@ -18,11 +16,11 @@ class DoctorantCreateForm(forms.ModelForm):
     
     photo = forms.ImageField(widget=forms.FileInput, required=False)
     sexe = forms.ChoiceField(choices=SEXES, widget=forms.RadioSelect)
-    date_naissance = forms.CharField(widget=forms.TextInput(attrs={"placeholder":"01/01/2000 ou 2000"}))
+    date_naissance = forms.CharField(widget=forms.TextInput(attrs={"placeholder":"01/01/2000 ou 2000"}), required=False)
     nom_ar = forms.CharField(label='الاسم العائلي', widget=forms.TextInput(attrs={'dir':'rtl'}), required=False)
     prenom_ar = forms.CharField(label='الاسم الشخصي', widget=forms.TextInput(attrs={'dir':'rtl'}), required=False)
     lieu_naissance_ar = forms.CharField(label='مكان الازدياد', widget=forms.TextInput(attrs={'dir':'rtl'}), required=False)
-    telephone = forms.CharField(label='Téléphone', widget=forms.TextInput(attrs={"placeholder":"0612345789"}))
+    telephone = forms.CharField(label='Téléphone', widget=forms.TextInput(attrs={"placeholder":"0612345789"}), required=False)
     cv = forms.FileField(label="Curriculum Vitae", widget=forms.FileInput(attrs={'accept':'application/pdf ,image/*'}), required=False)
 
 

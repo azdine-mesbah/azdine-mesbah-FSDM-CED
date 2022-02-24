@@ -50,7 +50,7 @@ class Doctorant(TimeStampedModel):
 
     @property
     def email(self):
-        return self.email_ac
+        return self.email_ac if self.email_ac else self.email_pr
 
     @property
     def photo_preview(self):
@@ -98,14 +98,14 @@ class Cursus(TimeStampedModel):
 
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='cursus')
     type = models.ForeignKey(CursusType, on_delete=models.DO_NOTHING, related_name='cursus')
-    annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='cursus')
+    annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='cursus', blank=True, null=True)
 
     intitule = models.CharField(max_length=255)
     date_obtention = models.DateField("Date d'obtention", blank=True, null=True)
-    moyenne = models.DecimalField(decimal_places=2, max_digits=4, validators=[MinValueValidator(10), MaxValueValidator(20)])
-    duree = models.IntegerField(verbose_name="Durée (ans)", validators=[MinValueValidator(1)])
-    ville = models.CharField(max_length=255)
-    etablissement = models.CharField(verbose_name="Etablissement", max_length=255)
+    moyenne = models.DecimalField(decimal_places=2, max_digits=4, validators=[MinValueValidator(10), MaxValueValidator(20)], blank=True, null=True)
+    duree = models.IntegerField(verbose_name="Durée (ans)", validators=[MinValueValidator(1)], blank=True, null=True)
+    ville = models.CharField(max_length=255, blank=True, null=True)
+    etablissement = models.CharField(verbose_name="Etablissement", max_length=255, blank=True, null=True)
     photo_diplome = models.FileField(verbose_name="Diplôme", upload_to=cursus_document_upload_to, max_length=255, blank=True, null=True)
     photo_releve = models.FileField(verbose_name="Relevé des notes", upload_to=cursus_document_upload_to, max_length=255, blank=True, null=True)
     
@@ -116,7 +116,7 @@ class Cursus(TimeStampedModel):
 
     @property
     def get_duree(self):
-        return f"{self.duree} an" + "s" if self.duree > 1 else ""
+        return f"{self.duree} an" + ("s" if self.duree > 1 else "")
 
     def __str__(self) -> str:
         return f"{self.type} - {self.intitule}"

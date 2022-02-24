@@ -165,7 +165,7 @@ class SujetCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
 
     def get_initial(self):
         enseignant = get_object_or_404(Enseignant, pk=self.kwargs.get('enseignant_id'))
-        return {"directeur":enseignant, 'laboratoire':enseignant.get_current_laboratoire()}
+        return {"directeur":enseignant}
     
     def get_success_url(self):
         return reverse('enseignant-detail', kwargs={'pk':self.kwargs.get('enseignant_id')})
