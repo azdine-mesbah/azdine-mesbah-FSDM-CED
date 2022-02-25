@@ -25,6 +25,12 @@ class DoctorantListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
     template_name = 'doctorant_index.html'
     paginate_by = 10
     context_object_name = 'doctorants'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('search'):
+            context['search'] = f"search={self.request.GET.get('search')}"
+        return context
     
     def get_queryset(self):
         queryset = Doctorant.objects.all()

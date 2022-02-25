@@ -19,6 +19,12 @@ class DepartementListView(LoginRequiredMixin, PermissionRequiredMixin, ListView)
     paginate_by = 10
     context_object_name = 'departements'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('search'):
+            context['search'] = f"search={self.request.GET.get('search')}"
+        return context
+
     def get_queryset(self):
         queryset = Departement.objects.all()
         if self.request.GET.get('search'):
@@ -68,12 +74,18 @@ class DepartementDeleteView(LoginRequiredMixin,PermissionRequiredMixin, DeleteVi
 
 # Enseignant CRUD
 
-class EnseignantListView(LoginRequiredMixin,PermissionRequiredMixin, ListView):
+class EnseignantListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     permission_required = 'Administration.view_Enseignant'
     template_name = 'enseignant_index.html'
     paginate_by = 10
     context_object_name = 'enseignants'
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('search'):
+            context['search'] = f"search={self.request.GET.get('search')}"
+        return context
+
     def get_queryset(self):
         queryset = Enseignant.objects.all()
         if self.request.GET.get('search'):
@@ -190,6 +202,12 @@ class FormationDoctoraleListView(LoginRequiredMixin,PermissionRequiredMixin, Lis
     template_name = 'formation_index.html'
     paginate_by = 10
     context_object_name = 'formations'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.GET.get('search'):
+            context['search'] = f"search={self.request.GET.get('search')}"
+        return context
 
     def get_queryset(self):
         queryset = FormationDoctorale.objects.all()

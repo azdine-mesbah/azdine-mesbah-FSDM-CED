@@ -76,3 +76,6 @@ static/*
 
 # static media files
 media/*
+
+# excel files
+*.xlsx

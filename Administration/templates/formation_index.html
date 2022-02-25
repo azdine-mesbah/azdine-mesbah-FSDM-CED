@@ -20,7 +20,7 @@
             <a class="btn btn-primary mt-auto ms-auto btn-ajax-form" href="{% url 'formation-create' %}">{% trans 'Add' %}</a>
         </div>
 </div>
-{% bootstrap_pagination page_obj %}
+{% bootstrap_pagination page_obj extra=search %}
 <div class="table-responsive">
 <table class="table table-responsive border">
     <thead>
