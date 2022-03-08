@@ -15,7 +15,7 @@ class EtablissementAdmin(admin.ModelAdmin):
 @admin.register(Enseignant)
 class EnseignantAdmin(admin.ModelAdmin):
     list_display = ('nom', 'prenom', 'telephone', 'etablissement')
-    search_fields = ('nom', 'prenom','cin','som','etablissement__intitule','etablissement__description')
+    search_fields = ('nom', 'prenom','cin','som')
 
 @admin.register(Laboratoire)
 class LaboratoireAdmin(admin.ModelAdmin):
@@ -31,14 +31,13 @@ class SujetAdmin(admin.ModelAdmin):
     search_fields = ('intitule', 'annee__intitule', 'laboratoire__intitule','laboratoire__acronyme')
     list_filter = ('laboratoire',)
     autocomplete_fields = ('annee', 'laboratoire', 'directeur', 'co_directeur')
-    exclude = ('directeur',)
     form = SujetAdminCreateForm
 
-    def save_model(self, request, obj, form, change):
-        obj.directeur = form.cleaned_data['laboratoire'].get_current_directeur()
-        if obj.co_directeur and obj.co_directeur.pk == obj.directeur.pk:
-            obj.co_directeur = None
-        return super().save_model(request, obj, form, change)
+    # def save_model(self, request, obj, form, change):
+    #     obj.directeur = form.cleaned_data['laboratoire'].get_current_directeur()
+    #     if obj.co_directeur and obj.co_directeur.pk == obj.directeur.pk:
+    #         obj.co_directeur = None
+    #     return super().save_model(request, obj, form, change)
 
 @admin.register(FormationDoctorale)
 class FormationDoctoraleAdmin(admin.ModelAdmin):

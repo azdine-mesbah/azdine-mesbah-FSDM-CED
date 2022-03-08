@@ -1,5 +1,4 @@
 from django import forms
-from django.core.exceptions import ValidationError
 from .models import Departement, FormationComplementaire, FormationDoctorale, Laboratoire, Enseignant, LaboratoireDirecteur, Sujet
 
 class DepartmentCreateForm(forms.ModelForm):
@@ -11,7 +10,7 @@ class LaboratoireAdminCreateForm(forms.ModelForm):
     class Meta:
         model = Laboratoire
         fields = '__all__'
-    directeur = forms.ModelChoiceField(queryset=None)
+    directeur = forms.ModelChoiceField(queryset=None, required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -26,10 +25,11 @@ class LaboratoireAdminCreateForm(forms.ModelForm):
         laboratoire = super().save(commit=commit)
         laboratoire.save()
         # creating m2m relationship with directeur
-        directeur = self.cleaned_data['directeur']
-        directeur.laboratoires.filter(courant=True).update(courant=False)
-        laboratoire.directeurs.filter(courant=True).update(courant=False)
-        laboratoire.directeurs.create(directeur_id = directeur.id)
+        if self.cleaned_data['directeur']:
+            directeur = self.cleaned_data['directeur']
+            directeur.laboratoires.filter(courant=True).update(courant=False)
+            laboratoire.directeurs.filter(courant=True).update(courant=False)
+            laboratoire.directeurs.create(directeur_id = directeur.id)
         return laboratoire
 
 class LaboratoireCreateForm(LaboratoireAdminCreateForm):
@@ -37,17 +37,15 @@ class LaboratoireCreateForm(LaboratoireAdminCreateForm):
         model = Laboratoire
         fields = '__all__'
         widgets = {'departement': forms.HiddenInput()}
+    directeur = forms.ModelChoiceField(queryset=None, required=True)
 
 class SujetAdminCreateForm(forms.ModelForm):
     class Meta:
         model = Sujet
         fields = '__all__'
 
-    co_directeur = forms.ModelChoiceField(queryset=None, required=False)
-
     def __init__(self, *args, **kwargs):
         super().__init__( *args, **kwargs)
-        self.fields['co_directeur'].queryset = Enseignant.objects.all()
         if 'instance' in kwargs and kwargs['instance']:
             self.fields['co_directeur'].queryset = Enseignant.objects.exclude(pk=kwargs['instance'].directeur.pk)
             self.fields['co_directeur'].initial = kwargs['instance'].co_directeur
@@ -55,10 +53,8 @@ class SujetAdminCreateForm(forms.ModelForm):
             self.fields['co_directeur'].queryset = Enseignant.objects.exclude(pk=kwargs['initial']['directeur'].pk)
 
     def clean(self):
-        if self.cleaned_data['co_directeur'] == self.cleaned_data['directeur']:
-            raise ValidationError('Le Directeur de thèse et le Co-Directeur ne doivent pas être les même. (vous pouvez laissier vide!)')
-        # elif self.cleaned_data['laboratoire'].get_current_directeur() != self.cleaned_data['directeur']:
-        #     raise ValidationError('Directeur and Laboratoire missmatch')
+        if 'co_directeur' in self.cleaned_data and self.cleaned_data['co_directeur'] == self.cleaned_data['directeur']:
+            raise forms.ValidationError('Le Directeur de thèse et le Co-Directeur ne doivent pas être les même. (vous pouvez laissier vide!)')
         return super().clean()
 
 class SujetCreateForm(SujetAdminCreateForm):

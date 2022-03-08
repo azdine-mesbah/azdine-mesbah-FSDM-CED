@@ -12,7 +12,7 @@
         <div class="col-12 col-md-8">
             <h3>List des Doctorants </h3>
             <form action="{% url 'doctorant-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
-                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
+                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}..." tabindex=1>
                 <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
             </form>
         </div>
@@ -25,6 +25,7 @@
 <table class="table table-responsive border">
     <thead>
     <tr scope="row">
+        <th scope="col">id</th>
         <th scope="col">NOM</th>
         <th scope="col">PRENOM</th>
         <th scope="col">CIN</th>
@@ -35,6 +36,7 @@
     <tbody>
         {% for doc in doctorants %}
             <tr id="doctorant-{{doc.id}}">
+                <td>{{doc.pk}}</td>
                 <td>{{doc.nom}}</td>
                 <td>{{doc.prenom}}</td>
                 <td>{{doc.cin}}</td>

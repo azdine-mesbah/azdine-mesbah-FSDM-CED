@@ -86,3 +86,34 @@ def birhdayValidator(value):
 
     if not isValid:
         raise ValidationError(_('%(value)s is not a valid birthday'), params={'value':value})
+
+
+def loadinscriptions(file_path):
+    import pandas as pd
+    from Etudiant.models import Doctorant
+    from Administration.models import Sujet
+
+    sujets = pd.read_excel(file_path, dtype={'cin':str, 'cne':str})
+
+    inscriptions = sujets.to_dict(orient="records")
+
+    for row in inscriptions:
+        try:
+            sujet = Sujet.objects.filter(intitule__icontains=row['sujet']).first()
+            row['sujet_id'] = sujet.pk
+        except Exception as e:
+            row['sujet_id'] = 0
+            print(e, row['sujet'])
+        
+        try:
+            doc = Doctorant.objects.filter(cin__icontains=row['cin']).first()
+            if(doc):
+                row['doc_id'] = doc.pk
+            else:
+                doc = Doctorant.objects.filter(cne__icontains=row['cne']).first()
+                row['doc_id'] = doc.pk
+        except Exception as e:
+            row['doc_id'] = 0
+            print(e, row['cin'], row['cne'])
+    
+    pd.DataFrame(data=inscriptions).to_csv("inscriptions.csv", index=False)

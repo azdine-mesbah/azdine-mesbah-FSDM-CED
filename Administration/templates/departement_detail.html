@@ -43,7 +43,11 @@
                         <td>{{lab.acronyme}}</td>
                         <td>{{lab.intitule}}</td>
                         <td>
+                        {% if lab.get_current_directeur %}
                             <a class="text-secondary" href="{% url 'enseignant-detail' lab.get_current_directeur.pk %}">{{lab.get_current_directeur}}</a>
+                        {% else %}
+                            --
+                        {% endif %}
                         </td>
                         <td>
                             <a class="btn btn-outline-info ms-auto me-3 btn-ajax-form" href="{% url 'laboratoire-edit' departement.pk lab.pk %}">

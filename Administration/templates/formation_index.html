@@ -12,7 +12,7 @@
         <div class="col-12 col-md-8">
             <h3>List des Formations</h3>
             <form action="{% url 'formation-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
-                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
+                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}..." autofocus>
                 <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
             </form>
         </div>
@@ -28,7 +28,7 @@
         <th scope="col">Acronyme</th>
         <th scope="col">Intitule</th>
         <th scope="col">Description</th>
-        <th scope="col">Coordonateur</th>
+        <th scope="col">Co-ordonateur</th>
         <th scope="col"></th>
     </tr>
     </thead>
@@ -38,7 +38,7 @@
                 <td>{{formation.acronyme}}</td>
                 <td>{{formation.intitule}}</td>
                 <td>{{formation.description}}</td>
-                <td>{{formation.co_ordonateur}}</td>
+                <td>{% firstof formation.co_ordonateur or "--" %}</td>
                 <td class="d-flex justify-content-end">
                     <a class="btn btn-info text-white me-3" href="{% url 'formation-detail' formation.pk %}">
                         <i class="fas fa-info-circle"></i>

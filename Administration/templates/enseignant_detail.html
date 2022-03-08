@@ -43,7 +43,10 @@
                     <td>{{sujet.annee}}</td>
                     <td>{{sujet.intitule}}</td>
                     <td>({{sujet.laboratoire.acronyme}})</td>
-                    <td>{% firstof sujet.co_directeur or "--" %}</td>
+                    <td>
+                    {%if sujet.co_directeur%}
+                    <a class="text-secondary" href="{% url 'enseignant-detail' sujet.co_directeur.pk %}">{{sujet.co_directeur}}</a>
+                    {%else%}--{%endif%}
                     <td class="d-flex">
                         <a class="btn btn-outline-info ms-auto me-3 btn-ajax-form" href="{% url 'sujet-detail' enseignant.pk sujet.pk %}">
                             <i class="fas fa-edit"></i>
@@ -77,7 +80,7 @@
                     <td>{{sujet.annee}}</td>
                     <td>{{sujet.intitule}}</td>
                     <td>({{sujet.laboratoire.acronyme}})</td>
-                    <td>{{sujet.directeur}}</td>
+                    <td><a class="text-secondary" href="{% url 'enseignant-detail' sujet.directeur.pk %}">{{sujet.directeur}}</a></td>
                     <td></td>
                 </tr>
                 {% endfor %}

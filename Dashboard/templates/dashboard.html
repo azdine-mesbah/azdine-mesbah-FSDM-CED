@@ -191,7 +191,7 @@ new Chart(document.getElementById('inscriptions-chart'),{
     }
 );
 new Chart(document.getElementById('laboratoires-chart'),{
-        type: 'radar',
+        type: 'polarArea',
         data: {
             labels: {{laboratoires.labels|safe}},
             datasets: [{
@@ -251,7 +251,7 @@ new Chart(document.getElementById('publications-chart'),{
     }
 );
 new Chart(document.getElementById('formations-chart'),{
-        type: 'radar',
+        type: 'pie',
         data: {
             labels: {{formations.labels|safe}},
             datasets: [{

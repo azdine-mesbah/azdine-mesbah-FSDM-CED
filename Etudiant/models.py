@@ -48,6 +48,8 @@ class Doctorant(TimeStampedModel):
     employeur = models.CharField(max_length=255, blank=True, null=True)
     profession = models.CharField(max_length=255, blank=True, null=True)
 
+    search_indexer = models.CharField(max_length=255, blank=True, null=True)
+
     @property
     def email(self):
         return self.email_ac if self.email_ac else self.email_pr

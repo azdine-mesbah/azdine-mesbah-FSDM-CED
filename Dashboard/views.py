@@ -22,7 +22,7 @@ def dashboard(request):
     Inscriptions = Inscription.objects.all()
     sujets = Sujet.objects.all()
     publications = Publication.objects.all()
-    annees = Annee.objects.order_by('-annee')[:5][::-1]
+    annees = Annee.objects.order_by('-annee')[:6][::-1]
     soutenances = Soutenance.objects.all()
     data = {
         'departements':{
@@ -45,13 +45,13 @@ def dashboard(request):
         },
         'laboratoires':{
             'count':laboratoires.count(),
-            'labels':list(laboratoires.values_list('acronyme',flat=True)),
+            'labels': list(laboratoires.values_list('acronyme',flat=True)),
             'colors':[laboratoire.color for laboratoire in laboratoires],
             'data':[laboratoire.sujets.count() for laboratoire in laboratoires]
         },
         'formations':{
             'count':formations.count(),
-            'labels':list(formations.values_list('intitule',flat=True)),
+            'labels':list(formations.values_list('acronyme',flat=True)),
             'colors':[formation.color for formation in formations],
             'data':[formation.formations_complementaires.count() for formation in formations]
         },

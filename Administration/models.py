@@ -20,29 +20,31 @@ class Etablissement(TimeStampedModel):
     class Meta:
         db_table = 'ced_etablissements'
 
+    acronyme = models.CharField(max_length=63)
     intitule = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     ville = models.CharField(max_length=255)
     pays = models.ForeignKey(Pays, on_delete=models.DO_NOTHING, related_name='etablissements')
     
     def __str__(self):
-        return f"{self.intitule}"
+        return f"({self.acronyme}) {self.intitule}"
 
 class Enseignant(TimeStampedModel):
     class Meta:
         db_table = 'ced_enseignants'
 
     nom = models.CharField(max_length=50)
-    prenom = models.CharField(max_length=50)
+    prenom = models.CharField(max_length=50, blank=True, null=True)
     cin = models.CharField(max_length=50, blank=True, null=True)
     som =  models.CharField(max_length=50, blank=True, null=True)
     grade =  models.CharField(max_length=50, blank=True, null=True)
     email = models.EmailField(blank=True, null=True)
     telephone = PhoneNumberField(blank=True, null=True)
-    etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING, related_name='enseignants')
+    etablissement = models.ForeignKey(Etablissement, on_delete=models.DO_NOTHING, related_name='enseignants', blank=True, null=True)
+    laboratoire = models.ForeignKey('Laboratoire', on_delete=models.DO_NOTHING, related_name='enseignants', blank=True, null=True)
 
     def __str__(self):
-        return f"{self.nom} {self.prenom}"
+        return f"{self.nom} {self.prenom or '--'}"
 
     def get_current_laboratoire(self):
         try:
@@ -60,7 +62,7 @@ class FormationDoctorale(TimeStampedModel):
     intitule = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     acronyme = models.CharField(max_length=255)
-    co_ordonateur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name="formations_doctorales")
+    co_ordonateur = models.ForeignKey(Enseignant, on_delete=models.DO_NOTHING, related_name="formations_doctorales", null=True, blank=True)
 
     def __str__(self) -> str:
         return f"({self.acronyme}) {self.intitule}"
@@ -75,7 +77,7 @@ class Laboratoire(TimeStampedModel):
     formation_doctorale = models.ForeignKey(FormationDoctorale, on_delete=models.DO_NOTHING, related_name="laboratoires")
 
     def __str__(self):
-        return f'({self.acronyme}) -- {self.get_current_directeur()}'
+        return f'({self.acronyme}) -- {self.get_current_directeur() or "--"}'
 
     def get_current_directeur(self):
         try:

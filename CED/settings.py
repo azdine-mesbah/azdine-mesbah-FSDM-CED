@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e!5cxli3lzq0-&m#3-6)d8a)qqo7e&#$)%7mz2d=p00rar)cm('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*"]
 
@@ -98,7 +98,7 @@ DATABASES = {
     'default' :{
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'database':'ced',
+            'database':'ced_rebuild',
             'user':'root',
             'password':'',
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"

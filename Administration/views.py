@@ -93,8 +93,8 @@ class EnseignantListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
             queryset = Enseignant.objects.filter(
                 Q(nom__icontains=search)|
                 Q(prenom__icontains=search)|
-                Q(etablissement__intitule__icontains=search)|
-                Q(etablissement__ville__icontains=search))
+                Q(cin__icontains=search)|
+                Q(som__icontains=search))
             if queryset:
                 messages.success(self.request, f"{len(queryset)} resultats trouvé")
             else:
@@ -108,7 +108,7 @@ class EnseignantCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateVi
     fields = "__all__"
 
     def get_success_url(self):
-        return reverse('enseignant-list', kwargs={})
+        return reverse('enseignant-detail', kwargs={'pk':self.object.id})
 
     def form_valid(self, form):
         if self.request.is_ajax():

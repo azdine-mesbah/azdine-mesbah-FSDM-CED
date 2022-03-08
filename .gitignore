@@ -79,3 +79,6 @@ media/*
 
 # excel files
 *.xlsx
+
+# csv files
+*.csv

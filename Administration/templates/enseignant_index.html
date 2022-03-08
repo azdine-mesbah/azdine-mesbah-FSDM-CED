@@ -12,7 +12,7 @@
         <div class="col-12 col-md-8">
             <h3>List des Enseignants</h3>
             <form action="{% url 'enseignant-list' %}" method="get" class="d-flex flex-direction-column flex-direction-md-row">
-                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}...">
+                <input name="search" class="form-control" type="text" placeholder="{% trans 'Search' %}..." autofocus>
                 <button type="submit" class="btn btn-secondary">{% trans 'Search' %}</button>
             </form>
         </div>
@@ -40,8 +40,8 @@
         {% for ens in enseignants %}
             <tr id="enseignant-{{ens.id}}">
                 <td>{% firstof ens.grade or "--" %}</td>
-                <td>{{ens.nom}}</td>
-                <td>{{ens.prenom}}</td>
+                <td>{% firstof ens.nom or "--" %}</td>
+                <td>{% firstof ens.prenom or "--" %}</td>
                 <td>{% firstof ens.telephone or "--" %}</td>
                 <td>{% firstof ens.email or "--" %}</td>
                 <td>{% firstof ens.etablissement or "--" %}</td>
