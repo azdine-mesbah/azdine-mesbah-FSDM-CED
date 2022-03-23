@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-e!5cxli3lzq0-&m#3-6)d8a)qqo7e&#$)%7mz2d=p00rar)cm('
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
@@ -41,13 +41,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'crispy_forms',
-    'crispy_bootstrap5',
-    'bootstrap5',
-    'fontawesome',
     'softdelete',
     'phonenumber_field',
-    'humanize',
+    'bootstrap5',
+    'crispy_forms',
+    'crispy_bootstrap5',
+    'fontawesome',
     'CED_Tools',
     'Dashboard',
     'Administration',

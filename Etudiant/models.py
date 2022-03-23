@@ -173,7 +173,7 @@ class Inscription(TimeStampedModel):
     doctorant = models.ForeignKey(Doctorant, on_delete=models.DO_NOTHING, related_name='inscriptions')
     annee = models.ForeignKey(Annee, on_delete=models.DO_NOTHING, related_name='inscriptions', default=current_year)
     sujet = models.ForeignKey(Sujet, on_delete=models.DO_NOTHING, related_name='inscriptions')
-    sujet_detail = models.CharField(max_length=255)
+    sujet_detail = models.CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return f"({self.annee}) {self.sujet} -- {self.doctorant}"

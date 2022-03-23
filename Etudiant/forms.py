@@ -61,7 +61,7 @@ class InscriptionCreateForm(forms.ModelForm):
         else:
             inscriptions = doctorant.inscriptions.values_list('annee_id')
             self.fields['annee'].queryset = Annee.objects.exclude(pk__in=inscriptions)
-        self.fields['sujet'].queryset = Sujet.objects.filter(pk__in=available_sujets)
+        self.fields['sujet'].queryset = Sujet.objects.filter(pk__in=available_sujets).order_by('intitule')
 
 class RetraitCreateForm(forms.ModelForm):
     class Meta:

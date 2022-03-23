@@ -25,7 +25,6 @@
 <table class="table table-responsive border">
     <thead>
     <tr scope="row">
-        <th scope="col">id</th>
         <th scope="col">NOM</th>
         <th scope="col">PRENOM</th>
         <th scope="col">CIN</th>
@@ -36,7 +35,6 @@
     <tbody>
         {% for doc in doctorants %}
             <tr id="doctorant-{{doc.id}}">
-                <td>{{doc.pk}}</td>
                 <td>{{doc.nom}}</td>
                 <td>{{doc.prenom}}</td>
                 <td>{{doc.cin}}</td>
