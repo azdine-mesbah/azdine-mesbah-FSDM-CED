@@ -339,6 +339,6 @@ class SoutenancePDFView(SoutenancePreviewView, LoginRequiredMixin, PermissionReq
             email.send()
             super().get_object().emails.create(address=to, type=template, sended=True, error_message=None)
             return JsonResponse({"success":"l'E-mail a été envoyé avec succès"}, status=200)
-        except:
-            super().get_object().emails.create(address=to, type=template, error_message="l'E-mail n'a pas été envoyé !")
+        except Exception as e:
+            super().get_object().emails.create(address=to, type=template, error_message=str(e))
             return JsonResponse({"error":"l'E-mail n'a pas été envoyé !"}, status=400)

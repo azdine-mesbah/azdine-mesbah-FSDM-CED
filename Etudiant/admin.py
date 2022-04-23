@@ -43,9 +43,9 @@ class RetraitAdmin(admin.ModelAdmin):
 
 @admin.register(Inscription)
 class InscriptionAdmin(admin.ModelAdmin):
-    list_display = ('get_annee','get_doctorant','get_sujet','sujet_detail')
+    list_display = ('get_annee','get_doctorant','get_sujet','sujet_detail', 'created_at')
     list_filter = ('annee','sujet')
-    search_fields = ('annee__intitule','doctorant__nom','doctorant__prenom','doctorant__cne','doctorant__cin','sujet_detail','sujet__intitule')
+    search_fields = ('doctorant__nom','doctorant__prenom','doctorant__cne','doctorant__cin','sujet_detail','sujet__intitule')
     autocomplete_fields = ('annee','doctorant','sujet')
 
 

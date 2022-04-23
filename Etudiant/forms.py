@@ -23,8 +23,6 @@ class DoctorantCreateForm(forms.ModelForm):
     telephone = forms.CharField(label='Téléphone', widget=forms.TextInput(attrs={"placeholder":"0612345789"}), required=False)
     cv = forms.FileField(label="Curriculum Vitae", widget=forms.FileInput(attrs={'accept':'application/pdf ,image/*'}), required=False)
 
-    search_indexer = forms.CharField(widget=forms.FileInput, required=False)
-
 
 class CursusCreateForm(forms.ModelForm):
     class Meta:

@@ -97,7 +97,7 @@ DATABASES = {
     'default' :{
         'ENGINE': 'django.db.backends.mysql',
         'OPTIONS': {
-            'database':'ced_rebuild',
+            'database':'ced',
             'user':'root',
             'password':'',
             'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
@@ -198,5 +198,5 @@ PDF_SETTINGS = {
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'ced.test22@gmail.com'
-EMAIL_HOST_PASSWORD = 'azdine@@azdine'
+EMAIL_HOST_PASSWORD = 'azdine@@azdineazdine@@azdine'
 EMAIL_USE_TLS = True

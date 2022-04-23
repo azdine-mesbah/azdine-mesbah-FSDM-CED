@@ -42,13 +42,11 @@ class Doctorant(TimeStampedModel):
     cv = models.FileField(verbose_name='Curriculum Vitae', upload_to=cv_upload_to, max_length=255, blank=True, null=True)
 
     handicap = models.CharField(max_length=31, blank=True, null=True, choices=HANDICAPE_CHOICES)
-    situation_f = models.CharField(max_length=1, blank=True, null=True, choices=SITUATIONS_FAMILIALES)
+    situation_f = models.CharField(verbose_name='Situation familiale', max_length=1, blank=True, null=True, choices=SITUATIONS_FAMILIALES)
 
-    fonctionnaire = models.BooleanField(default=False, blank=True, null=True)
+    fonctionnaire = models.BooleanField(default=False, blank=True)
     employeur = models.CharField(max_length=255, blank=True, null=True)
     profession = models.CharField(max_length=255, blank=True, null=True)
-
-    search_indexer = models.CharField(max_length=255, blank=True, null=True)
 
     @property
     def email(self):
@@ -180,7 +178,7 @@ class Inscription(TimeStampedModel):
 
     @property
     def date(self):
-        return self.created_at.strftime("%d/%m/%Y") 
+        return self.created_at.strftime("%d/%m/%Y")
 
 class Formation_C_Inscription(TimeStampedModel):
     class Meta:
